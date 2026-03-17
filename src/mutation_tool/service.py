@@ -6,7 +6,7 @@ from pathlib import Path
 from mutation_tool.config import load_config
 from mutation_tool.engine.session import SessionRunner
 from mutation_tool.models import SessionResult, ToolConfig
-from mutation_tool.reports import write_json_report
+from mutation_tool.reports import write_json_report, write_pdf_report
 from mutation_tool.storage import ensure_directory
 
 
@@ -26,6 +26,11 @@ class RunOptions:
 class ExecutionResult:
     session: SessionResult
     report_path: Path
+    pdf_report_path: Path | None = None
+
+    @property
+    def json_report_path(self) -> Path:
+        return self.report_path
 
 
 def build_runtime_config(options: RunOptions) -> ToolConfig:
@@ -66,8 +71,13 @@ def execute_options(options: RunOptions) -> ExecutionResult:
 def execute_session(config: ToolConfig) -> ExecutionResult:
     session = SessionRunner(config).run()
     report_dir = ensure_directory(config.report_dir)
-    report_path = write_json_report(session, report_dir / "last-run.json")
-    return ExecutionResult(session=session, report_path=report_path)
+    json_report_path = write_json_report(session, report_dir / "last-run.json")
+    pdf_report_path = write_pdf_report(session, report_dir / "last-run.pdf")
+    return ExecutionResult(
+        session=session,
+        report_path=json_report_path,
+        pdf_report_path=pdf_report_path,
+    )
 
 
 def _resolve_project_path(project_root: Path, value: Path) -> Path:

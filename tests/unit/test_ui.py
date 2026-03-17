@@ -38,6 +38,15 @@ def test_ui_index_page_loads() -> None:
 
     assert response.status_code == 200
     assert "Mutation Lab" in response.text
+    assert "How To Use Mutation Lab" in response.text
+    assert "Choose a demo" in response.text
+    assert "Load Selected Demo" in response.text
+    assert "Run Selected Demo" in response.text
+    assert "Download Latest Report" in response.text
+    assert "Download Latest PDF" in response.text
+    assert "Başlangıç Demosu" in response.text
+    assert 'id="lang-en-button"' in response.text
+    assert 'id="lang-tr-button"' in response.text
 
 
 def test_ui_exposes_operator_list() -> None:
@@ -47,6 +56,57 @@ def test_ui_exposes_operator_list() -> None:
 
     assert response.status_code == 200
     assert response.json() == {"operators": ["comparison", "logical"]}
+
+
+def test_ui_exposes_demo_catalog() -> None:
+    client = TestClient(create_app(StubState()))
+
+    response = client.get("/api/demos")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert [demo["id"] for demo in payload["demos"]] == ["beginner", "ci_gate", "timeout_lab"]
+
+
+def test_ui_exposes_demo_preset() -> None:
+    client = TestClient(create_app(StubState()))
+
+    response = client.get("/api/demo-preset", params={"demo_id": "beginner"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["request"]["source_paths"] == ["src"]
+    assert Path(payload["request"]["project_root"]).name == "beginner_demo"
+
+
+def test_ui_exposes_ci_gate_demo_preset() -> None:
+    client = TestClient(create_app(StubState()))
+
+    response = client.get("/api/demo-preset", params={"demo_id": "ci_gate"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert Path(payload["request"]["project_root"]).name == "ci_gate_demo"
+    assert payload["request"]["fail_on_survivor"] is True
+
+
+def test_ui_exposes_timeout_demo_preset() -> None:
+    client = TestClient(create_app(StubState()))
+
+    response = client.get("/api/demo-preset", params={"demo_id": "timeout_lab"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert Path(payload["request"]["project_root"]).name == "timeout_lab_demo"
+    assert payload["request"]["per_mutant_timeout"] == 0.2
+
+
+def test_ui_rejects_unknown_demo_id() -> None:
+    client = TestClient(create_app(StubState()))
+
+    response = client.get("/api/demo-preset", params={"demo_id": "nope"})
+
+    assert response.status_code == 404
 
 
 def test_ui_run_endpoint_accepts_payload() -> None:
@@ -80,6 +140,7 @@ def test_ui_state_can_complete_run_synchronously() -> None:
         return ExecutionResult(
             session=session,
             report_path=project_root / ".mutation-tool" / "ui-test.json",
+            pdf_report_path=project_root / ".mutation-tool" / "ui-test.pdf",
         )
 
     state = UIState(executor=executor)
@@ -87,3 +148,48 @@ def test_ui_state_can_complete_run_synchronously() -> None:
 
     assert snapshot["status"] == "completed"
     assert snapshot["result"] is not None
+
+
+def test_ui_report_download_endpoint_returns_latest_report(tmp_path: Path) -> None:
+    report_path = tmp_path / "last-run.json"
+    report_path.write_text('{"ok": true}', encoding="utf-8")
+
+    class ReportState(StubState):
+        def snapshot(self) -> dict[str, object]:
+            return {
+                "status": "completed",
+                "message": "Done",
+                "report_path": str(report_path),
+                "result": {},
+            }
+
+    client = TestClient(create_app(ReportState()))
+
+    response = client.get("/api/report/download")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/json")
+    assert response.text == '{"ok": true}'
+
+
+def test_ui_pdf_report_download_endpoint_returns_latest_pdf(tmp_path: Path) -> None:
+    report_path = tmp_path / "last-run.pdf"
+    report_path.write_bytes(b"%PDF-1.4\nmock")
+
+    class ReportState(StubState):
+        def snapshot(self) -> dict[str, object]:
+            return {
+                "status": "completed",
+                "message": "Done",
+                "report_path": str(tmp_path / "last-run.json"),
+                "pdf_report_path": str(report_path),
+                "result": {},
+            }
+
+    client = TestClient(create_app(ReportState()))
+
+    response = client.get("/api/report/download/pdf")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/pdf")
+    assert response.content.startswith(b"%PDF-1.4")

@@ -8,6 +8,7 @@ from mutation_tool.models import SessionResult
 def session_to_dict(
     session: SessionResult,
     report_path: Path | None = None,
+    pdf_report_path: Path | None = None,
 ) -> dict[str, object]:
     payload: dict[str, object] = {
         "config": {
@@ -71,6 +72,8 @@ def session_to_dict(
     }
     if report_path is not None:
         payload["report_path"] = str(report_path)
+    if pdf_report_path is not None:
+        payload["pdf_report_path"] = str(pdf_report_path)
     return payload
 
 

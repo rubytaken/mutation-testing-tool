@@ -41,16 +41,13 @@ python -m mutation_tool run examples/beginner_demo --max-mutants 10
 python -m mutation_tool ui
 ```
 
-Sonra tarayicida su alanlari doldur:
+UI acildiginda:
 
-- `Project root`: `examples/beginner_demo`
-- `Config path`: bos birak
-- `Source paths`: `src`
-- `Operators`: ilk denemede bos birak
-- `Max mutants`: `10`
-- `Timeout (sec)`: bos birak
-- `Stop after the first survivor`: kapali birak
-- `Fail run when a survivor appears`: kapali birak
+- demo secicisinden `Beginner Demo` sec
+- `Load Selected Demo` ile formu doldur
+- ya normal `Start Mutation Run` butonunu kullan
+- ya da tek tik istiyorsan `Run Selected Demo` kullan
+- kosudan sonra istersen JSON ve PDF raporlarini indir
 
 ## 4. Bu ornekte ne beklenir?
 

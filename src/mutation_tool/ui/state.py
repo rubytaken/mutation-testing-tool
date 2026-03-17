@@ -56,6 +56,7 @@ class RunSnapshot:
     started_at: str | None = None
     finished_at: str | None = None
     report_path: str | None = None
+    pdf_report_path: str | None = None
     error: str | None = None
     request: dict[str, object] | None = None
     result: dict[str, object] | None = None
@@ -67,6 +68,7 @@ class RunSnapshot:
             "started_at": self.started_at,
             "finished_at": self.finished_at,
             "report_path": self.report_path,
+            "pdf_report_path": self.pdf_report_path,
             "error": self.error,
             "request": self.request,
             "result": self.result,
@@ -122,9 +124,18 @@ class UIState:
                 message="Mutation analysis completed.",
                 started_at=started_at,
                 finished_at=_timestamp(),
-                report_path=str(execution.report_path),
+                report_path=str(execution.json_report_path),
+                pdf_report_path=(
+                    str(execution.pdf_report_path)
+                    if execution.pdf_report_path is not None
+                    else None
+                ),
                 request=request.to_dict(),
-                result=session_to_dict(execution.session, execution.report_path),
+                result=session_to_dict(
+                    execution.session,
+                    execution.json_report_path,
+                    execution.pdf_report_path,
+                ),
             )
         except Exception as exc:
             snapshot = RunSnapshot(

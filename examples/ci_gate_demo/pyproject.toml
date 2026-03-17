@@ -1,0 +1,11 @@
+[tool.mutation_tool]
+source_paths = ["src"]
+test_command = ["pytest", "-q"]
+exclude = ["tests/**", "**/__pycache__/**"]
+timeout_multiplier = 4.0
+min_timeout = 2.0
+max_mutants = 20
+fail_on_survivor = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
