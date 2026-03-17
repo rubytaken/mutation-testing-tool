@@ -1,0 +1,86 @@
+{
+  "config": {
+    "project_root": "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project",
+    "source_paths": [
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project\\src"
+    ],
+    "test_command": [
+      "C:\\Python312\\python.exe",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "exclude": [
+      "tests/**",
+      "test/**",
+      "**/__pycache__/**",
+      "**/.pytest_cache/**",
+      "**/.mypy_cache/**",
+      "**/.ruff_cache/**",
+      "**/.venv/**",
+      "**/venv/**",
+      "**/.git/**"
+    ],
+    "enabled_operators": [
+      "comparison"
+    ],
+    "timeout_multiplier": 5.0,
+    "min_timeout": 5.0,
+    "baseline_timeout": null,
+    "per_mutant_timeout": null,
+    "report_dir": "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project\\.mutation-tool",
+    "max_mutants": 1,
+    "stop_on_survivor": false,
+    "fail_on_survivor": true
+  },
+  "baseline": {
+    "success": true,
+    "duration_seconds": 2.207521000003908,
+    "exit_code": 0,
+    "command": [
+      "C:\\Python312\\python.exe",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "stdout": "..                                                                       [100%]\n2 passed in 0.04s\n",
+    "stderr": ""
+  },
+  "summary": {
+    "discovered_files": [
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project\\src\\sample_project\\__init__.py",
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project\\src\\sample_project\\calculator.py"
+    ],
+    "generated_mutants": 1,
+    "executed": 1,
+    "killed": 1,
+    "survived": 0,
+    "timeout": 0,
+    "error": 0,
+    "mutation_score": 100.0
+  },
+  "mutants": [
+    {
+      "mutant_id": "src/sample_project/calculator.py:2:11:comparison:0955e09b",
+      "file_path": "src\\sample_project\\calculator.py",
+      "operator_name": "comparison",
+      "description": "swap comparison operator at position 0",
+      "location": {
+        "start_line": 2,
+        "start_col": 11,
+        "end_line": 2,
+        "end_col": 20
+      },
+      "original_snippet": "value > 0",
+      "mutated_snippet": "value >= 0",
+      "status": "killed",
+      "duration_seconds": 2.206404600001406,
+      "exit_code": 1,
+      "timeout_seconds": 11.03760500001954,
+      "failing_summary": "FAILED tests/test_calculator.py::test_is_positive_for_zero - assert True is F...",
+      "stdout": ".F                                                                       [100%]\n================================== FAILURES ===================================\n__________________________ test_is_positive_for_zero __________________________\n\n    def test_is_positive_for_zero() -> None:\n        is_positive = importlib.import_module(\"sample_project.calculator\").is_positive\n>       assert is_positive(0) is False\nE       assert True is False\nE        +  where True = <function is_positive at 0x000002868E2DED40>(0)\n\ntests\\test_calculator.py:11: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_is_positive_for_zero - assert True is F...\n1 failed, 1 passed in 0.33s\n",
+      "stderr": ""
+    }
+  ],
+  "report_path": "C:\\Users\\emre\\Desktop\\mutation testing tool\\tests\\integration\\fixtures\\killed_project\\.mutation-tool\\last-run.json"
+}

@@ -1,0 +1,5 @@
+[tool.mutation_tool]
+source_paths = ["src"]
+test_command = ["pytest", "-q"]
+operators = ["comparison"]
+fail_on_survivor = true

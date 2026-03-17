@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: mutation-testing-tool
+Version: 0.1.0
+Summary: CLI-first Python mutation testing tool
+Author: EMRE TOSMAN
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: rich>=13.7.0
+Requires-Dist: typer>=0.12.3
+Requires-Dist: uvicorn>=0.30.0
+Provides-Extra: dev
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+Requires-Dist: mypy>=1.10.0; extra == "dev"
+Requires-Dist: pytest>=8.2.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: ruff>=0.5.0; extra == "dev"
+
+# Mutation Testing Tool
+
+Beginner-friendly mutation testing tool for Python projects.
+
+Documentation:
+
+- English: `README.en.md`
+- Turkce: `README.tr.md`
+- Demo project: `examples/beginner_demo/README.md`
+
+Quick commands:
+
+```bash
+python -m pip install -e .[dev]
+python -m mutation_tool run .
+python -m mutation_tool ui
+python -m pytest
+python -m mypy src
+python -m ruff check .
+```
+
+What it does:
+
+- makes small changes in your code
+- runs your tests against each change
+- shows whether tests catch the change
+- reports weak spots in your test suite
+
+Recommended starting point:
+
+- use `pytest`
+- put application code in `src/`
+- put tests in `tests/`
+- configure `[tool.mutation_tool]` in `pyproject.toml`

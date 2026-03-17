@@ -1,0 +1,273 @@
+{
+  "config": {
+    "project_root": "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo",
+    "source_paths": [
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo\\src"
+    ],
+    "test_command": [
+      "C:\\Python312\\python.exe",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "exclude": [
+      "tests/**",
+      "test/**",
+      "**/__pycache__/**",
+      "**/.pytest_cache/**",
+      "**/.mypy_cache/**",
+      "**/.ruff_cache/**",
+      "**/.venv/**",
+      "**/venv/**",
+      "**/.git/**"
+    ],
+    "enabled_operators": [],
+    "timeout_multiplier": 4.0,
+    "min_timeout": 2.0,
+    "baseline_timeout": null,
+    "per_mutant_timeout": null,
+    "report_dir": "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo\\.mutation-tool",
+    "max_mutants": 10,
+    "stop_on_survivor": false,
+    "fail_on_survivor": false
+  },
+  "baseline": {
+    "success": true,
+    "duration_seconds": 2.3171849999926053,
+    "exit_code": 0,
+    "command": [
+      "C:\\Python312\\python.exe",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "stdout": "......                                                                   [100%]\n6 passed in 0.03s\n",
+    "stderr": ""
+  },
+  "summary": {
+    "discovered_files": [
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo\\src\\demo_app\\__init__.py",
+      "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo\\src\\demo_app\\calculator.py"
+    ],
+    "generated_mutants": 10,
+    "executed": 10,
+    "killed": 5,
+    "survived": 5,
+    "timeout": 0,
+    "error": 0,
+    "mutation_score": 50.0
+  },
+  "mutants": [
+    {
+      "mutant_id": "src/demo_app/calculator.py:2:11:comparison:1187f32a",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "comparison",
+      "description": "swap comparison operator at position 0",
+      "location": {
+        "start_line": 2,
+        "start_col": 11,
+        "end_line": 2,
+        "end_col": 20
+      },
+      "original_snippet": "value > 0",
+      "mutated_snippet": "value >= 0",
+      "status": "survived",
+      "duration_seconds": 2.734924599993974,
+      "exit_code": 0,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": null,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.09s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:2:19:numeric_literal:73da6c03",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "numeric_literal",
+      "description": "nudge numeric literal by one",
+      "location": {
+        "start_line": 2,
+        "start_col": 19,
+        "end_line": 2,
+        "end_col": 20
+      },
+      "original_snippet": "0",
+      "mutated_snippet": "1",
+      "status": "survived",
+      "duration_seconds": 2.7197885000059614,
+      "exit_code": 0,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": null,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.07s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:6:18:numeric_literal:23962381",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "numeric_literal",
+      "description": "nudge numeric literal by one",
+      "location": {
+        "start_line": 6,
+        "start_col": 18,
+        "end_line": 6,
+        "end_col": 20
+      },
+      "original_snippet": "18",
+      "mutated_snippet": "19",
+      "status": "killed",
+      "duration_seconds": 2.8543331999971997,
+      "exit_code": 1,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": "FAILED tests/test_calculator.py::test_is_adult_at_boundary - AssertionError: ...",
+      "stdout": ".F....                                                                   [100%]\n================================== FAILURES ===================================\n__________________________ test_is_adult_at_boundary __________________________\n\n    def test_is_adult_at_boundary() -> None:\n>       assert _calculator_module().is_adult(18) is True\nE       AssertionError: assert False is True\nE        +  where False = <function is_adult at 0x000002962A8F8540>(18)\nE        +    where <function is_adult at 0x000002962A8F8540> = <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-i_ehwwnq\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'>.is_adult\nE        +      where <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-i_ehwwnq\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'> = _calculator_module()\n\ntests\\test_calculator.py:15: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_is_adult_at_boundary - AssertionError: ...\n1 failed, 5 passed in 0.38s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:10:7:condition_negation:17024154",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "condition_negation",
+      "description": "negate boolean condition",
+      "location": {
+        "start_line": 10,
+        "start_col": 7,
+        "end_line": 10,
+        "end_col": 16
+      },
+      "original_snippet": "price < 0",
+      "mutated_snippet": "not (price < 0)",
+      "status": "killed",
+      "duration_seconds": 2.808931699997629,
+      "exit_code": 1,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": "FAILED tests/test_calculator.py::test_member_discount_applies_for_large_order | FAILED tests/test_calculator.py::test_non_member_keeps_full_price - ValueErro... | FAILED tests/test_calculator.py::test_negative_price_raises_error - Failed: D...",
+      "stdout": "...FFF                                                                   [100%]\n================================== FAILURES ===================================\n________________ test_member_discount_applies_for_large_order _________________\n\n    def test_member_discount_applies_for_large_order() -> None:\n>       assert _calculator_module().total_price(120, True) == 110\n\ntests\\test_calculator.py:23: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nprice = 120, is_member = True\n\n    def total_price(price: int, is_member: bool) -> int:\n        if not (price < 0):\n>           raise ValueError(\"price cannot be negative\")\nE           ValueError: price cannot be negative\n\nsrc\\demo_app\\calculator.py:11: ValueError\n______________________ test_non_member_keeps_full_price _______________________\n\n    def test_non_member_keeps_full_price() -> None:\n>       assert _calculator_module().total_price(120, False) == 120\n\ntests\\test_calculator.py:27: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nprice = 120, is_member = False\n\n    def total_price(price: int, is_member: bool) -> int:\n        if not (price < 0):\n>           raise ValueError(\"price cannot be negative\")\nE           ValueError: price cannot be negative\n\nsrc\\demo_app\\calculator.py:11: ValueError\n______________________ test_negative_price_raises_error _______________________\n\n    def test_negative_price_raises_error() -> None:\n>       with pytest.raises(ValueError):\nE       Failed: DID NOT RAISE <class 'ValueError'>\n\ntests\\test_calculator.py:31: Failed\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_member_discount_applies_for_large_order\nFAILED tests/test_calculator.py::test_non_member_keeps_full_price - ValueErro...\nFAILED tests/test_calculator.py::test_negative_price_raises_error - Failed: D...\n3 failed, 3 passed in 0.36s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:10:7:comparison:a89454d1",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "comparison",
+      "description": "swap comparison operator at position 0",
+      "location": {
+        "start_line": 10,
+        "start_col": 7,
+        "end_line": 10,
+        "end_col": 16
+      },
+      "original_snippet": "price < 0",
+      "mutated_snippet": "price <= 0",
+      "status": "survived",
+      "duration_seconds": 2.548481499994523,
+      "exit_code": 0,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": null,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.07s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:10:15:numeric_literal:684942cb",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "numeric_literal",
+      "description": "nudge numeric literal by one",
+      "location": {
+        "start_line": 10,
+        "start_col": 15,
+        "end_line": 10,
+        "end_col": 16
+      },
+      "original_snippet": "0",
+      "mutated_snippet": "1",
+      "status": "survived",
+      "duration_seconds": 2.503367800003616,
+      "exit_code": 0,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": null,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.07s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:12:7:condition_negation:d233d1e7",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "condition_negation",
+      "description": "negate boolean condition",
+      "location": {
+        "start_line": 12,
+        "start_col": 7,
+        "end_line": 12,
+        "end_col": 33
+      },
+      "original_snippet": "is_member and price >= 100",
+      "mutated_snippet": "not (is_member and price >= 100)",
+      "status": "killed",
+      "duration_seconds": 2.8295518000086304,
+      "exit_code": 1,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": "FAILED tests/test_calculator.py::test_member_discount_applies_for_large_order | FAILED tests/test_calculator.py::test_non_member_keeps_full_price - Assertion...",
+      "stdout": "...FF.                                                                   [100%]\n================================== FAILURES ===================================\n________________ test_member_discount_applies_for_large_order _________________\n\n    def test_member_discount_applies_for_large_order() -> None:\n>       assert _calculator_module().total_price(120, True) == 110\nE       AssertionError: assert 120 == 110\nE        +  where 120 = <function total_price at 0x000001AF6D7EC680>(120, True)\nE        +    where <function total_price at 0x000001AF6D7EC680> = <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-mt_48w1k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'>.total_price\nE        +      where <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-mt_48w1k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'> = _calculator_module()\n\ntests\\test_calculator.py:23: AssertionError\n______________________ test_non_member_keeps_full_price _______________________\n\n    def test_non_member_keeps_full_price() -> None:\n>       assert _calculator_module().total_price(120, False) == 120\nE       AssertionError: assert 110 == 120\nE        +  where 110 = <function total_price at 0x000001AF6D7EC680>(120, False)\nE        +    where <function total_price at 0x000001AF6D7EC680> = <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-mt_48w1k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'>.total_price\nE        +      where <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-mt_48w1k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'> = _calculator_module()\n\ntests\\test_calculator.py:27: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_member_discount_applies_for_large_order\nFAILED tests/test_calculator.py::test_non_member_keeps_full_price - Assertion...\n2 failed, 4 passed in 0.37s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:12:7:logical:3935648f",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "logical",
+      "description": "swap logical operator",
+      "location": {
+        "start_line": 12,
+        "start_col": 7,
+        "end_line": 12,
+        "end_col": 33
+      },
+      "original_snippet": "is_member and price >= 100",
+      "mutated_snippet": "is_member or price >= 100",
+      "status": "killed",
+      "duration_seconds": 2.53197939999518,
+      "exit_code": 1,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": "FAILED tests/test_calculator.py::test_non_member_keeps_full_price - Assertion...",
+      "stdout": "....F.                                                                   [100%]\n================================== FAILURES ===================================\n______________________ test_non_member_keeps_full_price _______________________\n\n    def test_non_member_keeps_full_price() -> None:\n>       assert _calculator_module().total_price(120, False) == 120\nE       AssertionError: assert 110 == 120\nE        +  where 110 = <function total_price at 0x00000275E4F14680>(120, False)\nE        +    where <function total_price at 0x00000275E4F14680> = <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-ux3iu47k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'>.total_price\nE        +      where <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-ux3iu47k\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'> = _calculator_module()\n\ntests\\test_calculator.py:27: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_non_member_keeps_full_price - Assertion...\n1 failed, 5 passed in 0.30s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:12:30:numeric_literal:dbac3a27",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "numeric_literal",
+      "description": "nudge numeric literal by one",
+      "location": {
+        "start_line": 12,
+        "start_col": 30,
+        "end_line": 12,
+        "end_col": 33
+      },
+      "original_snippet": "100",
+      "mutated_snippet": "101",
+      "status": "survived",
+      "duration_seconds": 2.029103299995768,
+      "exit_code": 0,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": null,
+      "stdout": "......                                                                   [100%]\n6 passed in 0.05s\n",
+      "stderr": ""
+    },
+    {
+      "mutant_id": "src/demo_app/calculator.py:13:15:arithmetic:75236dd9",
+      "file_path": "src\\demo_app\\calculator.py",
+      "operator_name": "arithmetic",
+      "description": "swap arithmetic operator",
+      "location": {
+        "start_line": 13,
+        "start_col": 15,
+        "end_line": 13,
+        "end_col": 25
+      },
+      "original_snippet": "price - 10",
+      "mutated_snippet": "price + 10",
+      "status": "killed",
+      "duration_seconds": 2.2095666999957757,
+      "exit_code": 1,
+      "timeout_seconds": 9.268739999970421,
+      "failing_summary": "FAILED tests/test_calculator.py::test_member_discount_applies_for_large_order",
+      "stdout": "...F..                                                                   [100%]\n================================== FAILURES ===================================\n________________ test_member_discount_applies_for_large_order _________________\n\n    def test_member_discount_applies_for_large_order() -> None:\n>       assert _calculator_module().total_price(120, True) == 110\nE       AssertionError: assert 130 == 110\nE        +  where 130 = <function total_price at 0x0000027813028680>(120, True)\nE        +    where <function total_price at 0x0000027813028680> = <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-g_4p_o6q\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'>.total_price\nE        +      where <module 'demo_app.calculator' from 'C:\\\\Users\\\\emre\\\\AppData\\\\Local\\\\Temp\\\\mutation-tool-g_4p_o6q\\\\beginner_demo\\\\src\\\\demo_app\\\\calculator.py'> = _calculator_module()\n\ntests\\test_calculator.py:23: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_calculator.py::test_member_discount_applies_for_large_order\n1 failed, 5 passed in 0.29s\n",
+      "stderr": ""
+    }
+  ],
+  "report_path": "C:\\Users\\emre\\Desktop\\mutation testing tool\\examples\\beginner_demo\\.mutation-tool\\last-run.json"
+}
