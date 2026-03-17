@@ -43,6 +43,7 @@ def session_to_dict(
             "error": session.errors,
             "mutation_score": session.mutation_score,
         },
+        "guidance": build_guidance(session),
         "mutants": [
             {
                 "mutant_id": result.spec.mutant_id,
@@ -71,3 +72,44 @@ def session_to_dict(
     if report_path is not None:
         payload["report_path"] = str(report_path)
     return payload
+
+
+def build_guidance(session: SessionResult) -> list[str]:
+    guidance: list[str] = []
+
+    if not session.baseline.success:
+        guidance.append(
+            "Baseline test run failed. Fix the normal test suite first, "
+            "then rerun mutation analysis."
+        )
+        return guidance
+
+    if session.executed == 0:
+        guidance.append(
+            "No mutants were executed. Check the source paths, exclude rules, "
+            "and enabled operators."
+        )
+        return guidance
+
+    if session.survived > 0:
+        guidance.append(
+            f"{session.survived} mutant(s) survived. Add focused assertions "
+            "around the changed behavior."
+        )
+    if session.timed_out > 0:
+        guidance.append(
+            f"{session.timed_out} mutant(s) timed out. Review loops, waits, "
+            "or raise the timeout budget."
+        )
+    if session.errors > 0:
+        guidance.append(
+            f"{session.errors} mutant(s) produced import or syntax issues. "
+            "Inspect the generated change details."
+        )
+    if session.executed > 0 and not any((session.survived, session.timed_out, session.errors)):
+        guidance.append(
+            "All executed mutants were detected. Increase the scope or mutant "
+            "count to probe more behavior."
+        )
+
+    return guidance

@@ -1,0 +1,8 @@
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.mutation-tool/
+*.egg-info/
+__pycache__/
+*.py[cod]

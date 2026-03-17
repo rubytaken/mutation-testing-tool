@@ -21,6 +21,7 @@ class RunRequest:
     operators: tuple[str, ...] = ()
     max_mutants: int | None = None
     per_mutant_timeout: float | None = None
+    stop_on_survivor: bool | None = None
     fail_on_survivor: bool | None = None
 
     def to_options(self) -> RunOptions:
@@ -31,6 +32,7 @@ class RunRequest:
             operators=self.operators,
             max_mutants=self.max_mutants,
             per_mutant_timeout=self.per_mutant_timeout,
+            stop_on_survivor=self.stop_on_survivor,
             fail_on_survivor=self.fail_on_survivor,
         )
 
@@ -42,6 +44,7 @@ class RunRequest:
             "operators": list(self.operators),
             "max_mutants": self.max_mutants,
             "per_mutant_timeout": self.per_mutant_timeout,
+            "stop_on_survivor": self.stop_on_survivor,
             "fail_on_survivor": self.fail_on_survivor,
         }
 

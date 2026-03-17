@@ -4,6 +4,7 @@ from rich.console import Console
 from rich.table import Table
 
 from mutation_tool.models import SessionResult
+from mutation_tool.reports.serialize import build_guidance
 
 
 def render_session(
@@ -40,6 +41,12 @@ def render_session(
         str(session.errors),
     )
     console.print(summary_table)
+
+    guidance = build_guidance(session)
+    if guidance:
+        console.print("[bold]Guidance[/bold]")
+        for item in guidance:
+            console.print(f"- {item}")
 
     survivors = [result for result in session.mutants if result.status.value == "survived"]
     if survivors:

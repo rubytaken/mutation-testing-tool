@@ -256,6 +256,14 @@ python -m mutation_tool run . --max-mutants 10
 python -m mutation_tool run . --operator comparison --operator logical
 ```
 
+### Ilk survivor'dan sonra durma
+
+```bash
+python -m mutation_tool run . --max-mutants 20 --stop-on-survivor
+```
+
+Bu secenek, ilk survivor goruldugunde daha fazla mutant kosmadan analizi durdurur.
+
 ### Mevcut operatorleri gormek
 
 ```bash
@@ -378,6 +386,22 @@ Nerede faydali?
 Ilk denemelerde genelde:
 
 - isaretleme
+
+### `Stop after the first survivor`
+
+Bu ne ise yarar?
+
+- ilk survivor bulundugu anda kosuyu durdurur
+
+Nerede faydali?
+
+- hizli geri bildirim istediginde
+- once ilk problemi gormek istediginde
+- buyuk projede denemeleri kisa tutmak istediginde
+
+Ilk denemelerde genelde:
+
+- kapali birak
 
 ## 14. Hic bilmeyen biri icin bastan sona akıs
 

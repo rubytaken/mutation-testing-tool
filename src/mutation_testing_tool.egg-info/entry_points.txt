@@ -1,2 +1,0 @@
-[console_scripts]
-mutation-tool = mutation_tool.cli:app

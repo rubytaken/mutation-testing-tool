@@ -60,6 +60,7 @@ def test_ui_run_endpoint_accepts_payload() -> None:
             "source_paths": ["src"],
             "operators": ["comparison"],
             "max_mutants": 5,
+            "stop_on_survivor": True,
         },
     )
 
@@ -67,6 +68,7 @@ def test_ui_run_endpoint_accepts_payload() -> None:
     assert state.started_request is not None
     assert state.started_request.source_paths == ("src",)
     assert state.started_request.operators == ("comparison",)
+    assert state.started_request.stop_on_survivor is True
 
 
 def test_ui_state_can_complete_run_synchronously() -> None:

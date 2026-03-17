@@ -26,6 +26,10 @@ class SessionRunner:
 
     def run(self) -> SessionResult:
         discovered_files = discover_python_files(self.config)
+        if not discovered_files:
+            raise ValueError(
+                "No Python source files matched the configured source paths and exclude patterns."
+            )
         baseline = run_baseline(self.config)
         session = SessionResult(
             config=self.config,

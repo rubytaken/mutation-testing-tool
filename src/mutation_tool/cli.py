@@ -20,6 +20,7 @@ SOURCE_OPT = typer.Option("--source", help="Override source path. Repeatable.")
 OPERATOR_OPT = typer.Option("--operator", help="Enable specific operator. Repeatable.")
 MAX_MUTANTS_OPT = typer.Option("--max-mutants", min=1)
 TIMEOUT_OPT = typer.Option("--timeout", min=0.1)
+STOP_ON_SURVIVOR_OPT = typer.Option("--stop-on-survivor/--no-stop-on-survivor")
 FAIL_ON_SURVIVOR_OPT = typer.Option("--fail-on-survivor/--no-fail-on-survivor")
 
 
@@ -31,6 +32,7 @@ def run(
     operator: Annotated[list[str] | None, OPERATOR_OPT] = None,
     max_mutants: Annotated[int | None, MAX_MUTANTS_OPT] = None,
     per_mutant_timeout: Annotated[float | None, TIMEOUT_OPT] = None,
+    stop_on_survivor: Annotated[bool | None, STOP_ON_SURVIVOR_OPT] = None,
     fail_on_survivor: Annotated[bool | None, FAIL_ON_SURVIVOR_OPT] = None,
 ) -> None:
     console = Console()
@@ -41,6 +43,7 @@ def run(
         operators=tuple(operator or []),
         max_mutants=max_mutants,
         per_mutant_timeout=per_mutant_timeout,
+        stop_on_survivor=stop_on_survivor,
         fail_on_survivor=fail_on_survivor,
     )
     execution = execute_options(options)

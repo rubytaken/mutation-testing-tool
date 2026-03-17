@@ -49,6 +49,7 @@ Sonra tarayicida su alanlari doldur:
 - `Operators`: ilk denemede bos birak
 - `Max mutants`: `10`
 - `Timeout (sec)`: bos birak
+- `Stop after the first survivor`: kapali birak
 - `Fail run when a survivor appears`: kapali birak
 
 ## 4. Bu ornekte ne beklenir?

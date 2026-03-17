@@ -91,6 +91,8 @@ def _as_string_list(value: object) -> list[str]:
 def _as_optional_float(value: object) -> float | None:
     if value is None:
         return None
+    if isinstance(value, bool):
+        raise ValueError("Expected a numeric or string value in mutation tool config")
     if not isinstance(value, int | float | str):
         raise ValueError("Expected a numeric or string value in mutation tool config")
     return float(value)
@@ -106,6 +108,8 @@ def _as_float(value: object) -> float:
 def _as_optional_int(value: object) -> int | None:
     if value is None:
         return None
+    if isinstance(value, bool):
+        raise ValueError("Expected an integer or string value in mutation tool config")
     if not isinstance(value, int | str):
         raise ValueError("Expected an integer or string value in mutation tool config")
     return int(value)

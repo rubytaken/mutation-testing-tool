@@ -493,6 +493,11 @@ INDEX_HTML = """
           </div>
 
           <label class="checkbox">
+            <input id="stop-on-survivor" type="checkbox">
+            Stop after the first survivor
+          </label>
+
+          <label class="checkbox">
             <input id="fail-on-survivor" type="checkbox">
             Fail run when a survivor appears
           </label>
@@ -655,12 +660,16 @@ INDEX_HTML = """
 
       const sources = (request.source_paths || []).join(', ') || 'config default';
       const operators = (request.operators || []).join(', ') || 'all operators';
+      const stopOnSurvivor = request.stop_on_survivor ? 'yes' : 'no';
+      const failOnSurvivor = request.fail_on_survivor ? 'yes' : 'no';
       requestHint.innerHTML = `
         <div class="info-card">
           <span class="info-key">Last request</span>
           <div><strong>Project:</strong> ${escapeHtml(request.project_root)}</div>
           <div><strong>Sources:</strong> ${escapeHtml(sources)}</div>
           <div><strong>Operators:</strong> ${escapeHtml(operators)}</div>
+          <div><strong>Stop on survivor:</strong> ${escapeHtml(stopOnSurvivor)}</div>
+          <div><strong>Fail on survivor:</strong> ${escapeHtml(failOnSurvivor)}</div>
         </div>
       `;
     }
@@ -757,7 +766,23 @@ INDEX_HTML = """
 
       renderBaseline(snapshot.result.baseline);
       renderSummary(snapshot.result.summary);
+      renderGuidance(snapshot.result.guidance || []);
       renderMutants(snapshot.result.mutants || []);
+    }
+
+    function renderGuidance(guidance) {
+      if (!guidance || guidance.length === 0) {
+        survivorCallout.className = 'survivor-callout';
+        survivorCallout.innerHTML = '';
+        return;
+      }
+
+      const items = guidance.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+      survivorCallout.className = 'survivor-callout';
+      survivorCallout.innerHTML = `
+        <strong>Recommended next steps</strong>
+        <ul>${items}</ul>
+      `;
     }
 
     async function refreshStatus() {
@@ -775,6 +800,7 @@ INDEX_HTML = """
         operators: selectedOperators(),
         max_mutants: document.getElementById('max-mutants').value ? Number(document.getElementById('max-mutants').value) : null,
         per_mutant_timeout: document.getElementById('timeout').value ? Number(document.getElementById('timeout').value) : null,
+        stop_on_survivor: document.getElementById('stop-on-survivor').checked,
         fail_on_survivor: document.getElementById('fail-on-survivor').checked,
       };
 

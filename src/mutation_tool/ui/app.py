@@ -15,6 +15,7 @@ class RunPayload(BaseModel):
     operators: list[str] = Field(default_factory=list)
     max_mutants: int | None = Field(default=None, ge=1)
     per_mutant_timeout: float | None = Field(default=None, gt=0)
+    stop_on_survivor: bool | None = None
     fail_on_survivor: bool | None = None
 
     def to_request(self) -> RunRequest:
@@ -25,6 +26,7 @@ class RunPayload(BaseModel):
             operators=tuple(self.operators),
             max_mutants=self.max_mutants,
             per_mutant_timeout=self.per_mutant_timeout,
+            stop_on_survivor=self.stop_on_survivor,
             fail_on_survivor=self.fail_on_survivor,
         )
 
