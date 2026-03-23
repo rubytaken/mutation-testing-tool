@@ -5,7 +5,7 @@ Beginner-friendly mutation testing tool for Python projects with a CLI, a local 
 Documentation:
 
 - English: `README.en.md`
-- Turkce: `README.tr.md`
+- Türkçe: `README.tr.md`
 - Demo projects:
   - `examples/beginner_demo/README.md`
   - `examples/ci_gate_demo/README.md`

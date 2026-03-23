@@ -1,82 +1,82 @@
-# Mutation Testing Tool - Turkce Rehber
+# Mutation Testing Tool - Türkçe Rehber
 
-Bu rehber, programin ne ise yaradigini, neden kullanildigini, nasil kuruldugunu, CLI ve UI ile nasil calistirildigini ve testleri nasil yazman gerektigini hic bilmeyen birine gore anlatir.
+Bu rehber, programın ne işe yaradığını, neden kullanıldığını, nasıl kurulduğunu, CLI ve UI ile nasıl çalıştırıldığını ve testleri nasıl yazman gerektiğini hiç bilmeyen birine göre anlatır.
 
-Hazir deneme projesi:
+Hazır deneme projesi:
 
 - `examples/beginner_demo/README.md`
 
 ## 1. Bu program nedir?
 
-`mutation-tool` bir Python mutation testing aracidir.
+`mutation-tool` bir Python mutation testing aracıdır.
 
-Normal test sunu sorar:
+Normal test şunu sorar:
 
-- "Yazdigim testler kodu geciriyor mu?"
+- "Yazdığım testler kodu geçiriyor mu?"
 
-Mutation testing ise daha guclu bir soru sorar:
+Mutation testing ise daha güçlü bir soru sorar:
 
-- "Yazdigim testler, koda sokulan kucuk hatalari fark edecek kadar guclu mu?"
+- "Yazdığım testler, koda sokulan küçük hataları fark edecek kadar güçlü mü?"
 
-Arac, kodunda kucuk degisiklikler yapar ve her degisiklikten sonra testlerini tekrar calistirir.
+Araç, kodunda küçük değişiklikler yapar ve her değişiklikten sonra testlerini tekrar çalıştırır.
 
-Ornek:
+Örnek:
 
 - kodunda `value > 0` var
-- arac bunu `value >= 0` yapar
+- araç bunu `value >= 0` yapar
 - testler fail olursa mutant `killed` olur
-- testler hala gecerse mutant `survived` olur
+- testler hâlâ geçerse mutant `survived` olur
 
-Eger mutant yasiyorsa, genelde testlerinde eksik bir durum vardir.
+Eğer mutant yaşıyorsa, genelde testlerinde eksik bir durum vardır.
 
-## 2. Neden ise yarar?
+## 2. Neden işe yarar?
 
-Kod coverage sana satirin calistigini soyler.
+Kod coverage sana satırın çalıştığını söyler.
 
-Mutation testing ise testin o satirin davranisini gercekten kontrol edip etmedigini soyler.
+Mutation testing ise testin o satırın davranışını gerçekten kontrol edip etmediğini söyler.
 
-Bu aracin faydalari:
+Bu aracın faydaları:
 
-- zayif testleri bulur
+- zayıf testleri bulur
 - eksik edge-case'leri bulur
-- koda guveni artirir
-- regresyon testlerini guclendirir
+- koda güveni artırır
+- regresyon testlerini güçlendirir
 
-## 3. Program arkada nasil calisir?
+## 3. Program arkada nasıl çalışır?
 
-Araci calistirdiginda su akisi izler:
+Aracı çalıştırdığında şu akışı izler:
 
-1. `pyproject.toml` icinden ayarlari okur
-2. `source_paths` icindeki Python dosyalarini bulur
-3. Once normal testleri baseline olarak calistirir
+1. `pyproject.toml` içinden ayarları okur
+2. `source_paths` içindeki Python dosyalarını bulur
+3. Önce normal testleri baseline olarak çalıştırır
 4. Baseline fail ise hemen durur
 5. Kodunu Python `ast` ile parse eder
-6. Kucuk degisiklikler uretir:
+6. Küçük değişiklikler üretir:
    - `>` -> `>=`
    - `True` -> `False`
    - `and` -> `or`
    - `+` -> `-`
-7. Projeyi gecici bir klasore kopyalar
+7. Projeyi geçici bir klasöre kopyalar
 8. Her seferinde tek bir mutant uygular
-9. Test komutunu mutated kopya uzerinde calistirir
+9. Test komutunu mutated kopya üzerinde çalıştırır
 10. Sonucu kaydeder
-11. `.mutation-tool/last-run.json` raporunu uretir
+11. `.mutation-tool/last-run.json` raporunu üretir
 
-Onemli:
+Önemli:
 
-- normal bir run sirasinda gercek kaynak dosyalarini dogrudan bozmaz
-- gecici kopyalar uzerinde calisir
+- normal bir run sırasında gerçek kaynak dosyalarını doğrudan bozmaz
+- geçici kopyalar üzerinde çalışır
 
-## 4. Sonuclar ne anlama gelir?
+## 4. Sonuçlar ne anlama gelir?
 
-- `killed`: testler fail oldu, yani mutant yakalandi
-- `survived`: testler gecti, yani hata fark edilmedi
-- `timeout`: mutant testi cok uzun surdu
+- `killed`: testler fail oldu, yani mutant yakalandı
+- `survived`: testler geçti, yani hata fark edilmedi
+- `timeout`: mutant testi çok uzun sürdü
 - `error`: mutant syntax/import gibi bir problemi tetikledi
 
-## 5. Yeni baslayan icin onerilen proje yapisi
+## 5. Yeni başlayan için önerilen proje yapısı
 
-En kolay baslangic icin su yapiyi kullan:
+En kolay başlangıç için şu yapıyı kullan:
 
 ```text
 proje/
@@ -89,20 +89,20 @@ proje/
     test_calculator.py
 ```
 
-Test framework onerisi:
+Test framework önerisi:
 
-- en iyi secenek: `pytest`
+- en iyi seçenek: `pytest`
 
 Neden `pytest`?
 
-- yeni baslayan icin kolay
-- yazimi kisa
-- Python ekosisteminde cok yaygin
-- bu aracta varsayilan secenek zaten bu
+- yeni başlayan için kolay
+- yazımı kısa
+- Python ekosisteminde çok yaygın
+- bu araçta varsayılan seçenek zaten bu
 
 ## 6. Kurulum
 
-### Adim 1: Virtual environment olustur
+### Adım 1: Virtual environment oluştur
 
 Windows:
 
@@ -118,7 +118,7 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-### Adim 2: Araci ve gelistirme bagimliliklarini kur
+### Adım 2: Aracı ve geliştirme bağımlılıklarını kur
 
 ```bash
 python -m pip install -e .[dev]
@@ -126,7 +126,7 @@ python -m pip install -e .[dev]
 
 ## 7. Temel ayarlar
 
-Projenin `pyproject.toml` dosyasina sunu ekle:
+Projenin `pyproject.toml` dosyasına şunu ekle:
 
 ```toml
 [tool.mutation_tool]
@@ -137,25 +137,25 @@ timeout_multiplier = 5.0
 min_timeout = 5.0
 ```
 
-Alanlarin anlami:
+Alanların anlamı:
 
-- `source_paths`: mutant uygulanacak kod klasorleri veya dosyalari
-- `test_command`: testleri calistiracak komut
-- `exclude`: mutate edilmesini istemedigin klasor/dosyalar
-- `timeout_multiplier`: baseline suresine gore timeout carpani
-- `min_timeout`: minimum timeout suresi
+- `source_paths`: mutant uygulanacak kod klasörleri veya dosyaları
+- `test_command`: testleri çalıştıracak komut
+- `exclude`: mutate edilmesini istemediğin klasör/dosyalar
+- `timeout_multiplier`: baseline süresine göre timeout çarpanı
+- `min_timeout`: minimum timeout süresi
 
-## 8. `source_paths` icine ne yazmaliyim?
+## 8. `source_paths` içine ne yazmalıyım?
 
 Genelde:
 
-- kodun `src/` icindeyse `src`
+- kodun `src/` içindeyse `src`
 - belirli paketi test etmek istiyorsan `src/my_package`
 - tek dosya istiyorsan `src/my_package/service.py`
 
 Buraya genelde `tests` yazma.
 
-Iyi ornekler:
+İyi örnekler:
 
 ```toml
 source_paths = ["src"]
@@ -169,39 +169,39 @@ source_paths = ["src/my_package"]
 source_paths = ["src/my_package/service.py"]
 ```
 
-## 9. Test tarafinda ne kullanabiliriz?
+## 9. Test tarafında ne kullanabiliriz?
 
-### Onerilen: `pytest`
+### Önerilen: `pytest`
 
-Yeni basliyorsan en dogru secenek bu:
+Yeni başlıyorsan en doğru seçenek bu:
 
 ```toml
 test_command = ["pytest", "-q"]
 ```
 
-Istersen sadece `tests` klasorunu kos:
+İstersen sadece `tests` klasörünü koş:
 
 ```toml
 test_command = ["pytest", "-q", "tests"]
 ```
 
-### `unittest` da kullanilabilir
+### `unittest` da kullanılabilir
 
-Bu arac komut calistirdigi icin, su kosullari saglayan herhangi bir test komutu kullanilabilir:
+Bu araç komut çalıştırdığı için, şu koşulları sağlayan herhangi bir test komutu kullanılabilir:
 
-- testleri calistirmali
-- testler gecerse `0` donmeli
-- testler fail ise sifirdan farkli kod donmeli
+- testleri çalıştırmalı
+- testler geçerse `0` dönmeli
+- testler fail ise sıfırdan farklı kod dönmeli
 
-Ornek:
+Örnek:
 
 ```toml
 test_command = ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
 ```
 
-Ama yeni baslayan icin tavsiyem yine `pytest`.
+Ama yeni başlayan için tavsiyem yine `pytest`.
 
-## 10. Sifirdan kucuk bir ornek
+## 10. Sıfırdan küçük bir örnek
 
 ### Uygulama kodu
 
@@ -231,237 +231,237 @@ def test_zero_is_not_positive() -> None:
 Bu neden iyi?
 
 - ilk test normal durumu kontrol ediyor
-- ikinci test sinir degerini kontrol ediyor
+- ikinci test sınır değerini kontrol ediyor
 - kod `>` yerine `>=` olursa ikinci test fail olacak
 
-Yani mutant oldurulmus olacak.
+Yani mutant öldürülmüş olacak.
 
-## 11. Komut satirindan nasil kullanilir?
+## 11. Komut satırından nasıl kullanılır?
 
-### Temel kullanim
+### Temel kullanım
 
 ```bash
 python -m mutation_tool run .
 ```
 
-### Az sayida mutant ile deneme
+### Az sayıda mutant ile deneme
 
 ```bash
 python -m mutation_tool run . --max-mutants 10
 ```
 
-### Sadece belli operatorlerle calisma
+### Sadece belli operatörlerle çalışma
 
 ```bash
 python -m mutation_tool run . --operator comparison --operator logical
 ```
 
-### Ilk survivor'dan sonra durma
+### İlk survivor'dan sonra durma
 
 ```bash
 python -m mutation_tool run . --max-mutants 20 --stop-on-survivor
 ```
 
-Bu secenek, ilk survivor goruldugunde daha fazla mutant kosmadan analizi durdurur.
+Bu seçenek, ilk survivor görüldüğünde daha fazla mutant koşmadan analizi durdurur.
 
-### Mevcut operatorleri gormek
+### Mevcut operatörleri görmek
 
 ```bash
 python -m mutation_tool list-operators
 ```
 
-## 12. UI nasil kullanilir?
+## 12. UI nasıl kullanılır?
 
-UI'yi baslat:
+UI'yı başlat:
 
 ```bash
 python -m mutation_tool ui
 ```
 
-Sonra su adrese git:
+Sonra şu adrese git:
 
 ```text
 http://127.0.0.1:8787
 ```
 
-## 13. UI alanlarini nasil dolduracagim?
+## 13. UI alanlarını nasıl dolduracağım?
 
-Burada sanirim "UI'da neleri nasil dolduracagiz" demek istedin; hepsini tek tek anlatiyorum.
+Burada sanırım "UI'da neleri nasıl dolduracağız" demek istedin; hepsini tek tek anlatıyorum.
 
 ### `Project root`
 
-Buraya ne yazilir?
+Buraya ne yazılır?
 
-- mutation test uygulamak istedigin projenin ana klasoru
+- mutation test uygulamak istediğin projenin ana klasörü
 
-Ornek:
+Örnek:
 
 - `.`
 - `C:\Users\Emre\Desktop\my-project`
 
-Terminal zaten proje klasorundeyse en kolayi:
+Terminal zaten proje klasöründeyse en kolayı:
 
 - `.`
 
 ### `Config path`
 
-Buraya ne yazilir?
+Buraya ne yazılır?
 
-- ozel bir config dosyasi yolu
+- özel bir config dosyası yolu
 
-Genelde bos birak.
+Genelde boş bırak.
 
 Ne zaman doldurulur?
 
-- config varsayilan `pyproject.toml` disindaysa
-- ya da elle baska config gostermek istiyorsan
+- config varsayılan `pyproject.toml` dışındaysa
+- ya da elle başka config göstermek istiyorsan
 
 ### `Source paths`
 
-Buraya ne yazilir?
+Buraya ne yazılır?
 
-- mutate edilmesini istedigin kod yolu
-- birden fazla yazacaksan virgul ile ayir
+- mutate edilmesini istediğin kod yolu
+- birden fazla yazacaksan virgül ile ayır
 
-Ornek:
+Örnek:
 
 - `src`
 - `src/my_package`
 - `src/my_package/service.py`
 - `src,src/my_package/utils.py`
 
-Yeni baslayan icin en iyi secim:
+Yeni başlayan için en iyi seçim:
 
 - `src`
 
 ### `Operators`
 
-Ne yapmaliyim?
+Ne yapmalıyım?
 
-- listeden mutation tiplerini sec
-- ya da hic secme, tum varsayilan operatorler kullanilsin
+- listeden mutation tiplerini seç
+- ya da hiç seçme, tüm varsayılan operatörler kullanılsın
 
-Yeni basliyorsan ilk denemede bos birakabilirsin.
+Yeni başlıyorsan ilk denemede boş bırakabilirsin.
 
 ### `Max mutants`
 
-Buraya ne yazilir?
+Buraya ne yazılır?
 
-- o run icin en fazla kac mutant calisacagi
+- o run için en fazla kaç mutant çalışacağı
 
-Yeni baslayan icin onerim:
+Yeni başlayan için önerim:
 
 - `5`
 - `10`
 - en fazla `20`
 
-Ilk denemede ideal deger:
+İlk denemede ideal değer:
 
 - `10`
 
 ### `Timeout (sec)`
 
-Buraya ne yazilir?
+Buraya ne yazılır?
 
-- her mutant icin maksimum sure
+- her mutant için maksimum süre
 
-Emin degilsen:
+Emin değilsen:
 
-- bos birak
+- boş bırak
 
-Arac baseline suresine gore timeout hesaplayabilir.
+Araç baseline süresine göre timeout hesaplayabilir.
 
 ### `Fail run when a survivor appears`
 
-Bu ne ise yarar?
+Bu ne işe yarar?
 
-- en az bir survivor varsa run'i fail kabul eder
+- en az bir survivor varsa run'ı fail kabul eder
 
-Nerede faydali?
+Nerede faydalı?
 
 - CI
-- kalite kapisi
-- otomatik kontrol surecleri
+- kalite kapısı
+- otomatik kontrol süreçleri
 
-Ilk denemelerde genelde:
+İlk denemelerde genelde:
 
-- isaretleme
+- işaretleme
 
 ### `Stop after the first survivor`
 
-Bu ne ise yarar?
+Bu ne işe yarar?
 
-- ilk survivor bulundugu anda kosuyu durdurur
+- ilk survivor bulunduğu anda koşuyu durdurur
 
-Nerede faydali?
+Nerede faydalı?
 
-- hizli geri bildirim istediginde
-- once ilk problemi gormek istediginde
-- buyuk projede denemeleri kisa tutmak istediginde
+- hızlı geri bildirim istediğinde
+- önce ilk problemi görmek istediğinde
+- büyük projede denemeleri kısa tutmak istediğinde
 
-Ilk denemelerde genelde:
+İlk denemelerde genelde:
 
-- kapali birak
+- kapalı bırak
 
-## 14. Hic bilmeyen biri icin bastan sona akıs
+## 14. Hiç bilmeyen biri için baştan sona akış
 
-Sifirdan su sirayla git:
+Sıfırdan şu sırayla git:
 
-1. Kucuk bir Python projesi olustur
-2. Kodlari `src/` icine koy
-3. Testleri `tests/` icine koy
+1. Küçük bir Python projesi oluştur
+2. Kodları `src/` içine koy
+3. Testleri `tests/` içine koy
 4. `pytest` kur
-5. Once normal testlerin gectiginden emin ol:
+5. Önce normal testlerin geçtiğinden emin ol:
 
 ```bash
 python -m pytest
 ```
 
-6. `pyproject.toml` icine mutation ayarlarini ekle
-7. Kucuk bir deneme kos:
+6. `pyproject.toml` içine mutation ayarlarını ekle
+7. Küçük bir deneme koş:
 
 ```bash
 python -m mutation_tool run . --max-mutants 10
 ```
 
-8. Ya da UI ac:
+8. Ya da UI aç:
 
 ```bash
 python -m mutation_tool ui
 ```
 
 9. Survivor'lara bak
-10. Eksik davranislar icin yeni test yaz
+10. Eksik davranışlar için yeni test yaz
 11. Tekrar mutation run yap
 
-## 15. Testleri nasil yazmaliyiz?
+## 15. Testleri nasıl yazmalıyız?
 
 En kritik konu bu.
 
-Zayif test:
+Zayıf test:
 
 - sadece tek bir normal girdiyi kontrol eder
 
-Guclu test:
+Güçlü test:
 
 - normal durumu kontrol eder
-- sinir degerini kontrol eder
-- gecersiz girdiyi kontrol eder
-- true ve false dallarini kontrol eder
-- sonucu net sekilde assert eder
+- sınır değerini kontrol eder
+- geçersiz girdiyi kontrol eder
+- true ve false dallarını kontrol eder
+- sonucu net şekilde assert eder
 
 Neleri test etmelisin?
 
-- sinir degerler: `0`, `1`, `-1`
-- bos degerler: `""`, `[]`, `{}`
+- sınır değerler: `0`, `1`, `-1`
+- boş değerler: `""`, `[]`, `{}`
 - `None` kabul ediliyorsa `None`
-- exception davranisi
+- exception davranışı
 - boolean kararlar
-- `if/else` dallari
-- donguler ve durma kosullari
-- yan etkiler: dosya yazma, veri guncelleme, logik kararlar
+- `if/else` dalları
+- döngüler ve durma koşulları
+- yan etkiler: dosya yazma, veri güncelleme, lojik kararlar
 
-### `pytest` ile faydali kaliplar
+### `pytest` ile faydalı kalıplar
 
 #### Net assertion
 
@@ -470,7 +470,7 @@ def test_total() -> None:
     assert calculate_total(10, 2) == 12
 ```
 
-#### Sinir durumu
+#### Sınır durumu
 
 ```python
 def test_zero_case() -> None:
@@ -506,48 +506,48 @@ def test_is_positive(value: int, expected: bool) -> None:
     assert is_positive(value) is expected
 ```
 
-## 16. Survivor cikarsa ne yapmaliyim?
+## 16. Survivor çıkarsa ne yapmalıyım?
 
-Diyelim arac su mutantin yasadigini soyledi:
+Diyelim araç şu mutantın yaşadığını söyledi:
 
 - original: `value > 0`
 - mutated: `value >= 0`
 
 Bu ne demek?
 
-- testlerin `0` ile pozitif sayiyi ayiramiyor
+- testlerin `0` ile pozitif sayıyı ayıramıyor
 
-O zaman sunu eklersin:
+O zaman şunu eklersin:
 
 ```python
 def test_zero_is_not_positive() -> None:
     assert is_positive(0) is False
 ```
 
-Yani mantik su:
+Yani mantık şu:
 
-- survivor'u gor
-- hangi davranisin degistigini anla
-- o davranisa uygun test yaz
-- tekrar calistir
+- survivor'u gör
+- hangi davranışın değiştiğini anla
+- o davranışa uygun test yaz
+- tekrar çalıştır
 
-## 17. Ilk asamada en iyi strateji
+## 17. İlk aşamada en iyi strateji
 
-Buyuk projede her seyi bir anda kosma.
+Büyük projede her şeyi bir anda koşma.
 
-Sunla basla:
+Şunla başla:
 
-- tek bir modulle
+- tek bir modülle
 - `--max-mutants 10`
-- varsayilan operatorlerle
+- varsayılan operatörlerle
 
-Iyi ilk komut:
+İyi ilk komut:
 
 ```bash
 python -m mutation_tool run . --max-mutants 10
 ```
 
-## 18. Sık yapilan hatalar
+## 18. Sık yapılan hatalar
 
 ### Baseline testler zaten fail
 
@@ -555,52 +555,52 @@ Sorun:
 
 - mutation hemen durur
 
-Cozum:
+Çözüm:
 
-- once normal testlerini duzelt
-- mutation testing ancak yesil test suite uzerinde anlamlidir
+- önce normal testlerini düzelt
+- mutation testing ancak yeşil test suite üzerinde anlamlıdır
 
-### Yanlis klasoru mutate etmek
+### Yanlış klasörü mutate etmek
 
 Sorun:
 
-- `source_paths` icine `tests` yazmak
+- `source_paths` içine `tests` yazmak
 
-Cozum:
+Çözüm:
 
-- uygulama kodunu goster, genelde `src`
+- uygulama kodunu göster, genelde `src`
 
 ### Sadece happy-path test yazmak
 
 Sorun:
 
-- cok fazla survivor cikar
+- çok fazla survivor çıkar
 
-Cozum:
+Çözüm:
 
 - edge-case test ekle
 - false-path test ekle
 - daha net assert yaz
 
-### Baslangicta cok fazla mutant kosmak
+### Başlangıçta çok fazla mutant koşmak
 
 Sorun:
 
-- sure uzar ve sonuclar karmasik olur
+- süre uzar ve sonuçlar karmaşık olur
 
-Cozum:
+Çözüm:
 
-- once `5` veya `10` mutant ile dene
+- önce `5` veya `10` mutant ile dene
 
-## 19. Sonuclari nerede gorecegim?
+## 19. Sonuçları nerede göreceğim?
 
-- CLI ozetini terminalde
-- UI panelini tarayicida
-- JSON raporunu `.mutation-tool/last-run.json` icinde
+- CLI özetini terminalde
+- UI panelini tarayıcıda
+- JSON raporunu `.mutation-tool/last-run.json` içinde
 
-## 20. Bu projenin kendi testleri nasil calisir?
+## 20. Bu projenin kendi testleri nasıl çalışır?
 
-Eger bu mutation tool projesinin kendisini gelistiriyorsan su komutlari kullan:
+Eğer bu mutation tool projesinin kendisini geliştiriyorsan şu komutları kullan:
 
 ```bash
 python -m pytest
@@ -608,19 +608,19 @@ python -m mypy src
 python -m ruff check .
 ```
 
-Bu projede su araclar kullaniliyor:
+Bu projede şu araçlar kullanılıyor:
 
-- `pytest` test kosmak icin
-- `mypy` tip kontrolu icin
-- `ruff` lint icin
-- `FastAPI TestClient` UI/API testleri icin
+- `pytest` test koşmak için
+- `mypy` tip kontrolü için
+- `ruff` lint için
+- `FastAPI TestClient` UI/API testleri için
 
-## 21. En basit ve dogru baslangic seti
+## 21. En basit ve doğru başlangıç seti
 
-En kolayi su:
+En kolayı şu:
 
 - test framework: `pytest`
-- kod klasoru: `src`
+- kod klasörü: `src`
 - ayarlar:
 
 ```toml
@@ -644,4 +644,4 @@ python -m mutation_tool run . --max-mutants 10
 python -m mutation_tool ui
 ```
 
-Sadece bu akisi uygularsan bile saglam bir baslangic yapmis olursun.
+Sadece bu akışı uygularsan bile sağlam bir başlangıç yapmış olursun.

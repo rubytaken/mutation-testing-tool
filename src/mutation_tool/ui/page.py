@@ -1198,22 +1198,22 @@ Timeout: leave blank</pre>
       }
 
       const exactMatches = {
-        'Ready to launch mutation analysis.': 'Mutation analizi baslatilmaya hazir.',
-        'Mutation analysis is running.': 'Mutation analizi calisiyor.',
-        'Mutation analysis completed.': 'Mutation analizi tamamlandi.',
-        'Mutation analysis failed.': 'Mutation analizi basarisiz oldu.',
-        'A mutation run is already in progress.': 'Halihazirda calisan bir mutation kosusu var.',
-        'Built-in demo project was not found.': 'Yerlesik demo projesi bulunamadi.',
-        'Built-in demo could not be loaded.': 'Yerlesik demo yuklenemedi.',
-        'Built-in demo could not be started.': 'Yerlesik demo baslatilamadi.',
-        'No report is available yet.': 'Henuz indirilebilecek bir rapor yok.',
-        'The latest report file was not found.': 'Son rapor dosyasi diskte bulunamadi.',
-        'Unable to load operators.': 'Operator listesi yuklenemedi.',
+        'Ready to launch mutation analysis.': 'Mutation analizi başlatılmaya hazır.',
+        'Mutation analysis is running.': 'Mutation analizi çalışıyor.',
+        'Mutation analysis completed.': 'Mutation analizi tamamlandı.',
+        'Mutation analysis failed.': 'Mutation analizi başarısız oldu.',
+        'A mutation run is already in progress.': 'Halihazırda çalışan bir mutation koşusu var.',
+        'Built-in demo project was not found.': 'Yerleşik demo projesi bulunamadı.',
+        'Built-in demo could not be loaded.': 'Yerleşik demo yüklenemedi.',
+        'Built-in demo could not be started.': 'Yerleşik demo başlatılamadı.',
+        'No report is available yet.': 'Henüz indirilebilecek bir rapor yok.',
+        'The latest report file was not found.': 'Son rapor dosyası diskte bulunamadı.',
+        'Unable to load operators.': 'Operatör listesi yüklenemedi.',
         'Unable to refresh status.': 'Durum yenilenemedi.',
-        'No Python source files matched the configured source paths and exclude patterns.': 'Ayarlanan source paths ve exclude kurallari ile eslesen Python dosyasi bulunamadi.',
-        'Baseline test run failed. Fix the normal test suite first, then rerun mutation analysis.': 'Baseline test paketi basarisiz oldu. Once normal testlerini duzelt, sonra mutation analizini tekrar calistir.',
-        'No mutants were executed. Check the source paths, exclude rules, and enabled operators.': 'Hic mutant kosulmadi. Kaynak yollarini, exclude kurallarini ve secili operatorleri kontrol et.',
-        'All executed mutants were detected. Increase the scope or mutant count to probe more behavior.': 'Kosulan tum mutantlar yakalandi. Daha fazla davranisi olcmek icin kapsami ya da mutant sayisini arttir.',
+        'No Python source files matched the configured source paths and exclude patterns.': 'Ayarlanan source paths ve exclude kuralları ile eşleşen Python dosyası bulunamadı.',
+        'Baseline test run failed. Fix the normal test suite first, then rerun mutation analysis.': 'Baseline test paketi başarısız oldu. Önce normal testlerini düzelt, sonra mutation analizini tekrar çalıştır.',
+        'No mutants were executed. Check the source paths, exclude rules, and enabled operators.': 'Hiç mutant koşulmadı. Kaynak yollarını, exclude kurallarını ve seçili operatörleri kontrol et.',
+        'All executed mutants were detected. Increase the scope or mutant count to probe more behavior.': 'Koşulan tüm mutantlar yakalandı. Daha fazla davranışı ölçmek için kapsamı ya da mutant sayısını artır.',
       };
 
       if (text in exactMatches) {
@@ -1222,22 +1222,22 @@ Timeout: leave blank</pre>
 
       let match = text.match(/^(\d+) mutant\(s\) survived\. Add focused assertions around the changed behavior\.$/);
       if (match) {
-        return `${match[1]} mutant yasadi. Degisen davranis etrafina hedefli assertion'lar ekle.`;
+        return `${match[1]} mutant yaşadı. Değişen davranış etrafına hedefli assertion'lar ekle.`;
       }
 
       match = text.match(/^(\d+) mutant\(s\) timed out\. Review loops, waits, or raise the timeout budget\.$/);
       if (match) {
-        return `${match[1]} mutant timeout oldu. Donguleri, beklemeleri ve timeout butcesini gozden gecir.`;
+        return `${match[1]} mutant timeout oldu. Döngüleri, beklemeleri ve timeout bütçesini gözden geçir.`;
       }
 
       match = text.match(/^(\d+) mutant\(s\) produced import or syntax issues\. Inspect the generated change details\.$/);
       if (match) {
-        return `${match[1]} mutant import ya da syntax problemi uretti. Uretilen degisim detaylarini incele.`;
+        return `${match[1]} mutant import ya da syntax problemi üretti. Üretilen değişim detaylarını incele.`;
       }
 
       match = text.match(/^None of the configured source paths exist\. Checked: (.+)$/);
       if (match) {
-        return `Ayarlanan kaynak yollarinin hicbiri bulunamadi. Kontrol edilen: ${match[1]}`;
+        return `Ayarlanan kaynak yollarının hiçbiri bulunamadı. Kontrol edilen: ${match[1]}`;
       }
 
       return text;
@@ -1265,114 +1265,114 @@ Timeout: leave blank</pre>
       setText('#guide-button', 'Open Usage Guide', 'Kullanım Rehberine Git');
       setHTML('#demo-inline-note', 'Load Selected Demo fills the form with the active demo settings. Run Selected Demo fills those values and starts the example immediately. After the run, use Download Latest Report or Download Latest PDF to save the results.', '<span class="inline-code">Seçili Demoyu Yükle</span> aktif demoya ait ayarları forma yerleştirir. <span class="inline-code">Seçili Demoyu Çalıştır</span> aynı değerleri doldurur ve örneği hemen başlatır. Koşudan sonra sonuçları kaydetmek için <span class="inline-code">Son JSON Raporunu İndir</span> veya <span class="inline-code">Son PDF Raporunu İndir</span> butonunu kullan.');
 
-      setText('.tour-grid .tour-card:nth-child(1) h3', 'Start Small', 'Kucuk Basla');
-      setText('.tour-grid .tour-card:nth-child(1) p', 'Begin with one package or a batch of 10 mutants. Smaller runs make it easier to understand why a mutant survived.', 'Tek bir paket ya da 10 mutantlik bir batch ile basla. Kucuk kosular bir mutantin neden yasadigini anlamayi cok kolaylastirir.');
-      setText('.tour-grid .tour-card:nth-child(2) h3', 'Read the Changed Behavior', 'Degisen Davranisi Oku');
-      setText('.tour-grid .tour-card:nth-child(2) p', 'A survivor means the tests still passed after behavior changed. The change itself is the clue for the next test you should write.', "Survivor demek, davranis degismesine ragmen testlerin gectigi anlamina gelir. Degisen ifade, yazman gereken bir sonraki test icin en guclu ipucudur.");
-      setText('.tour-grid .tour-card:nth-child(3) h3', 'Improve and Rerun', 'Gelistir ve Tekrar Kos');
-      setText('.tour-grid .tour-card:nth-child(3) p', 'Add one focused assertion for the missing behavior, rerun the same scope, then widen the run when the weak spot is closed.', 'Eksik davranis icin tek bir net assertion ekle, ayni kapsami tekrar kostur, bosluk kapaninca kosuyu genislet.');
+      setText('.tour-grid .tour-card:nth-child(1) h3', 'Start Small', 'Küçük Başla');
+      setText('.tour-grid .tour-card:nth-child(1) p', 'Begin with one package or a batch of 10 mutants. Smaller runs make it easier to understand why a mutant survived.', 'Tek bir paket ya da 10 mutantlık bir batch ile başla. Küçük koşular bir mutantın neden yaşadığını anlamayı çok kolaylaştırır.');
+      setText('.tour-grid .tour-card:nth-child(2) h3', 'Read the Changed Behavior', 'Değişen Davranışı Oku');
+      setText('.tour-grid .tour-card:nth-child(2) p', 'A survivor means the tests still passed after behavior changed. The change itself is the clue for the next test you should write.', "Survivor demek, davranış değişmesine rağmen testlerin geçtiği anlamına gelir. Değişen ifade, yazman gereken bir sonraki test için en güçlü ipucudur.");
+      setText('.tour-grid .tour-card:nth-child(3) h3', 'Improve and Rerun', 'Geliştir ve Tekrar Koş');
+      setText('.tour-grid .tour-card:nth-child(3) p', 'Add one focused assertion for the missing behavior, rerun the same scope, then widen the run when the weak spot is closed.', 'Eksik davranış için tek bir net assertion ekle, aynı kapsamı tekrar koştur, boşluk kapanınca koşuyu genişlet.');
 
-      setText('.grid > .panel:nth-child(1) h2', 'Run Setup', 'Calistirma Ayarlari');
-      setText('.grid > .panel:nth-child(1) .panel-copy', 'Choose a project, narrow the scope, and start the next mutation pass.', 'Projeyi sec, kapsami daralt ve bir sonraki mutation kosusunu baslat.');
-      setLeadText('#run-form > label:nth-of-type(1)', 'Project root', 'Proje koku');
-      setHTML('#run-form > label:nth-of-type(1) .field-help', 'The folder of the project you want to analyze. In most cases use <span class="inline-code">.</span> when the terminal is already inside that project.', 'Analiz etmek istedigin projenin klasoru. Terminal zaten projenin icindeyse genelde <span class="inline-code">.</span> kullanman yeterlidir.');
+      setText('.grid > .panel:nth-child(1) h2', 'Run Setup', 'Çalıştırma Ayarları');
+      setText('.grid > .panel:nth-child(1) .panel-copy', 'Choose a project, narrow the scope, and start the next mutation pass.', 'Projeyi seç, kapsamı daralt ve bir sonraki mutation koşusunu başlat.');
+      setLeadText('#run-form > label:nth-of-type(1)', 'Project root', 'Proje kökü');
+      setHTML('#run-form > label:nth-of-type(1) .field-help', 'The folder of the project you want to analyze. In most cases use <span class="inline-code">.</span> when the terminal is already inside that project.', 'Analiz etmek istediğin projenin klasörü. Terminal zaten projenin içindeyse genelde <span class="inline-code">.</span> kullanman yeterlidir.');
       setLeadText('#run-form > label:nth-of-type(2)', 'Config path', 'Config yolu');
       setPlaceholder('#config-path', 'Optional pyproject.toml path', 'Opsiyonel pyproject.toml yolu');
-      setHTML('#run-form > label:nth-of-type(2) .field-help', 'Leave blank to use <span class="inline-code">pyproject.toml</span> from the project root.', 'Bos birakirsan proje kokundeki <span class="inline-code">pyproject.toml</span> kullanilir.');
+      setHTML('#run-form > label:nth-of-type(2) .field-help', 'Leave blank to use <span class="inline-code">pyproject.toml</span> from the project root.', 'Boş bırakırsan proje kökündeki <span class="inline-code">pyproject.toml</span> kullanılır.');
       setLeadText('#run-form > label:nth-of-type(3)', 'Source paths', 'Kaynak yollar');
-      setHTML('#run-form > label:nth-of-type(3) .field-help', 'Comma-separated paths to mutate. Recommended first value: <span class="inline-code">src</span>.', 'Virgul ile ayrilmis mutate edilecek yollar. Ilk deneme icin onerilen deger: <span class="inline-code">src</span>.');
-      setLeadText('#run-form > label:nth-of-type(4)', 'Operators', 'Operatorler');
-      setText('#run-form > label:nth-of-type(4) .field-help', 'Leave all operators unselected to run the full default set. Select a subset only when you want a focused pass.', 'Hicbirini secmezsen varsayilan operatorlerin tamami calisir. Daha odakli bir kosu istediginde alt kume sec.');
+      setHTML('#run-form > label:nth-of-type(3) .field-help', 'Comma-separated paths to mutate. Recommended first value: <span class="inline-code">src</span>.', 'Virgül ile ayrılmış mutate edilecek yollar. İlk deneme için önerilen değer: <span class="inline-code">src</span>.');
+      setLeadText('#run-form > label:nth-of-type(4)', 'Operators', 'Operatörler');
+      setText('#run-form > label:nth-of-type(4) .field-help', 'Leave all operators unselected to run the full default set. Select a subset only when you want a focused pass.', 'Hiçbirini seçmezsen varsayılan operatörlerin tamamı çalışır. Daha odaklı bir koşu istediğinde alt küme seç.');
       setLeadText('#run-form .split label:nth-child(1)', 'Max mutants', 'Maksimum mutant');
       setPlaceholder('#max-mutants', 'Optional', 'Opsiyonel');
-      setText('#run-form .split label:nth-child(1) .field-help', 'Use 5-20 for an easy first run.', 'Ilk deneme icin 5-20 arasi iyi bir araliktir.');
-      setLeadText('#run-form .split label:nth-child(2)', 'Timeout (sec)', 'Zaman asimi (sn)');
+      setText('#run-form .split label:nth-child(1) .field-help', 'Use 5-20 for an easy first run.', 'İlk deneme için 5-20 arası iyi bir aralıktır.');
+      setLeadText('#run-form .split label:nth-child(2)', 'Timeout (sec)', 'Zaman aşımı (sn)');
       setPlaceholder('#timeout', 'Optional', 'Opsiyonel');
-      setText('#run-form .split label:nth-child(2) .field-help', 'Leave blank to auto-calculate from the baseline run.', 'Bos birakirsan baseline suresine gore otomatik hesaplanir.');
-      setNestedLeadText('#stop-on-survivor + span', 'Stop after the first survivor', 'Ilk survivor gorulunce dur');
-      setText('#stop-on-survivor + span .mini-note', 'Best for fast local feedback when you only need the first actionable gap.', 'Yerelde hizli geri bildirim istediginde ve ilk aksiyonluk bosluk yettiginde idealdir.');
-      setNestedLeadText('#fail-on-survivor + span', 'Fail run when a survivor appears', 'Survivor varsa kosuyu fail say');
-      setText('#fail-on-survivor + span .mini-note', 'Best for CI or quality gates where any survivor should fail the run.', 'CI veya kalite kapisinda tek bir survivor bile kosuyu basarisiz saymaliysa kullan.');
-      setText('#run-form .button-row button:nth-child(1)', 'Start Mutation Run', 'Mutation Kosusunu Baslat');
+      setText('#run-form .split label:nth-child(2) .field-help', 'Leave blank to auto-calculate from the baseline run.', 'Boş bırakırsan baseline süresine göre otomatik hesaplanır.');
+      setNestedLeadText('#stop-on-survivor + span', 'Stop after the first survivor', 'İlk survivor görülünce dur');
+      setText('#stop-on-survivor + span .mini-note', 'Best for fast local feedback when you only need the first actionable gap.', 'Yerelde hızlı geri bildirim istediğinde ve ilk aksiyonluk boşluk yettiğinde idealdir.');
+      setNestedLeadText('#fail-on-survivor + span', 'Fail run when a survivor appears', 'Survivor varsa koşuyu fail say');
+      setText('#fail-on-survivor + span .mini-note', 'Best for CI or quality gates where any survivor should fail the run.', 'CI veya kalite kapısında tek bir survivor bile koşuyu başarısız saymalıysa kullan.');
+      setText('#run-form .button-row button:nth-child(1)', 'Start Mutation Run', 'Mutation Koşusunu Başlat');
       setText('#form-demo-button', 'Load Selected Demo', 'Seçili Demoyu Forma Yerleştir');
       setText('#reset-button', 'Reset Form', 'Formu Temizle');
       setText('#refresh-button', 'Refresh Status', 'Durumu Yenile');
 
-      setText('.grid > .panel:nth-child(2) h2', 'Control Room', 'Kontrol Odasi');
-      setText('.grid > .panel:nth-child(2) .panel-copy', 'Track the current state, the latest report path, and the headline mutation metrics here.', 'Guncel durumu, son rapor yolunu ve ozet mutation metriklerini burada izle.');
-      setText('.info-grid .info-card:nth-child(1) .info-key', 'Started', 'Basladi');
+      setText('.grid > .panel:nth-child(2) h2', 'Control Room', 'Kontrol Odası');
+      setText('.grid > .panel:nth-child(2) .panel-copy', 'Track the current state, the latest report path, and the headline mutation metrics here.', 'Güncel durumu, son rapor yolunu ve özet mutation metriklerini burada izle.');
+      setText('.info-grid .info-card:nth-child(1) .info-key', 'Started', 'Başladı');
       setText('.info-grid .info-card:nth-child(2) .info-key', 'Finished', 'Bitti');
       setText('.info-grid .info-card:nth-child(3) .info-key', 'Report', 'Rapor');
       setText('.metric-grid .metric:nth-child(1) .metric-label', 'Score', 'Skor');
-      setText('.metric-grid .metric:nth-child(2) .metric-label', 'Killed', 'Oldurulen');
-      setText('.metric-grid .metric:nth-child(3) .metric-label', 'Survived', 'Yasayan');
-      setText('.metric-grid .metric:nth-child(4) .metric-label', 'Executed', 'Kosulan');
-      setText('.metric-grid .metric:nth-child(5) .metric-label', 'Generated', 'Uretilen');
+      setText('.metric-grid .metric:nth-child(2) .metric-label', 'Killed', 'Öldürülen');
+      setText('.metric-grid .metric:nth-child(3) .metric-label', 'Survived', 'Yaşayan');
+      setText('.metric-grid .metric:nth-child(4) .metric-label', 'Executed', 'Koşulan');
+      setText('.metric-grid .metric:nth-child(5) .metric-label', 'Generated', 'Üretilen');
       setText('.metric-grid .metric:nth-child(6) .metric-label', 'Files', 'Dosya');
       setText('#download-report-button', 'Download Latest Report', 'Son JSON Raporunu İndir');
       setText('#download-pdf-button', 'Download Latest PDF', 'Son PDF Raporunu İndir');
 
-      setText('#usage-guide h2', 'How To Use Mutation Lab', 'Mutation Lab Nasil Kullanilir?');
-      setText('#usage-guide > .panel-header .panel-copy', 'This guide is designed for both first-time users and teams turning mutation testing into a regular workflow.', "Bu rehber hem mutation testing'e ilk kez bakanlar hem de bunu duzenli bir kalite aracina donusturmek isteyen ekipler icin hazirlandi.");
-      setText('#usage-guide .step-card:nth-child(1) h3', 'Confirm the normal test suite is green', 'Normal test paketinin yesil oldugunu dogrula');
-      setText('#usage-guide .step-card:nth-child(1) p', 'Mutation testing only makes sense after the regular test suite passes. If the baseline fails, fix that first and try again.', 'Mutation testing ancak normal test paketi gectikten sonra anlamlidir. Baseline fail ise once onu duzelt, sonra tekrar dene.');
-      setText('#usage-guide .step-card:nth-child(2) h3', 'Choose a small scope', 'Kucuk bir kapsam sec');
-      setText('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklasik 10 mutant ile basla. Bu sayede cikti daha okunabilir olur ve ilk kosudan bir sey ogrenmek cok daha kolaylasir.');
-      setHTML('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklasik 10 mutant ile basla. Bu sayede cikti daha okunabilir olur ve ilk kosudan bir sey ogrenmek cok daha kolaylasir.');
-      setText('#usage-guide .step-card:nth-child(3) h3', 'Inspect survivors carefully', "Survivor'lari dikkatle incele");
-      setText('#usage-guide .step-card:nth-child(3) p', 'A surviving mutant means tests still passed after the behavior changed. That usually means an edge case, branch, or assertion is missing.', "Survivor, davranis degismesine ragmen testlerin gectigini soyler. Bu genelde eksik bir edge-case, branch ya da assertion oldugu anlamina gelir.");
-      setText('#usage-guide .step-card:nth-child(4) h3', 'Add one focused test and rerun', 'Tek bir hedefli test ekle ve tekrar kos');
-      setText('#usage-guide .step-card:nth-child(4) p', 'Read the original and mutated snippets, identify the changed expectation, write one targeted test, and rerun the same scope.', 'Orijinal ve mutate edilmis parcayi oku, degisen beklentiyi bul, bir hedefli test yaz ve ayni kapsami tekrar kostur.');
-      setText('#usage-guide .details details:nth-child(1) summary', 'Recommended first run', 'Onerilen ilk kosu');
-      setHTML('#usage-guide .details details:nth-child(1) p', 'If you are new to mutation testing, start with these values: project root <span class="inline-code">.</span>, source paths <span class="inline-code">src</span>, max mutants <span class="inline-code">10</span>, leave timeout blank, and keep both survivor checkboxes off.', "Mutation testing'e yeni basliyorsan su degerlerle basla: proje koku <span class=\"inline-code\">.</span>, kaynak yollar <span class=\"inline-code\">src</span>, maksimum mutant <span class=\"inline-code\">10</span>, timeout bos, iki survivor kutucu da kapali.");
+      setText('#usage-guide h2', 'How To Use Mutation Lab', 'Mutation Lab Nasıl Kullanılır?');
+      setText('#usage-guide > .panel-header .panel-copy', 'This guide is designed for both first-time users and teams turning mutation testing into a regular workflow.', "Bu rehber hem mutation testing'e ilk kez bakanlar hem de bunu düzenli bir kalite aracına dönüştürmek isteyen ekipler için hazırlandı.");
+      setText('#usage-guide .step-card:nth-child(1) h3', 'Confirm the normal test suite is green', 'Normal test paketinin yeşil olduğunu doğrula');
+      setText('#usage-guide .step-card:nth-child(1) p', 'Mutation testing only makes sense after the regular test suite passes. If the baseline fails, fix that first and try again.', 'Mutation testing ancak normal test paketi geçtikten sonra anlamlıdır. Baseline fail ise önce onu düzelt, sonra tekrar dene.');
+      setText('#usage-guide .step-card:nth-child(2) h3', 'Choose a small scope', 'Küçük bir kapsam seç');
+      setText('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklaşık 10 mutant ile başla. Bu sayede çıktı daha okunabilir olur ve ilk koşudan bir şey öğrenmek çok daha kolaylaşır.');
+      setHTML('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklaşık 10 mutant ile başla. Bu sayede çıktı daha okunabilir olur ve ilk koşudan bir şey öğrenmek çok daha kolaylaşır.');
+      setText('#usage-guide .step-card:nth-child(3) h3', 'Inspect survivors carefully', "Survivor'ları dikkatle incele");
+      setText('#usage-guide .step-card:nth-child(3) p', 'A surviving mutant means tests still passed after the behavior changed. That usually means an edge case, branch, or assertion is missing.', "Survivor, davranış değişmesine rağmen testlerin geçtiğini söyler. Bu genelde eksik bir edge-case, branch ya da assertion olduğu anlamına gelir.");
+      setText('#usage-guide .step-card:nth-child(4) h3', 'Add one focused test and rerun', 'Tek bir hedefli test ekle ve tekrar koş');
+      setText('#usage-guide .step-card:nth-child(4) p', 'Read the original and mutated snippets, identify the changed expectation, write one targeted test, and rerun the same scope.', 'Orijinal ve mutate edilmiş parçayı oku, değişen beklentiyi bul, bir hedefli test yaz ve aynı kapsamı tekrar koştur.');
+      setText('#usage-guide .details details:nth-child(1) summary', 'Recommended first run', 'Önerilen ilk koşu');
+      setHTML('#usage-guide .details details:nth-child(1) p', 'If you are new to mutation testing, start with these values: project root <span class="inline-code">.</span>, source paths <span class="inline-code">src</span>, max mutants <span class="inline-code">10</span>, leave timeout blank, and keep both survivor checkboxes off.', "Mutation testing'e yeni başlıyorsan şu değerlerle başla: proje kökü <span class=\"inline-code\">.</span>, kaynak yollar <span class=\"inline-code\">src</span>, maksimum mutant <span class=\"inline-code\">10</span>, timeout boş, iki survivor kutucu da kapalı.");
       setText('#usage-guide .details details:nth-child(2) summary', 'How do I use the demo catalog?', 'Demo kataloğunu nasıl kullanırım?');
       setHTML('#usage-guide .details details:nth-child(2) p', 'Choose a demo first, then click <span class="inline-code">Load Selected Demo</span> to fill the form with that scenario. Review the values if you want to learn what each field means, then click <span class="inline-code">Start Mutation Run</span>. Use <span class="inline-code">Run Selected Demo</span> when you want one-click fill + run. After the run, keep the JSON report for tooling and download the PDF when you want a human-readable summary.', 'Önce bir demo seç, sonra o senaryonun ayarlarını forma yerleştirmek için <span class="inline-code">Seçili Demoyu Yükle</span> butonuna bas. Alanların ne anlama geldiğini öğrenmek istiyorsan önce değerleri incele, sonra <span class="inline-code">Mutation Koşusunu Başlat</span> seçeneğini kullan. Tek tık istersen <span class="inline-code">Seçili Demoyu Çalıştır</span> ile doldurup hemen koşabilirsin. Koşudan sonra araçlar için JSON raporunu sakla, insan okunur özet istediğinde PDF raporunu indir.');
-      setText('#usage-guide .details details:nth-child(3) summary', 'What should you do after a survivor?', 'Survivor gordugunde ne yapmalisin?');
-      setHTML('#usage-guide .details details:nth-child(3) p', 'Example: if the tool shows <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> and that mutant survives, your tests probably never prove what should happen for <span class="inline-code">0</span>. Add a test for that exact boundary and rerun.', 'Ornek: arac <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> gosteriyorsa ve mutant yasiyorsa, testlerin buyuk ihtimalle <span class="inline-code">0</span> icin dogru davranisi kanitlamiyordur. Tam o sinir durumu icin test ekle ve tekrar kos.');
-      setText('#usage-guide .code-card .info-key', 'Starter pyproject.toml', 'Baslangic pyproject.toml');
+      setText('#usage-guide .details details:nth-child(3) summary', 'What should you do after a survivor?', 'Survivor gördüğünde ne yapmalısın?');
+      setHTML('#usage-guide .details details:nth-child(3) p', 'Example: if the tool shows <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> and that mutant survives, your tests probably never prove what should happen for <span class="inline-code">0</span>. Add a test for that exact boundary and rerun.', 'Örnek: araç <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> gösteriyorsa ve mutant yaşıyorsa, testlerin büyük ihtimalle <span class="inline-code">0</span> için doğru davranışı kanıtlamıyordur. Tam o sınır durumu için test ekle ve tekrar koş.');
+      setText('#usage-guide .code-card .info-key', 'Starter pyproject.toml', 'Başlangıç pyproject.toml');
 
       setText('.guide-grid > .panel:nth-child(2) h2', 'Field Guide', 'Alan Rehberi');
-      setText('.guide-grid > .panel:nth-child(2) .panel-copy', 'Use this as a quick reference for what belongs in each form field.', 'Formdaki her alan icin ne yazman gerektigini hizli referans gibi kullan.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) summary', 'Project root', 'Proje koku');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) p', 'The project folder you want to analyze. If the terminal is already in that folder, use <span class="inline-code">.</span>.', 'Analiz etmek istedigin projenin klasoru. Terminal zaten o klasordeyse <span class="inline-code">.</span> kullan.');
+      setText('.guide-grid > .panel:nth-child(2) .panel-copy', 'Use this as a quick reference for what belongs in each form field.', 'Formdaki her alan için ne yazman gerektiğini hızlı referans gibi kullan.');
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) summary', 'Project root', 'Proje kökü');
+      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) p', 'The project folder you want to analyze. If the terminal is already in that folder, use <span class="inline-code">.</span>.', 'Analiz etmek istediğin projenin klasörü. Terminal zaten o klasördeyse <span class="inline-code">.</span> kullan.');
       setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(2) summary', 'Config path', 'Config yolu');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(2) p', 'Use this only if you want to point at a specific config file. In most cases leave it blank and let the tool load <span class="inline-code">pyproject.toml</span> automatically.', 'Config dosyasini elle gostermek istersen kullan. Cogu durumda bos birak ve aracin <span class="inline-code">pyproject.toml</span> dosyasini otomatik okumasina izin ver.');
+      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(2) p', 'Use this only if you want to point at a specific config file. In most cases leave it blank and let the tool load <span class="inline-code">pyproject.toml</span> automatically.', 'Config dosyasını elle göstermek istersen kullan. Çoğu durumda boş bırak ve aracın <span class="inline-code">pyproject.toml</span> dosyasını otomatik okumasına izin ver.');
       setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(3) summary', 'Source paths', 'Kaynak yollar');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(3) p', 'Comma-separated paths to mutate. Good examples are <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span>, or <span class="inline-code">src/my_package/service.py</span>.', 'Virgul ile ayrilmis mutate edilecek yollar. Iyi ornekler: <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span> ya da <span class="inline-code">src/my_package/service.py</span>.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) summary', 'Operators', 'Operatorler');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) p', 'Leave everything unselected to run all default operators. Choose a subset only when you want a specific kind of mutation pass.', 'Hicbir sey secmezsen varsayilan operatorlerin tamami kosar. Sadece belli mutation tiplerine odaklanmak istediginde alt kume sec.');
+      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(3) p', 'Comma-separated paths to mutate. Good examples are <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span>, or <span class="inline-code">src/my_package/service.py</span>.', 'Virgül ile ayrılmış mutate edilecek yollar. İyi örnekler: <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span> ya da <span class="inline-code">src/my_package/service.py</span>.');
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) summary', 'Operators', 'Operatörler');
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) p', 'Leave everything unselected to run all default operators. Choose a subset only when you want a specific kind of mutation pass.', 'Hiçbir şey seçmezsen varsayılan operatörlerin tamamı koşar. Sadece belli mutation tiplerine odaklanmak istediğinde alt küme seç.');
       setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(5) summary', 'Max mutants and timeout', 'Maksimum mutant ve timeout');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(5) p', 'While learning, 5-20 mutants is a good range. Leave timeout blank unless your test suite genuinely needs a manual budget.', "Ogrenme asamasinda 5-20 mutant iyi bir araliktir. Test paketin alisilmadik sekilde uzun surmuyorsa timeout'u bos birak.");
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) summary', 'Stop on survivor vs fail on survivor', "Ilk survivor'da dur ve survivor varsa fail farki");
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) p', 'Stop on survivor is for fast local learning. Fail on survivor is for CI or stricter quality gates where even one survivor should fail the run.', "Ilk survivor'da dur secenegi yerelde hizli ogrenme icindir. Survivor varsa fail secenegi ise CI veya kati kalite kapilari icindir.");
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(5) p', 'While learning, 5-20 mutants is a good range. Leave timeout blank unless your test suite genuinely needs a manual budget.', "Öğrenme aşamasında 5-20 mutant iyi bir aralıktır. Test paketin alışılmadık şekilde uzun sürmüyorsa timeout'u boş bırak.");
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) summary', 'Stop on survivor vs fail on survivor', "İlk survivor'da dur ve survivor varsa fail farkı");
+      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) p', 'Stop on survivor is for fast local learning. Fail on survivor is for CI or stricter quality gates where even one survivor should fail the run.', "İlk survivor'da dur seçeneği yerelde hızlı öğrenme içindir. Survivor varsa fail seçeneği ise CI veya katı kalite kapıları içindir.");
 
-      setText('.reference-grid > .panel:nth-child(1) h2', 'Result Legend', 'Sonuc Efsanesi');
-      setText('.reference-grid > .panel:nth-child(1) .panel-copy', 'These are the outcomes you will see in the results table.', 'Sonuc tablosunda gorecegin durumlar bunlardir.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(1) p', 'Tests failed after the mutation. This is good: the changed behavior was detected.', 'Mutation sonrasi testler fail oldu. Bu iyidir; degisen davranis yakalandi.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(2) p', 'Tests still passed after the mutation. This points to a missing assertion or edge case.', 'Mutation sonrasi testler hala gecti. Bu eksik assertion ya da edge-case isareti olabilir.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(3) p', 'The mutated run took too long. Review loops, waits, or increase the timeout budget.', 'Mutate edilmis kosu cok uzun surdu. Donguleri, beklemeleri ya da timeout butcesini gozden gecir.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(4) p', 'The mutation caused a syntax or import problem instead of a clean test failure.', 'Mutation temiz bir test faili yerine syntax ya da import problemi uretti.');
+      setText('.reference-grid > .panel:nth-child(1) h2', 'Result Legend', 'Sonuç Efsanesi');
+      setText('.reference-grid > .panel:nth-child(1) .panel-copy', 'These are the outcomes you will see in the results table.', 'Sonuç tablosunda göreceğin durumlar bunlardır.');
+      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(1) p', 'Tests failed after the mutation. This is good: the changed behavior was detected.', 'Mutation sonrası testler fail oldu. Bu iyidir; değişen davranış yakalandı.');
+      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(2) p', 'Tests still passed after the mutation. This points to a missing assertion or edge case.', 'Mutation sonrası testler hâlâ geçti. Bu eksik assertion ya da edge-case işareti olabilir.');
+      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(3) p', 'The mutated run took too long. Review loops, waits, or increase the timeout budget.', 'Mutate edilmiş koşu çok uzun sürdü. Döngüleri, beklemeleri ya da timeout bütçesini gözden geçir.');
+      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(4) p', 'The mutation caused a syntax or import problem instead of a clean test failure.', 'Mutation temiz bir test faili yerine syntax ya da import problemi üretti.');
 
-      setText('.reference-grid > .panel:nth-child(2) h2', 'CLI Equivalents', 'CLI Karsiliklari');
-      setText('.reference-grid > .panel:nth-child(2) .panel-copy', 'The UI and CLI use the same engine. These commands match the common UI flows.', 'UI ve CLI ayni motoru kullanir. Bu komutlar en yaygin UI akislarinin terminal karsiligidir.');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(2) .info-key', 'Useful commands', 'Yararli komutlar');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) .info-key', 'Built-in demo', 'Yerlesik demo');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) pre', 'Project root: examples/beginner_demo\nSource paths: src\nMax mutants: 10\nTimeout: leave blank', 'Proje koku: examples/beginner_demo\nKaynak yollar: src\nMaksimum mutant: 10\nZaman asimi: bos birak');
+      setText('.reference-grid > .panel:nth-child(2) h2', 'CLI Equivalents', 'CLI Karşılıkları');
+      setText('.reference-grid > .panel:nth-child(2) .panel-copy', 'The UI and CLI use the same engine. These commands match the common UI flows.', 'UI ve CLI aynı motoru kullanır. Bu komutlar en yaygın UI akışlarının terminal karşılığıdır.');
+      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(2) .info-key', 'Useful commands', 'Yararlı komutlar');
+      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) .info-key', 'Built-in demo', 'Yerleşik demo');
+      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) pre', 'Project root: examples/beginner_demo\nSource paths: src\nMax mutants: 10\nTimeout: leave blank', 'Proje kökü: examples/beginner_demo\nKaynak yollar: src\nMaksimum mutant: 10\nZaman aşımı: boş bırak');
 
-      setText('.results h2', 'Results', 'Sonuclar');
-      setText('.results .panel-copy', 'Use surviving mutants to find weak assertions and missing edge-case tests.', "Yasayan mutantlari kullanarak zayif assertion'lari ve eksik edge-case testlerini bul.");
+      setText('.results h2', 'Results', 'Sonuçlar');
+      setText('.results .panel-copy', 'Use surviving mutants to find weak assertions and missing edge-case tests.', "Yaşayan mutantları kullanarak zayıf assertion'ları ve eksik edge-case testlerini bul.");
       setText('.table-wrap thead th:nth-child(1)', 'Status', 'Durum');
       setText('.table-wrap thead th:nth-child(2)', 'File', 'Dosya');
-      setText('.table-wrap thead th:nth-child(3)', 'Line', 'Satir');
-      setText('.table-wrap thead th:nth-child(4)', 'Operator', 'Operator');
-      setText('.table-wrap thead th:nth-child(5)', 'Change', 'Degisim');
-      setText('.table-wrap thead th:nth-child(6)', 'Summary', 'Ozet');
+      setText('.table-wrap thead th:nth-child(3)', 'Line', 'Satır');
+      setText('.table-wrap thead th:nth-child(4)', 'Operator', 'Operatör');
+      setText('.table-wrap thead th:nth-child(5)', 'Change', 'Değişim');
+      setText('.table-wrap thead th:nth-child(6)', 'Summary', 'Özet');
     }
 
     function translateStatus(status) {
       const labels = currentLanguage === 'en'
         ? { idle: 'Idle', running: 'Running', completed: 'Completed', failed: 'Failed' }
-        : { idle: 'Hazir', running: 'Calisiyor', completed: 'Tamamlandi', failed: 'Hatali' };
+        : { idle: 'Hazır', running: 'Çalışıyor', completed: 'Tamamlandı', failed: 'Hatalı' };
       return labels[status] || status;
     }
 
@@ -1477,7 +1477,7 @@ Timeout: leave blank</pre>
       });
       statusMessage.textContent = languageValue(
         'Starter settings were loaded into the form.',
-        'Baslangic ayarlari forma yerlestirildi.'
+        'Başlangıç ayarları forma yerleştirildi.'
       );
     }
 
@@ -1623,41 +1623,41 @@ Timeout: leave blank</pre>
         return;
       }
 
-      const sources = (request.source_paths || []).join(', ') || languageValue('config default', 'config varsayilani');
-      const operators = (request.operators || []).join(', ') || languageValue('all operators', 'tum operatorler');
-      const stopOnSurvivor = request.stop_on_survivor ? languageValue('enabled', 'acik') : languageValue('disabled', 'kapali');
-      const failOnSurvivor = request.fail_on_survivor ? languageValue('enabled', 'acik') : languageValue('disabled', 'kapali');
+      const sources = (request.source_paths || []).join(', ') || languageValue('config default', 'config varsayılanı');
+      const operators = (request.operators || []).join(', ') || languageValue('all operators', 'tüm operatörler');
+      const stopOnSurvivor = request.stop_on_survivor ? languageValue('enabled', 'açık') : languageValue('disabled', 'kapalı');
+      const failOnSurvivor = request.fail_on_survivor ? languageValue('enabled', 'açık') : languageValue('disabled', 'kapalı');
       requestHint.innerHTML = `
         <div class="info-card">
           <span class="info-key">${escapeHtml(languageValue('Last request', 'Son istek'))}</span>
           <div><strong>${escapeHtml(languageValue('Project', 'Proje'))}:</strong> ${escapeHtml(request.project_root)}</div>
           <div><strong>${escapeHtml(languageValue('Sources', 'Kaynaklar'))}:</strong> ${escapeHtml(sources)}</div>
-          <div><strong>${escapeHtml(languageValue('Operators', 'Operatorler'))}:</strong> ${escapeHtml(operators)}</div>
+          <div><strong>${escapeHtml(languageValue('Operators', 'Operatörler'))}:</strong> ${escapeHtml(operators)}</div>
         </div>
         <div class="info-card">
-          <span class="info-key">${escapeHtml(languageValue('Run policy', 'Kosu politikasi'))}</span>
-          <div><strong>${escapeHtml(languageValue('Stop on survivor', "Ilk survivor'da dur"))}:</strong> ${escapeHtml(stopOnSurvivor)}</div>
+          <span class="info-key">${escapeHtml(languageValue('Run policy', 'Koşu politikası'))}</span>
+          <div><strong>${escapeHtml(languageValue('Stop on survivor', "İlk survivor'da dur"))}:</strong> ${escapeHtml(stopOnSurvivor)}</div>
           <div><strong>${escapeHtml(languageValue('Fail on survivor', 'Survivor varsa fail'))}:</strong> ${escapeHtml(failOnSurvivor)}</div>
-          <div><strong>${escapeHtml(languageValue('Max mutants', 'Maksimum mutant'))}:</strong> ${escapeHtml(request.max_mutants ?? languageValue('not set', 'ayarlanmadi'))}</div>
+          <div><strong>${escapeHtml(languageValue('Max mutants', 'Maksimum mutant'))}:</strong> ${escapeHtml(request.max_mutants ?? languageValue('not set', 'ayarlanmadı'))}</div>
         </div>
       `;
     }
 
     function renderBaseline(baseline) {
       if (!baseline) {
-        baselinePanel.innerHTML = `<strong>Baseline</strong><p class="panel-copy">${escapeHtml(languageValue('No run yet.', 'Henuz bir kosu yok.'))}</p>`;
+        baselinePanel.innerHTML = `<strong>Baseline</strong><p class="panel-copy">${escapeHtml(languageValue('No run yet.', 'Henüz bir koşu yok.'))}</p>`;
         return;
       }
 
-      const state = baseline.success ? languageValue('passed', 'gecti') : languageValue('failed', 'basarisiz');
+      const state = baseline.success ? languageValue('passed', 'geçti') : languageValue('failed', 'başarısız');
       baselinePanel.innerHTML = `
         <strong>Baseline ${escapeHtml(state)}</strong>
         <p class="panel-copy">${escapeHtml(languageValue('Command', 'Komut'))}: ${escapeHtml((baseline.command || []).join(' '))}</p>
-        <p class="panel-copy">${escapeHtml(languageValue('Duration', 'Sure'))}: ${escapeHtml((baseline.duration_seconds || 0).toFixed(2))}${escapeHtml(languageValue('s', 'sn'))}</p>
+        <p class="panel-copy">${escapeHtml(languageValue('Duration', 'Süre'))}: ${escapeHtml((baseline.duration_seconds || 0).toFixed(2))}${escapeHtml(languageValue('s', 'sn'))}</p>
         <div class="details">
           <details>
-            <summary>${escapeHtml(languageValue('Baseline output', 'Baseline cikti'))}</summary>
-            <pre>${escapeHtml([baseline.stdout || '', baseline.stderr || ''].join('\n').trim() || languageValue('No output', 'Cikti yok'))}</pre>
+            <summary>${escapeHtml(languageValue('Baseline output', 'Baseline çıktı'))}</summary>
+            <pre>${escapeHtml([baseline.stdout || '', baseline.stderr || ''].join('\n').trim() || languageValue('No output', 'Çıktı yok'))}</pre>
           </details>
         </div>
       `;
@@ -1665,7 +1665,7 @@ Timeout: leave blank</pre>
 
     function renderMutants(mutants) {
       if (!mutants || mutants.length === 0) {
-        mutantBody.innerHTML = `<tr><td colspan="6" class="empty">${escapeHtml(languageValue('No executed mutants yet.', 'Henuz kosulmus mutant yok.'))}</td></tr>`;
+        mutantBody.innerHTML = `<tr><td colspan="6" class="empty">${escapeHtml(languageValue('No executed mutants yet.', 'Henüz koşulmuş mutant yok.'))}</td></tr>`;
         return;
       }
 
@@ -1695,8 +1695,8 @@ Timeout: leave blank</pre>
         generatedValue.textContent = '0';
         discoveredValue.textContent = '0';
         summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('Ready for your first run.', 'Ilk kosuna hazirsin.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Start with a small batch, inspect the surviving change, and turn it into a focused test.', 'Kucuk bir batch ile basla, yasayan degisikligi incele ve onu hedefli bir teste donustur.'))}</p>
+          <strong>${escapeHtml(languageValue('Ready for your first run.', 'İlk koşuna hazırsın.'))}</strong>
+          <p class="panel-copy">${escapeHtml(languageValue('Start with a small batch, inspect the surviving change, and turn it into a focused test.', 'Küçük bir batch ile başla, yaşayan değişikliği incele ve onu hedefli bir teste dönüştür.'))}</p>
         `;
         return;
       }
@@ -1711,17 +1711,17 @@ Timeout: leave blank</pre>
       if (summary.survived > 0) {
         summaryCallout.innerHTML = `
           <strong>${escapeHtml(summary.survived)} ${escapeHtml(languageValue('survivor(s) need attention.', 'survivor dikkat bekliyor.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Read the changed behavior below, then add the smallest test that proves the intended result.', 'Asagidaki degisen davranisi oku, sonra beklenen sonucu kanitlayan en kucuk testi ekle.'))}</p>
+          <p class="panel-copy">${escapeHtml(languageValue('Read the changed behavior below, then add the smallest test that proves the intended result.', 'Aşağıdaki değişen davranışı oku, sonra beklenen sonucu kanıtlayan en küçük testi ekle.'))}</p>
         `;
       } else if (summary.executed > 0) {
         summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('No survivors in the latest executed set.', 'Son kosuda survivor yok.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('That means the current mutant batch was fully detected by your tests.', "Bu, mevcut mutant batch'inin testler tarafindan tamamen yakalandigi anlamina gelir."))}</p>
+          <strong>${escapeHtml(languageValue('No survivors in the latest executed set.', 'Son koşuda survivor yok.'))}</strong>
+          <p class="panel-copy">${escapeHtml(languageValue('That means the current mutant batch was fully detected by your tests.', "Bu, mevcut mutant batch'inin testler tarafından tamamen yakalandığı anlamına gelir."))}</p>
         `;
       } else {
         summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('No mutants executed yet.', 'Henuz mutant kosulmadi.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Check the source paths, exclude rules, and operator selection.', 'Kaynak yollarini, exclude kurallarini ve operator secimini kontrol et.'))}</p>
+          <strong>${escapeHtml(languageValue('No mutants executed yet.', 'Henüz mutant koşulmadı.'))}</strong>
+          <p class="panel-copy">${escapeHtml(languageValue('Check the source paths, exclude rules, and operator selection.', 'Kaynak yollarını, exclude kurallarını ve operatör seçimini kontrol et.'))}</p>
         `;
       }
     }
@@ -1754,15 +1754,15 @@ Timeout: leave blank</pre>
     function renderGuidance(guidance) {
       if (!guidance || guidance.length === 0) {
         guidancePanel.innerHTML = `
-          <strong>${escapeHtml(languageValue('Next-step guidance will appear here.', 'Bir sonraki adim onerileri burada gorunecek.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('After a run, this panel summarizes what to do next.', 'Kosu tamamlandiktan sonra burada ne yapman gerektigi ozetlenir.'))}</p>
+          <strong>${escapeHtml(languageValue('Next-step guidance will appear here.', 'Bir sonraki adım önerileri burada görünecek.'))}</strong>
+          <p class="panel-copy">${escapeHtml(languageValue('After a run, this panel summarizes what to do next.', 'Koşu tamamlandıktan sonra burada ne yapman gerektiği özetlenir.'))}</p>
         `;
         return;
       }
 
       const items = guidance.map((item) => `<li>${escapeHtml(localizeBackendText(item))}</li>`).join('');
       guidancePanel.innerHTML = `
-        <strong>${escapeHtml(languageValue('Recommended next steps', 'Onerilen sonraki adimlar'))}</strong>
+        <strong>${escapeHtml(languageValue('Recommended next steps', 'Önerilen sonraki adımlar'))}</strong>
         <ul>${items}</ul>
       `;
     }
