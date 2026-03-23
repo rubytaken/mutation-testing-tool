@@ -1,8 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Virtual Environment
 .venv/
+venv/
+env/
+
+# Cache / Linter / Testing
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Mutation Tool output
 .mutation-tool/
-*.egg-info/
-__pycache__/
-*.py[cod]
+output/
+
+# Temporary files
+tmp/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Kiro AI
+.kiro/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
