@@ -14,7 +14,7 @@ class MutantStatus(StrEnum):
 
 
 # Position in source code where a mutation occurs
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class MutationLocation:
     start_line: int
     start_col: int
@@ -23,7 +23,7 @@ class MutationLocation:
 
 
 # Complete description of a single mutation
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class MutationSpec:
     mutant_id: str
     file_path: Path
@@ -35,7 +35,7 @@ class MutationSpec:
 
 
 # Configuration for a mutation testing run
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class ToolConfig:
     project_root: Path
     source_paths: list[Path]
@@ -53,7 +53,7 @@ class ToolConfig:
 
 
 # Result of running the original (unmutated) test suite
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class BaselineResult:
     success: bool
     duration_seconds: float
@@ -64,7 +64,7 @@ class BaselineResult:
 
 
 # Result of running tests against a single mutant
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class MutantResult:
     spec: MutationSpec
     status: MutantStatus
@@ -77,7 +77,7 @@ class MutantResult:
 
 
 # Complete results of a mutation testing session with statistics
-dataclass
+@dataclass
 class SessionResult:
     config: ToolConfig
     baseline: BaselineResult

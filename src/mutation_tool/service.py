@@ -11,7 +11,7 @@ from mutation_tool.storage import ensure_directory
 
 
 # CLI-provided options that override or supplement config file
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class RunOptions:
     project_root: Path
     config_path: Path | None = None
@@ -24,7 +24,7 @@ class RunOptions:
 
 
 # Result of a mutation testing run with report paths
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class ExecutionResult:
     session: SessionResult
     report_path: Path

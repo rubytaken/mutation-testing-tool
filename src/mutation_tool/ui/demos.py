@@ -7,7 +7,7 @@ from mutation_tool.ui.state import RunRequest
 
 
 # Definition of a demo project with bilingual metadata
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class DemoDefinition:
     id: str
     request: RunRequest
