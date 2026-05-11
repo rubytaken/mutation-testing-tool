@@ -955,12 +955,12 @@ INDEX_HTML = r"""
             <div class="advanced-content">
               <div class="field">
                 <label class="field-label" for="config-path" id="config-label">Config dosyası</label>
-                <input type="text" id="config-path" placeholder="otomatik">
+                <input type="text" id="config-path" placeholder="auto">
                 <p class="field-hint" id="config-hint">Boş bırakırsanız <code class="inline-code">pyproject.toml</code> otomatik kullanılır.</p>
               </div>
               <div class="field">
                 <label class="field-label" for="timeout" id="timeout-label">Zaman aşımı (saniye)</label>
-                <input type="number" id="timeout" step="0.1" min="0.1" placeholder="otomatik">
+                <input type="number" id="timeout" step="0.1" min="0.1" placeholder="auto">
                 <p class="field-hint" id="timeout-hint">Boş bırakırsanız baseline süresine göre hesaplanır.</p>
               </div>
               <div class="field field-wide">
