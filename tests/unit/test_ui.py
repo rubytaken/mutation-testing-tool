@@ -40,8 +40,6 @@ def test_ui_index_page_loads() -> None:
     assert "Mutation Lab" in response.text
     assert "How To Use Mutation Lab" in response.text
     assert "Choose a demo" in response.text
-    assert "Load Selected Demo" in response.text
-    assert "Run Selected Demo" in response.text
     assert "Download Latest Report" in response.text
     assert "Download Latest PDF" in response.text
     assert "Başlangıç Demosu" in response.text
@@ -65,7 +63,15 @@ def test_ui_exposes_demo_catalog() -> None:
 
     assert response.status_code == 200
     payload = response.json()
-    assert [demo["id"] for demo in payload["demos"]] == ["beginner", "ci_gate", "timeout_lab"]
+    assert [demo["id"] for demo in payload["demos"]] == [
+        "beginner",
+        "password",
+        "banking",
+        "ecommerce",
+        "search",
+        "ci_gate",
+        "timeout_lab",
+    ]
 
 
 def test_ui_exposes_demo_preset() -> None:

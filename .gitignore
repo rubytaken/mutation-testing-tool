@@ -6,19 +6,35 @@ __pycache__/
 *.egg
 dist/
 build/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Virtual Environment
-.venv/
-venv/
+# Virtual Environment (matches .venv/, .venv2/, .venv.venv/, venv-old/, etc.)
+.venv*/
+venv*/
 env/
+ENV/
 
 # Cache / Linter / Testing
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
 .hypothesis/
+.tox/
+.nox/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+.ipynb_checkpoints/
+
+# Secrets & environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
 
 # Mutation Tool output
 .mutation-tool/
@@ -33,12 +49,20 @@ tmp/
 *.swp
 *.swo
 *~
+*.code-workspace
 
-# Kiro AI
+# AI assistant artifacts
 .kiro/
+.windsurf/
+.cursor/
+.aider*
 
 # OS
 Thumbs.db
 Desktop.ini
 .DS_Store
+._*
+
+# Node (in case a JS toolchain is added later)
+node_modules/
 

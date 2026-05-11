@@ -2,1817 +2,1711 @@
 
 INDEX_HTML = r"""
 <!doctype html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mutation Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #f4efe6;
-      --ink: #12222b;
-      --card: rgba(255, 250, 242, 0.82);
-      --line: rgba(18, 34, 43, 0.12);
-      --accent: #d9713c;
-      --accent-2: #177e89;
-      --accent-3: #f0c36a;
-      --danger: #aa3f2a;
-      --success: #1b7f5d;
-      --muted: #53656d;
-      --shadow: 0 24px 60px rgba(18, 34, 43, 0.12);
-      --shadow-soft: 0 12px 30px rgba(18, 34, 43, 0.08);
-      --radius: 22px;
+      --paper: oklch(98.2% 0.008 80);
+      --paper-soft: oklch(96.5% 0.012 80);
+      --ink: oklch(22% 0.025 50);
+      --ink-soft: oklch(42% 0.02 50);
+      --ink-faint: oklch(62% 0.018 60);
+      --rule: oklch(88% 0.012 80);
+      --rule-soft: oklch(93% 0.01 80);
+
+      --accent: oklch(46% 0.14 28);
+      --accent-strong: oklch(38% 0.16 28);
+      --accent-soft: oklch(94% 0.04 28);
+
+      --good: oklch(48% 0.13 145);
+      --good-soft: oklch(94% 0.04 145);
+      --warn: oklch(58% 0.14 65);
+      --warn-soft: oklch(95% 0.05 65);
+      --info: oklch(50% 0.12 230);
+      --info-soft: oklch(94% 0.04 230);
+
+      --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+      --font-body: "Public Sans", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+      --measure: 64ch;
     }
 
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { background: var(--paper); }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Aptos, Candara, "Trebuchet MS", sans-serif;
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.65;
       color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(217, 113, 60, 0.24), transparent 28%),
-        radial-gradient(circle at top right, rgba(23, 126, 137, 0.20), transparent 24%),
-        linear-gradient(180deg, #fcf7ef 0%, #f4efe6 48%, #efe6d9 100%);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "ss01", "cv02";
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image: linear-gradient(rgba(18, 34, 43, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(18, 34, 43, 0.03) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 75%);
+    a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    /* Page frame */
+    .page {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 56px) clamp(20px, 5vw, 64px) 120px;
     }
 
-    .shell {
-      width: min(1260px, calc(100% - 32px));
-      margin: 28px auto 48px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero,
-    .panel,
-    .tour-card {
-      background: var(--card);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero {
-      padding: 28px;
-      margin-bottom: 18px;
-      display: grid;
-      gap: 16px;
-      animation: rise 0.45s ease-out;
-    }
-
-    .hero-top {
+    /* Top bar */
+    .top {
       display: flex;
       justify-content: space-between;
-      align-items: start;
-      gap: 14px;
+      align-items: baseline;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: clamp(36px, 6vw, 64px);
     }
 
-    .lang-toggle {
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      font-variation-settings: "opsz" 14;
+    }
+
+    .brand .mark {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      margin-right: 10px;
+      transform: translateY(-2px);
+    }
+
+    .lang {
       display: inline-flex;
-      gap: 8px;
-      padding: 6px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.64);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-    }
-
-    .lang-button {
-      min-width: 56px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      box-shadow: none;
-    }
-
-    .lang-button.active {
-      background: linear-gradient(135deg, var(--accent-2), #11676f);
-      color: white;
-    }
-
-    .eyebrow {
+      gap: 14px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.76rem;
-      color: var(--accent-2);
+    }
+    .lang button {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      padding: 4px 2px;
+      font: inherit;
+      color: var(--ink-faint);
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+    }
+    .lang button.active { color: var(--ink); border-bottom-color: var(--accent); }
+    .lang button:hover { color: var(--ink); }
+
+    /* Title */
+    h1.title {
+      font-family: var(--font-display);
       font-weight: 700;
+      font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+      line-height: 1;
+      letter-spacing: -0.035em;
+      margin: 0 0 18px;
+      max-width: 14ch;
+      color: var(--ink);
+      font-variation-settings: "opsz" 144;
     }
 
-    h1, h2, h3 {
+    h1.title em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+      line-height: 1.45;
+      color: var(--ink-soft);
+      max-width: 48ch;
+      margin: 0 0 12px;
+      font-variation-settings: "opsz" 36;
+    }
+
+    .intro-body {
+      max-width: var(--measure);
+      color: var(--ink-soft);
+      font-size: 1.02rem;
       margin: 0;
-      font-family: Cambria, Georgia, serif;
-      font-weight: 700;
-      letter-spacing: -0.03em;
     }
 
-    h1 {
-      font-size: clamp(2.3rem, 6vw, 4.2rem);
-      line-height: 0.95;
-      max-width: 11ch;
+    /* Section */
+    section.step {
+      margin-top: clamp(48px, 7vw, 80px);
+      padding-top: clamp(28px, 4vw, 40px);
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: clamp(16px, 3vw, 36px);
+      align-items: start;
     }
 
-    .hero-copy {
-      max-width: 72ch;
-      color: var(--muted);
+    .step-marker {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      line-height: 1;
+      color: var(--accent);
+      font-variation-settings: "opsz" 144;
+      letter-spacing: -0.04em;
+    }
+
+    .step-marker::after { content: "."; color: var(--ink-faint); }
+
+    .step-body { min-width: 0; }
+
+    h2.step-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-variation-settings: "opsz" 72;
+    }
+
+    .step-desc {
+      max-width: var(--measure);
+      color: var(--ink-soft);
       font-size: 1rem;
-      line-height: 1.6;
+      margin: 0 0 28px;
     }
 
-    .pill-row,
-    .hero-actions,
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .step-desc + .step-controls { margin-top: 0; }
 
-    .pill {
-      padding: 9px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.62);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-      font-size: 0.92rem;
-    }
-
-    .tour-grid,
-    .guide-grid,
-    .reference-grid {
+    /* Mode picker */
+    .mode-row {
       display: grid;
-      gap: 18px;
-      margin-bottom: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 28px;
     }
 
-    .tour-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .mode {
+      position: relative;
+      padding: 18px 20px 16px;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .mode:hover { border-color: var(--ink-faint); }
+    .mode input[type=radio] { position: absolute; opacity: 0; pointer-events: none; }
+    .mode.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
 
-    .guide-grid,
-    .reference-grid {
-      grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
-    }
-
-    .tour-card {
-      padding: 22px;
-      animation: rise 0.55s ease-out;
-    }
-
-    .tour-number,
-    .step-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: rgba(217, 113, 60, 0.16);
-      color: #8d421a;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(330px, 430px) minmax(0, 1fr);
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .panel {
-      padding: 22px;
-      animation: rise 0.55s ease-out;
-    }
-
-    .panel + .panel {
-      animation-delay: 0.05s;
-    }
-
-    .panel-header {
+    .mode-top {
       display: flex;
       justify-content: space-between;
-      align-items: start;
-      gap: 14px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .mode-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.18rem;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+
+    .mode-marker {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--ink-faint);
+      background: var(--paper);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .mode.active .mode-marker { border-color: var(--accent); }
+    .mode.active .mode-marker::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .mode-desc {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    /* Field */
+    .panel.hidden { display: none; }
+
+    .field {
+      display: grid;
+      gap: 6px;
       margin-bottom: 18px;
     }
+    .field:last-child { margin-bottom: 0; }
 
-    .panel-copy {
-      margin: 6px 0 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 0.95rem;
-    }
-
-    .stack,
-    .step-grid,
-    .legend-grid,
-    .request-grid {
-      display: grid;
-      gap: 14px;
-    }
-
-    .step-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-top: 16px;
-    }
-
-    .step-card,
-    .legend-card,
-    .code-card {
-      border-radius: 18px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.68);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .request-grid {
-      margin-top: 16px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .legend-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-top: 16px;
-    }
-
-    label {
-      display: grid;
-      gap: 8px;
+    .field-label {
+      font-family: var(--font-body);
+      font-weight: 600;
       font-size: 0.92rem;
-      font-weight: 700;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.74);
       color: var(--ink);
-      padding: 12px 14px;
-      font: inherit;
-      transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      letter-spacing: -0.005em;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: rgba(23, 126, 137, 0.55);
-      box-shadow: 0 0 0 4px rgba(23, 126, 137, 0.12);
-      transform: translateY(-1px);
+    .field-hint {
+      font-size: 0.86rem;
+      color: var(--ink-faint);
+      margin: 0;
+    }
+
+    .field-hint code, .inline-code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--paper-soft);
+      padding: 1px 6px;
+      border: 1px solid var(--rule);
+      color: var(--ink);
+    }
+
+    input[type=text], input[type=number], select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink);
+      border-radius: 6px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input:focus, select:focus {
+      outline: 0;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
     }
 
     select[multiple] {
-      min-height: 140px;
-    }
-
-    .field-help,
-    .mini-note {
-      color: var(--muted);
+      padding: 6px;
+      min-height: 110px;
+      font-family: var(--font-mono);
       font-size: 0.88rem;
-      line-height: 1.55;
-      font-weight: 500;
+    }
+    select[multiple] option { padding: 6px 8px; }
+
+    /* Counter */
+    .counter {
+      display: inline-flex;
+      align-items: stretch;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--paper);
     }
 
-    .mini-note {
-      font-size: 0.82rem;
-      display: block;
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .checkbox {
-      display: flex;
-      align-items: start;
-      gap: 10px;
-      font-weight: 700;
-    }
-
-    .checkbox input {
-      width: 18px;
-      height: 18px;
-      padding: 0;
-      margin-top: 2px;
-    }
-
-    button {
+    .counter button {
       appearance: none;
+      background: var(--paper);
       border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font: inherit;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(18, 34, 43, 0.16);
-    }
-
-    .primary {
-      background: linear-gradient(135deg, var(--accent), #c9562b);
-      color: white;
-    }
-
-    .ghost {
-      background: rgba(255, 255, 255, 0.72);
+      width: 48px;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.4rem;
       color: var(--ink);
-      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .counter button:hover { background: var(--accent); color: var(--paper); }
+    .counter button:first-child { border-right: 1px solid var(--rule); }
+    .counter button:last-child { border-left: 1px solid var(--rule); }
+
+    .counter input {
+      width: 88px;
+      text-align: center;
+      border: 0;
+      background: transparent;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.45rem;
+      color: var(--ink);
+      padding: 12px 0;
+      border-radius: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .counter input::-webkit-inner-spin-button,
+    .counter input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+    .counter-aside {
+      display: inline-block;
+      margin-left: 16px;
+      font-size: 0.92rem;
+      color: var(--ink-faint);
+      vertical-align: middle;
     }
 
-    .status-badge {
+    .counter-wrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+    }
+
+    /* Advanced */
+    details.advanced {
+      margin-top: 28px;
+      border-top: 1px dashed var(--rule);
+      padding-top: 18px;
+    }
+    details.advanced > summary {
+      cursor: pointer;
+      list-style: none;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.88rem;
-      font-weight: 800;
-      background: rgba(255, 255, 255, 0.74);
-      border: 1px solid var(--line);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.94rem;
+      color: var(--ink-soft);
     }
-
-    .status-badge::before {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--muted);
+    details.advanced > summary:hover { color: var(--accent); }
+    details.advanced > summary::-webkit-details-marker { display: none; }
+    details.advanced > summary::before {
+      content: "+";
+      display: inline-block;
+      width: 16px;
+      text-align: center;
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--accent);
     }
+    details.advanced[open] > summary::before { content: "\2013"; }
 
-    .status-idle::before { background: #7f8f96; }
-    .status-running::before { background: var(--accent); box-shadow: 0 0 0 8px rgba(217, 113, 60, 0.14); }
-    .status-completed::before { background: var(--success); }
-    .status-failed::before { background: var(--danger); }
-
-    .metric-grid {
+    .advanced-content {
+      margin-top: 20px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
     }
+    .advanced-content .field-wide { grid-column: 1 / -1; }
 
-    .metric {
-      border-radius: 18px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.68);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-    }
-
-    .metric-label {
-      color: var(--muted);
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .metric-value {
-      margin-top: 6px;
-      font-size: 1.9rem;
-      font-weight: 800;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .info-card {
-      border-radius: 18px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.68);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-      min-height: 94px;
-    }
-
-    .info-key {
-      display: block;
-      color: var(--muted);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 8px;
-    }
-
-    .results {
-      margin-top: 18px;
-    }
-
-    .callout {
-      border-radius: 18px;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(18, 34, 43, 0.08);
-      margin-top: 14px;
-    }
-
-    .summary-callout {
-      border-left: 5px solid var(--accent);
-    }
-
-    .guidance-callout {
-      border-left: 5px solid var(--accent-2);
-    }
-
-    .details {
-      margin-top: 12px;
-      display: grid;
+    .toggle {
+      grid-column: span 1;
+      display: flex;
+      align-items: flex-start;
       gap: 10px;
-    }
-
-    details {
-      border-radius: 16px;
-      padding: 12px 14px;
-      background: rgba(18, 34, 43, 0.04);
-    }
-
-    details summary {
+      padding: 10px 0;
       cursor: pointer;
-      font-weight: 700;
+      border-top: 1px solid var(--rule-soft);
+    }
+    .toggle input[type=checkbox] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--ink-faint);
+      background: var(--paper);
+      cursor: pointer;
+      margin: 0;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border-radius: 3px;
+      position: relative;
+    }
+    .toggle input[type=checkbox]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .toggle input[type=checkbox]:checked::after {
+      content: "";
+      position: absolute;
+      left: 4px; top: 0;
+      width: 5px; height: 10px;
+      border: solid var(--paper);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .toggle-text { display: grid; gap: 2px; }
+    .toggle-label { font-weight: 600; font-size: 0.95rem; color: var(--ink); }
+    .toggle-hint { font-size: 0.85rem; color: var(--ink-faint); }
+
+    /* Run button */
+    .run-row {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    pre {
-      margin: 12px 0 0;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.86rem;
-      color: #17303b;
-    }
-
-    code,
-    .inline-code {
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.92em;
-    }
-
-    .table-wrap {
-      margin-top: 14px;
-      overflow: auto;
-      border-radius: 18px;
-      border: 1px solid rgba(18, 34, 43, 0.08);
-      background: rgba(255, 255, 255, 0.72);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 820px;
-    }
-
-    th,
-    td {
-      text-align: left;
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(18, 34, 43, 0.08);
-      vertical-align: top;
-      font-size: 0.93rem;
-    }
-
-    th {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      background: rgba(18, 34, 43, 0.04);
-    }
-
-    .chip {
+    .run-btn {
+      appearance: none;
+      background: var(--ink);
+      color: var(--paper);
+      border: 0;
+      padding: 16px 28px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1.02rem;
+      letter-spacing: -0.005em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.18s, transform 0.1s;
       display: inline-flex;
       align-items: center;
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.77rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: rgba(18, 34, 43, 0.08);
+      gap: 12px;
+    }
+    .run-btn:hover:not(:disabled) { background: var(--accent); }
+    .run-btn:active:not(:disabled) { transform: translateY(1px); }
+    .run-btn:disabled { background: var(--rule); color: var(--ink-faint); cursor: not-allowed; }
+    .run-btn .arrow {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.2rem;
     }
 
-    .chip-killed { background: rgba(27, 127, 93, 0.16); color: #155540; }
-    .chip-survived { background: rgba(217, 113, 60, 0.18); color: #8d421a; }
-    .chip-timeout { background: rgba(23, 126, 137, 0.16); color: #115b62; }
-    .chip-error { background: rgba(170, 63, 42, 0.16); color: #7a2b1d; }
-
-    .hint {
-      color: var(--muted);
+    .run-hint {
       font-size: 0.88rem;
-      line-height: 1.55;
+      color: var(--ink-faint);
+      font-style: italic;
+      font-family: var(--font-display);
     }
 
-    .muted { color: var(--muted); }
+    /* Result area */
+    .result-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: clamp(24px, 4vw, 48px);
+      align-items: start;
+    }
 
-    .empty {
-      padding: 22px;
+    .score-stack { min-width: 0; }
+
+    .score-label {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 0 0 6px;
+    }
+
+    .score-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(4.5rem, 12vw, 8rem);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      font-variation-settings: "opsz" 144;
+    }
+    .score-value .unit {
+      font-size: 0.28em;
+      vertical-align: top;
+      color: var(--accent);
+      margin-left: 6px;
+      font-weight: 500;
+    }
+
+    .score-narrate {
+      margin: 14px 0 0;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--ink-soft);
+      max-width: 38ch;
+      line-height: 1.45;
+    }
+    .score-narrate strong { color: var(--ink); font-style: normal; font-weight: 600; }
+
+    .breakdown {
+      display: grid;
+      gap: 0;
+    }
+
+    .bd-row {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      align-items: baseline;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .bd-row:first-child { border-top: 1px solid var(--rule); }
+    .bd-glyph {
+      font-family: var(--font-mono);
+      font-weight: 500;
       text-align: center;
-      color: var(--muted);
+    }
+    .bd-name {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.96rem;
+      color: var(--ink);
+    }
+    .bd-detail {
+      font-size: 0.84rem;
+      color: var(--ink-faint);
+      display: block;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .bd-value {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.35rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
     }
 
-    ul {
-      margin: 10px 0 0;
-      padding-left: 18px;
+    .bd-row.good .bd-glyph { color: var(--good); }
+    .bd-row.bad .bd-glyph { color: var(--accent); }
+    .bd-row.warn .bd-glyph { color: var(--warn); }
+    .bd-row.info .bd-glyph { color: var(--info); }
+    .bd-row.bad .bd-value { color: var(--accent-strong); }
+
+    /* Status strip */
+    .status-strip {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--rule);
+      background: var(--paper-soft);
+      border-radius: 8px;
+      flex-wrap: wrap;
+    }
+    .status-dot {
+      width: 10px; height: 10px;
+      background: var(--ink-faint);
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+    .status-dot.running { background: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+    .status-dot.completed { background: var(--good); }
+    .status-dot.failed { background: var(--accent-strong); }
+    @keyframes pulse { 50% { opacity: 0.4; transform: scale(1.2); } }
+
+    .status-label {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .status-msg {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .status-time {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--ink-faint);
     }
 
-    li + li {
+    /* Mutants table */
+    .findings-actions {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .link-btn {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      color: var(--ink);
+      cursor: pointer;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 1px;
+      font-size: 0.94rem;
+      font-weight: 500;
+    }
+    .link-btn:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    .link-btn[hidden] { display: none; }
+
+    .findings-table {
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table.findings {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      min-width: 620px;
+    }
+    table.findings thead th {
+      text-align: left;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: var(--paper-soft);
+      border-bottom: 1px solid var(--rule);
+    }
+    table.findings tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--rule-soft);
+      vertical-align: top;
+    }
+    table.findings tbody tr:last-child td { border-bottom: 0; }
+    table.findings tbody tr:hover td { background: var(--paper-soft); }
+    table.findings .id-col { width: 56px; color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.84rem; }
+    table.findings .line-col { width: 64px; color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.88rem; }
+    table.findings .status-col { width: 130px; }
+    table.findings code {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      background: var(--paper-soft);
+      padding: 2px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--rule);
+      color: var(--ink);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border-radius: 999px;
+    }
+    .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .tag.killed { background: var(--good-soft); color: var(--good); }
+    .tag.survived { background: var(--accent-soft); color: var(--accent-strong); }
+    .tag.timeout { background: var(--warn-soft); color: var(--warn); }
+    .tag.error { background: var(--info-soft); color: var(--info); }
+
+    .empty-row td {
+      padding: 36px 16px;
+      text-align: center;
+      color: var(--ink-faint);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+    }
+
+    /* Help */
+    .help {
+      margin-top: clamp(56px, 9vw, 96px);
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+    }
+    .help summary {
+      list-style: none;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .help summary::-webkit-details-marker { display: none; }
+    .help summary::before {
+      content: "+";
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .help[open] summary::before { content: "\2013"; }
+
+    .help-body {
+      margin-top: 24px;
+      max-width: var(--measure);
+    }
+    .help-body h3 {
+      margin: 28px 0 8px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+    .help-body h3:first-child { margin-top: 0; }
+    .help-body p, .help-body li { color: var(--ink-soft); }
+    .help-body strong { color: var(--ink); font-weight: 600; }
+    .help-body ol, .help-body ul { padding-left: 22px; }
+    .help-body ol li, .help-body ul li { margin: 6px 0; }
+    .help-body pre {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 16px 18px;
+      border-radius: 6px;
+      overflow-x: auto;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+    .help-body code:not(pre code) {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--paper-soft);
+      padding: 1px 6px;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+    }
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 24px;
+      margin: 12px 0 4px;
+    }
+    .legend > div { display: flex; gap: 10px; align-items: flex-start; }
+    .legend .swatch {
+      width: 12px; height: 12px;
+      flex-shrink: 0;
       margin-top: 6px;
+      border-radius: 2px;
     }
+    .legend .swatch.killed { background: var(--good); }
+    .legend .swatch.survived { background: var(--accent); }
+    .legend .swatch.timeout { background: var(--warn); }
+    .legend .swatch.error { background: var(--info); }
 
-    #usage-guide {
-      scroll-margin-top: 24px;
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 12px 20px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 500;
+      border-radius: 6px;
+      opacity: 0;
+      transition: opacity 0.18s, transform 0.18s;
+      pointer-events: none;
+      z-index: 100;
     }
+    .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 980px) {
-      .tour-grid,
-      .grid,
-      .guide-grid,
-      .reference-grid,
-      .metric-grid,
-      .info-grid,
-      .split,
-      .step-grid,
-      .request-grid,
-      .legend-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .shell {
-        width: min(100% - 20px, 1260px);
-      }
-    }
-
+    /* Responsive */
     @media (max-width: 720px) {
-      .hero-top {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      section.step { grid-template-columns: 1fr; gap: 8px; }
+      .step-marker { font-size: 2.4rem; }
+      .mode-row { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: 1fr; }
+      .advanced-content { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: 1fr; }
+    }
 
-      .lang-toggle {
-        align-self: flex-end;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .status-dot.running { animation: none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <section class="hero">
-      <div class="hero-top">
-        <div class="eyebrow">Local Mutation Dashboard</div>
-        <div class="lang-toggle" aria-label="Language switcher">
-          <button class="ghost lang-button" type="button" id="lang-en-button">EN</button>
-          <button class="ghost lang-button" type="button" id="lang-tr-button">TR</button>
-        </div>
+  <main class="page">
+
+    <!-- Top bar -->
+    <header class="top">
+      <span class="brand"><span class="mark"></span>Mutation Lab</span>
+      <div class="lang" role="tablist" aria-label="Dil / Language">
+        <button id="lang-tr-button" class="active" type="button">Türkçe</button>
+        <button id="lang-en-button" type="button">English</button>
       </div>
-      <h1>Mutation Lab</h1>
-      <p class="hero-copy">
-        Run mutation analysis without leaving the browser. This page is both the control center
-        and the onboarding guide: launch a session, watch the baseline, inspect survivors, and
-        learn how to turn them into stronger tests.
-      </p>
-      <div class="pill-row">
-        <div class="pill">Baseline test run comes first</div>
-        <div class="pill">Mutants are generated from the AST</div>
-        <div class="pill">Detailed usage guide included</div>
-        <div class="pill">JSON report is preserved</div>
-      </div>
-      <label>
-        Choose a demo
-        <select id="demo-select" aria-label="Choose a demo">
-          <option value="beginner" data-tr-label="Başlangıç Demosu">Beginner Demo</option>
-          <option value="ci_gate" data-tr-label="CI Geçit Demosu">CI Gate Demo</option>
-          <option value="timeout_lab" data-tr-label="Timeout Laboratuvarı Demosu">Timeout Lab Demo</option>
-        </select>
-        <span class="field-help" id="demo-summary">
-          Beginner Demo introduces a weak boundary assertion so you can inspect a survivor on your first pass.
-        </span>
-        <span class="field-help" id="demo-goal">
-          Learning goal: inspect a survivor and turn it into one focused test.
-        </span>
-      </label>
-      <div class="hero-actions">
-        <button class="primary" type="button" id="starter-button">Use Starter Settings</button>
-        <button class="ghost" type="button" id="demo-button">Load Selected Demo</button>
-        <button class="ghost" type="button" id="demo-run-button">Run Selected Demo</button>
-        <button class="ghost" type="button" id="guide-button">Open Usage Guide</button>
-      </div>
-      <p class="mini-note" id="demo-inline-note">
-        Load Selected Demo fills the form with the active demo settings. Run Selected Demo fills those
-        values and starts the example immediately. After the run, use Download Latest Report or
-        Download Latest PDF to save the results.
-      </p>
-    </section>
+    </header>
 
-    <section class="tour-grid">
-      <article class="tour-card">
-        <div class="tour-number">1</div>
-        <h3>Start Small</h3>
-        <p class="panel-copy">
-          Begin with one package or a batch of 10 mutants. Smaller runs make it easier to
-          understand why a mutant survived.
-        </p>
-      </article>
-      <article class="tour-card">
-        <div class="tour-number">2</div>
-        <h3>Read the Changed Behavior</h3>
-        <p class="panel-copy">
-          A survivor means the tests still passed after behavior changed. The change itself is the
-          clue for the next test you should write.
-        </p>
-      </article>
-      <article class="tour-card">
-        <div class="tour-number">3</div>
-        <h3>Improve and Rerun</h3>
-        <p class="panel-copy">
-          Add one focused assertion for the missing behavior, rerun the same scope, then widen the
-          run when the weak spot is closed.
-        </p>
-      </article>
-    </section>
+    <!-- Title block -->
+    <h1 class="title" id="title">Testlerin <em>gerçekten</em> ne kadar güçlü?</h1>
+    <p class="lede" id="lede">Mutation testing, kodda küçük değişiklikler yaparak testlerinizin bunları yakalayıp yakalamadığını ölçer.</p>
+    <p class="intro-body" id="intro-body">Yakalanan değişiklik = sağlam test. Yakalanmayan değişiklik = test setinizin gözden kaçırdığı bir senaryo. Aşağıdaki üç adımı izleyerek ilk analizinizi çalıştırabilirsiniz.</p>
 
-    <div class="grid">
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Run Setup</h2>
-            <p class="panel-copy">Choose a project, narrow the scope, and start the next mutation pass.</p>
-          </div>
-        </div>
+    <!-- 1. PROJE -->
+    <section class="step" id="step1">
+      <span class="step-marker">1</span>
+      <div class="step-body">
+        <h2 class="step-title" id="step1-title">Hangi projeyi analiz edelim?</h2>
+        <p class="step-desc" id="step1-desc">Hızlıca tanışmak için hazır bir demo seçebilir, ya da kendi Python projenizi kullanabilirsiniz. Demo seçeneği önerilen başlangıçtır.</p>
 
-        <form id="run-form" class="stack">
-          <label>
-            Project root
-            <input id="project-root" name="project_root" value="." required>
-            <span class="field-help">
-              The folder of the project you want to analyze. In most cases use
-              <span class="inline-code">.</span> when the terminal is already inside that project.
-            </span>
-          </label>
-
-          <label>
-            Config path
-            <input id="config-path" name="config_path" placeholder="Optional pyproject.toml path">
-            <span class="field-help">
-              Leave blank to use <span class="inline-code">pyproject.toml</span> from the project root.
-            </span>
-          </label>
-
-          <label>
-            Source paths
-            <input id="source-paths" name="source_paths" placeholder="src, package/module.py">
-            <span class="field-help">
-              Comma-separated paths to mutate. Recommended first value:
-              <span class="inline-code">src</span>.
-            </span>
-          </label>
-
-          <label>
-            Operators
-            <select id="operators" name="operators" multiple></select>
-            <span class="field-help">
-              Leave all operators unselected to run the full default set. Select a subset only when
-              you want a focused pass.
-            </span>
-          </label>
-
-          <div class="split">
-            <label>
-              Max mutants
-              <input id="max-mutants" name="max_mutants" type="number" min="1" placeholder="Optional">
-              <span class="field-help">Use 5-20 for an easy first run.</span>
+        <div class="step-controls">
+          <div class="mode-row">
+            <label class="mode active" for="mode-demo-input">
+              <input type="radio" name="mode" value="demo" id="mode-demo-input" checked>
+              <div class="mode-top">
+                <span class="mode-name" id="mode-demo-name">Hazır bir demo</span>
+                <span class="mode-marker"></span>
+              </div>
+              <p class="mode-desc" id="mode-demo-desc">Üç farklı senaryodan birini seç ve tek tıkla çalıştır.</p>
             </label>
-
-            <label>
-              Timeout (sec)
-              <input id="timeout" name="per_mutant_timeout" type="number" min="0.1" step="0.1" placeholder="Optional">
-              <span class="field-help">Leave blank to auto-calculate from the baseline run.</span>
+            <label class="mode" for="mode-custom-input">
+              <input type="radio" name="mode" value="custom" id="mode-custom-input">
+              <div class="mode-top">
+                <span class="mode-name" id="mode-custom-name">Kendi projem</span>
+                <span class="mode-marker"></span>
+              </div>
+              <p class="mode-desc" id="mode-custom-desc">Kendi Python kodunda analiz çalıştır. <code class="inline-code">pytest</code> testlerinin geçiyor olması gerekir.</p>
             </label>
           </div>
 
-          <label class="checkbox">
-            <input id="stop-on-survivor" type="checkbox">
-            <span>
-              Stop after the first survivor
-              <span class="mini-note">Best for fast local feedback when you only need the first actionable gap.</span>
-            </span>
-          </label>
-
-          <label class="checkbox">
-            <input id="fail-on-survivor" type="checkbox">
-            <span>
-              Fail run when a survivor appears
-              <span class="mini-note">Best for CI or quality gates where any survivor should fail the run.</span>
-            </span>
-          </label>
-
-          <div class="button-row">
-            <button class="primary" type="submit">Start Mutation Run</button>
-            <button class="ghost" type="button" id="form-demo-button">Load Selected Demo</button>
-            <button class="ghost" type="button" id="reset-button">Reset Form</button>
-            <button class="ghost" type="button" id="refresh-button">Refresh Status</button>
+          <div class="panel" id="demo-panel">
+            <div class="field">
+              <label class="field-label" for="demo-select" id="demo-label">Demo seçimi</label>
+              <select id="demo-select" aria-label="Choose a demo">
+                <option value="beginner">Başlangıç Demosu</option>
+              </select>
+              <p class="field-hint" id="demo-summary">Yükleniyor…</p>
+            </div>
           </div>
-        </form>
-      </section>
 
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Control Room</h2>
-            <p class="panel-copy">Track the current state, the latest report path, and the headline mutation metrics here.</p>
-          </div>
-          <div id="status-badge" class="status-badge status-idle">Idle</div>
-        </div>
-
-        <p id="status-message" class="hint">Ready to launch mutation analysis.</p>
-
-        <div class="info-grid">
-          <div class="info-card">
-            <span class="info-key">Started</span>
-            <div id="started-at" class="muted">-</div>
-          </div>
-          <div class="info-card">
-            <span class="info-key">Finished</span>
-            <div id="finished-at" class="muted">-</div>
-          </div>
-          <div class="info-card">
-            <span class="info-key">Report</span>
-            <div id="report-path" class="muted">-</div>
+          <div class="panel hidden" id="custom-panel">
+            <div class="field">
+              <label class="field-label" for="project-root" id="project-label">Proje klasörü</label>
+              <input type="text" id="project-root" value=".">
+              <p class="field-hint" id="project-hint">Genelde <code class="inline-code">.</code> yeterlidir — komut zaten projenin içindeyse.</p>
+            </div>
+            <div class="field">
+              <label class="field-label" for="source-paths" id="sources-label">Kaynak klasörler</label>
+              <input type="text" id="source-paths" placeholder="src">
+              <p class="field-hint" id="sources-hint">Virgülle ayrılır. Örnek: <code class="inline-code">src</code> veya <code class="inline-code">src, lib</code>.</p>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="metric-grid">
-          <div class="metric">
-            <div class="metric-label">Score</div>
-            <div class="metric-value" id="score-value">0%</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Killed</div>
-            <div class="metric-value" id="killed-value">0</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Survived</div>
-            <div class="metric-value" id="survived-value">0</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Executed</div>
-            <div class="metric-value" id="executed-value">0</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Generated</div>
-            <div class="metric-value" id="generated-value">0</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Files</div>
-            <div class="metric-value" id="discovered-value">0</div>
-          </div>
-        </div>
+    <!-- 2. SAYI -->
+    <section class="step" id="step2">
+      <span class="step-marker">2</span>
+      <div class="step-body">
+        <h2 class="step-title" id="step2-title">Kaç mutasyon denesin?</h2>
+        <p class="step-desc" id="step2-desc">Her mutasyon, kodda küçük bir değişiklik yapar (örneğin <code class="inline-code">&gt;</code> yerine <code class="inline-code">&gt;=</code>). Daha fazla mutasyon, daha kapsamlı analiz; ama daha uzun süre. İlk denemede <strong>10</strong> civarı dengeli bir başlangıçtır.</p>
 
-        <div id="request-hint" class="request-grid"></div>
-        <div class="button-row">
-          <button class="ghost" type="button" id="download-report-button">Download Latest Report</button>
-          <button class="ghost" type="button" id="download-pdf-button">Download Latest PDF</button>
-        </div>
-      </section>
-    </div>
-
-    <div class="guide-grid">
-      <section class="panel" id="usage-guide">
-        <div class="panel-header">
-          <div>
-            <h2>How To Use Mutation Lab</h2>
-            <p class="panel-copy">
-              This guide is designed for both first-time users and teams turning mutation testing into
-              a regular workflow.
-            </p>
+        <div class="step-controls">
+          <div class="counter-wrap">
+            <div class="counter">
+              <button type="button" id="count-minus" aria-label="Azalt">−</button>
+              <input type="number" id="max-mutants" value="10" min="1" max="500">
+              <button type="button" id="count-plus" aria-label="Artır">+</button>
+            </div>
+            <span class="counter-aside" id="counter-aside">mutasyon · önerilen aralık 5 – 20</span>
           </div>
-        </div>
 
-        <div class="step-grid">
-          <article class="step-card">
-            <div class="step-number">1</div>
-            <h3>Confirm the normal test suite is green</h3>
-            <p class="panel-copy">
-              Mutation testing only makes sense after the regular test suite passes. If the baseline
-              fails, fix that first and try again.
-            </p>
-          </article>
-          <article class="step-card">
-            <div class="step-number">2</div>
-            <h3>Choose a small scope</h3>
-            <p class="panel-copy">
-              Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable
-              and makes the first run much easier to learn from.
-            </p>
-          </article>
-          <article class="step-card">
-            <div class="step-number">3</div>
-            <h3>Inspect survivors carefully</h3>
-            <p class="panel-copy">
-              A surviving mutant means tests still passed after the behavior changed. That usually
-              means an edge case, branch, or assertion is missing.
-            </p>
-          </article>
-          <article class="step-card">
-            <div class="step-number">4</div>
-            <h3>Add one focused test and rerun</h3>
-            <p class="panel-copy">
-              Read the original and mutated snippets, identify the changed expectation, write one
-              targeted test, and rerun the same scope.
-            </p>
-          </article>
-        </div>
-
-        <div class="details">
-          <details open>
-            <summary>Recommended first run</summary>
-            <p class="panel-copy">
-              If you are new to mutation testing, start with these values:
-              project root <span class="inline-code">.</span>, source paths <span class="inline-code">src</span>,
-              max mutants <span class="inline-code">10</span>, leave timeout blank, and keep both survivor
-              checkboxes off.
-            </p>
+          <details class="advanced">
+            <summary id="advanced-summary">Gelişmiş ayarlar</summary>
+            <div class="advanced-content">
+              <div class="field">
+                <label class="field-label" for="config-path" id="config-label">Config dosyası</label>
+                <input type="text" id="config-path" placeholder="otomatik">
+                <p class="field-hint" id="config-hint">Boş bırakırsanız <code class="inline-code">pyproject.toml</code> otomatik kullanılır.</p>
+              </div>
+              <div class="field">
+                <label class="field-label" for="timeout" id="timeout-label">Zaman aşımı (saniye)</label>
+                <input type="number" id="timeout" step="0.1" min="0.1" placeholder="otomatik">
+                <p class="field-hint" id="timeout-hint">Boş bırakırsanız baseline süresine göre hesaplanır.</p>
+              </div>
+              <div class="field field-wide">
+                <label class="field-label" for="operators" id="operators-label">Operatörler (opsiyonel)</label>
+                <select id="operators" multiple></select>
+                <p class="field-hint" id="operators-hint">Hiçbiri seçilmezse tüm varsayılan operatörler kullanılır.</p>
+              </div>
+              <label class="toggle" for="stop-on-survivor">
+                <input type="checkbox" id="stop-on-survivor">
+                <span class="toggle-text">
+                  <span class="toggle-label" id="stop-label">İlk yakalanmayanda dur</span>
+                  <span class="toggle-hint" id="stop-hint">Hızlı geri bildirim almak için.</span>
+                </span>
+              </label>
+              <label class="toggle" for="fail-on-survivor">
+                <input type="checkbox" id="fail-on-survivor">
+                <span class="toggle-text">
+                  <span class="toggle-label" id="fail-label">Yakalanmayan varsa başarısız say</span>
+                  <span class="toggle-hint" id="fail-hint">CI / kalite kapısı senaryoları için.</span>
+                </span>
+              </label>
+            </div>
           </details>
 
-          <details>
-            <summary>How do I use the demo catalog?</summary>
-            <p class="panel-copy">
-              Choose a demo first, then click <span class="inline-code">Load Selected Demo</span> to fill the form
-              with that scenario. Review the values if you want to learn what each field means, then click
-              <span class="inline-code">Start Mutation Run</span>. Use
-              <span class="inline-code">Run Selected Demo</span> when you want one-click fill + run.
-              After the run, keep the JSON report for tooling and download the PDF when you want a human-readable summary.
-            </p>
-          </details>
+          <div class="run-row">
+            <button type="button" class="run-btn" id="run-button">
+              <span id="run-button-text">Analizi başlat</span>
+              <span class="arrow">→</span>
+            </button>
+            <span class="run-hint" id="run-hint">İlk koşu birkaç saniye ile bir dakika arasında sürebilir.</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <details>
-            <summary>What should you do after a survivor?</summary>
-            <p class="panel-copy">
-              Example: if the tool shows <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> and
-              that mutant survives, your tests probably never prove what should happen for
-              <span class="inline-code">0</span>. Add a test for that exact boundary and rerun.
-            </p>
-          </details>
+    <!-- 3. SONUÇ -->
+    <section class="step" id="step3">
+      <span class="step-marker">3</span>
+      <div class="step-body">
+        <h2 class="step-title" id="step3-title">Sonuçlar</h2>
+        <p class="step-desc" id="step3-desc">Mutasyon skoru, kaç değişikliğin testleriniz tarafından yakalandığını gösterir. Yüksek skor güçlü test seti, düşük skor ise eksik test senaryoları anlamına gelir.</p>
+
+        <div class="result-grid">
+          <div class="score-stack">
+            <p class="score-label" id="score-label">Mutasyon Skoru</p>
+            <div class="score-value"><span id="score-value">—</span><span class="unit" id="score-unit">%</span></div>
+            <p class="score-narrate" id="score-narrate">Henüz çalıştırılmadı. Yukarıdaki <strong>Analizi başlat</strong> düğmesine bas.</p>
+          </div>
+
+          <div class="breakdown">
+            <div class="bd-row good">
+              <span class="bd-glyph">✓</span>
+              <span class="bd-name" id="killed-label">Yakalanan<span class="bd-detail" id="killed-detail">Test fail oldu — değişiklik tespit edildi.</span></span>
+              <span class="bd-value" id="killed-value">0</span>
+            </div>
+            <div class="bd-row bad">
+              <span class="bd-glyph">●</span>
+              <span class="bd-name" id="survived-label">Yakalanmayan<span class="bd-detail" id="survived-detail">Test geçti — değişiklik gözden kaçtı.</span></span>
+              <span class="bd-value" id="survived-value">0</span>
+            </div>
+            <div class="bd-row warn">
+              <span class="bd-glyph">⧗</span>
+              <span class="bd-name" id="timeout-label">Zaman aşımı<span class="bd-detail" id="timeout-detail">Mutasyon çok yavaşladı.</span></span>
+              <span class="bd-value" id="timeout-value">0</span>
+            </div>
+            <div class="bd-row info">
+              <span class="bd-glyph">✗</span>
+              <span class="bd-name" id="error-label">Hata<span class="bd-detail" id="error-detail">Mutasyon syntax/import hatası üretti.</span></span>
+              <span class="bd-value" id="error-value">0</span>
+            </div>
+          </div>
         </div>
 
-        <div class="code-card">
-          <span class="info-key">Starter pyproject.toml</span>
-          <pre>[tool.mutation_tool]
+        <div class="status-strip">
+          <span class="status-dot" id="status-dot"></span>
+          <span class="status-label" id="status-label">Hazır</span>
+          <span class="status-msg" id="status-message">Başlamaya hazır.</span>
+          <span class="status-time" id="status-time"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. BULGULAR -->
+    <section class="step" id="findings-section" hidden>
+      <span class="step-marker">4</span>
+      <div class="step-body">
+        <h2 class="step-title" id="step4-title">Bulgular</h2>
+        <p class="step-desc" id="step4-desc">Aşağıdaki mutasyonlar test setinizden kaçanlardır. Her satır, eksik bir test senaryosunun ipucudur — bu değişikliği yakalayan bir test eklerseniz, skor yükselir.</p>
+
+        <div class="findings-actions">
+          <button type="button" class="link-btn" id="download-report-button" hidden>↓ Download Latest Report</button>
+          <button type="button" class="link-btn" id="download-pdf-button" hidden>↓ Download Latest PDF</button>
+        </div>
+
+        <div class="findings-table">
+          <div class="table-scroll">
+            <table class="findings">
+              <thead>
+                <tr>
+                  <th class="id-col">#</th>
+                  <th id="th-file">Dosya</th>
+                  <th class="line-col" id="th-line">Satır</th>
+                  <th class="status-col" id="th-status">Durum</th>
+                  <th id="th-change">Değişiklik</th>
+                </tr>
+              </thead>
+              <tbody id="mutant-body">
+                <tr class="empty-row"><td colspan="5" id="empty-mutants">Henüz mutasyon çalıştırılmadı.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HELP -->
+    <details class="help">
+      <summary id="help-summary">How To Use Mutation Lab</summary>
+      <div class="help-body" id="help-body-tr">
+        <h3>Mutation testing nedir?</h3>
+        <p>Kodunuza kasıtlı olarak küçük değişiklikler (mutasyonlar) yapılır ve testlerinizin bu değişiklikleri yakalayıp yakalamadığı ölçülür. Test fail olursa <strong>mutant yakalandı</strong> — testleriniz sağlam. Test hâlâ geçerse <strong>mutant yakalanmadı</strong> — testlerinizde eksik bir senaryo var demektir.</p>
+
+        <h3>Adım adım</h3>
+        <ol>
+          <li>Bir <strong>demo</strong> seçin ya da <strong>kendi projenizi</strong> kullanın.</li>
+          <li>Bir <strong>mutasyon sayısı</strong> belirleyin (5–20 arası bir başlangıç için iyidir).</li>
+          <li><strong>Analizi başlat</strong> düğmesine basın.</li>
+          <li>Sonuç skorunu okuyun. Yakalanmayan mutasyonlar varsa, her birini inceleyin ve eksik test senaryolarını yazın.</li>
+        </ol>
+
+        <h3>Durum açıklamaları</h3>
+        <div class="legend">
+          <div><span class="swatch killed"></span><div><strong>Yakalanan</strong> — testler bu değişikliği fark etti.</div></div>
+          <div><span class="swatch survived"></span><div><strong>Yakalanmayan</strong> — testler bu değişikliği fark etmedi. Eksik senaryo.</div></div>
+          <div><span class="swatch timeout"></span><div><strong>Zaman aşımı</strong> — mutasyon çok yavaşladı. Sonsuz döngü olabilir.</div></div>
+          <div><span class="swatch error"></span><div><strong>Hata</strong> — mutasyon syntax veya import hatasına yol açtı.</div></div>
+        </div>
+
+        <h3>Önerilen <code>pyproject.toml</code></h3>
+        <pre>[tool.mutation_tool]
 source_paths = ["src"]
 test_command = ["pytest", "-q"]
-exclude = ["tests/**", "**/__pycache__/**"]
-timeout_multiplier = 5.0
-min_timeout = 5.0</pre>
-        </div>
-      </section>
+exclude = ["tests/**"]</pre>
 
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Field Guide</h2>
-            <p class="panel-copy">
-              Use this as a quick reference for what belongs in each form field.
-            </p>
-          </div>
-        </div>
-
-        <div class="details">
-          <details open>
-            <summary>Project root</summary>
-            <p class="panel-copy">
-              The project folder you want to analyze. If the terminal is already in that folder, use
-              <span class="inline-code">.</span>.
-            </p>
-          </details>
-          <details>
-            <summary>Config path</summary>
-            <p class="panel-copy">
-              Use this only if you want to point at a specific config file. In most cases leave it
-              blank and let the tool load <span class="inline-code">pyproject.toml</span> automatically.
-            </p>
-          </details>
-          <details>
-            <summary>Source paths</summary>
-            <p class="panel-copy">
-              Comma-separated paths to mutate. Good examples are
-              <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span>, or
-              <span class="inline-code">src/my_package/service.py</span>.
-            </p>
-          </details>
-          <details>
-            <summary>Operators</summary>
-            <p class="panel-copy">
-              Leave everything unselected to run all default operators. Choose a subset only when
-              you want a specific kind of mutation pass.
-            </p>
-          </details>
-          <details>
-            <summary>Max mutants and timeout</summary>
-            <p class="panel-copy">
-              While learning, 5-20 mutants is a good range. Leave timeout blank unless your test suite
-              genuinely needs a manual budget.
-            </p>
-          </details>
-          <details>
-            <summary>Stop on survivor vs fail on survivor</summary>
-            <p class="panel-copy">
-              Stop on survivor is for fast local learning. Fail on survivor is for CI or stricter
-              quality gates where even one survivor should fail the run.
-            </p>
-          </details>
-        </div>
-      </section>
-    </div>
-
-    <div class="reference-grid">
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Result Legend</h2>
-            <p class="panel-copy">
-              These are the outcomes you will see in the results table.
-            </p>
-          </div>
-        </div>
-
-        <div class="legend-grid">
-          <article class="legend-card">
-            <span class="chip chip-killed">killed</span>
-            <p class="panel-copy">Tests failed after the mutation. This is good: the changed behavior was detected.</p>
-          </article>
-          <article class="legend-card">
-            <span class="chip chip-survived">survived</span>
-            <p class="panel-copy">Tests still passed after the mutation. This points to a missing assertion or edge case.</p>
-          </article>
-          <article class="legend-card">
-            <span class="chip chip-timeout">timeout</span>
-            <p class="panel-copy">The mutated run took too long. Review loops, waits, or increase the timeout budget.</p>
-          </article>
-          <article class="legend-card">
-            <span class="chip chip-error">error</span>
-            <p class="panel-copy">The mutation caused a syntax or import problem instead of a clean test failure.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>CLI Equivalents</h2>
-            <p class="panel-copy">
-              The UI and CLI use the same engine. These commands match the common UI flows.
-            </p>
-          </div>
-        </div>
-
-        <div class="code-card">
-          <span class="info-key">Useful commands</span>
-          <pre>python -m mutation_tool list-operators
-python -m mutation_tool run . --max-mutants 10
-python -m mutation_tool run . --operator comparison --operator logical
-python -m mutation_tool run . --stop-on-survivor
-python -m mutation_tool run . --fail-on-survivor</pre>
-        </div>
-
-        <div class="code-card">
-          <span class="info-key">Built-in demo</span>
-          <pre>Project root: examples/beginner_demo
-Source paths: src
-Max mutants: 10
-Timeout: leave blank</pre>
-        </div>
-      </section>
-    </div>
-
-    <section class="panel results">
-      <div class="panel-header">
-        <div>
-            <h2>Results</h2>
-            <p class="panel-copy">Use surviving mutants to find weak assertions and missing edge-case tests.</p>
-        </div>
+        <h3>Komut satırı eşdeğerleri</h3>
+        <pre>python -m mutation_tool run . --max-mutants 10
+python -m mutation_tool list-operators
+python -m mutation_tool ui</pre>
       </div>
 
-      <div id="baseline-panel" class="callout">
-        <strong>Baseline</strong>
-        <p class="panel-copy">No run yet.</p>
-      </div>
+      <div class="help-body" id="help-body-en" hidden>
+        <h3>What is mutation testing?</h3>
+        <p>The tool makes small intentional changes (mutants) to your code and checks whether your tests catch them. If a test fails afterward, the <strong>mutant was caught</strong> — your tests are solid. If tests still pass, the <strong>mutant survived</strong> — your tests have a missing scenario.</p>
 
-      <div id="summary-callout" class="callout summary-callout">
-        <strong>Ready for your first run.</strong>
-        <p class="panel-copy">
-          Start with a small batch, inspect the surviving change, and turn it into a focused test.
-        </p>
-      </div>
+        <h3>Step by step</h3>
+        <ol>
+          <li>Pick a <strong>demo</strong> or use <strong>your own project</strong>.</li>
+          <li>Choose a <strong>mutant count</strong> (5–20 is a good starting range).</li>
+          <li>Press <strong>Start analysis</strong>.</li>
+          <li>Read the score. For each survivor, inspect the change and write the missing test.</li>
+        </ol>
 
-      <div id="guidance-panel" class="callout guidance-callout">
-        <strong>Next-step guidance will appear here.</strong>
-        <p class="panel-copy">After a run, this panel summarizes what to do next.</p>
-      </div>
+        <h3>Status legend</h3>
+        <div class="legend">
+          <div><span class="swatch killed"></span><div><strong>Caught</strong> — tests noticed the change.</div></div>
+          <div><span class="swatch survived"></span><div><strong>Survived</strong> — tests missed the change. Missing scenario.</div></div>
+          <div><span class="swatch timeout"></span><div><strong>Timeout</strong> — mutant got slow. Possible infinite loop.</div></div>
+          <div><span class="swatch error"></span><div><strong>Error</strong> — mutant caused a syntax or import error.</div></div>
+        </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Status</th>
-              <th>File</th>
-              <th>Line</th>
-              <th>Operator</th>
-              <th>Change</th>
-              <th>Summary</th>
-            </tr>
-          </thead>
-          <tbody id="mutant-body">
-            <tr>
-              <td colspan="6" class="empty">Start a run to see mutant details.</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>Recommended <code>pyproject.toml</code></h3>
+        <pre>[tool.mutation_tool]
+source_paths = ["src"]
+test_command = ["pytest", "-q"]
+exclude = ["tests/**"]</pre>
+
+        <h3>Command-line equivalents</h3>
+        <pre>python -m mutation_tool run . --max-mutants 10
+python -m mutation_tool list-operators
+python -m mutation_tool ui</pre>
       </div>
-    </section>
-  </div>
+    </details>
+  </main>
+
+  <div class="toast" id="toast"></div>
 
   <script>
-    const statusBadge = document.getElementById('status-badge');
-    const statusMessage = document.getElementById('status-message');
-    const startedAt = document.getElementById('started-at');
-    const finishedAt = document.getElementById('finished-at');
-    const reportPath = document.getElementById('report-path');
-    const scoreValue = document.getElementById('score-value');
-    const killedValue = document.getElementById('killed-value');
-    const survivedValue = document.getElementById('survived-value');
-    const executedValue = document.getElementById('executed-value');
-    const generatedValue = document.getElementById('generated-value');
-    const discoveredValue = document.getElementById('discovered-value');
-    const mutantBody = document.getElementById('mutant-body');
-    const baselinePanel = document.getElementById('baseline-panel');
-    const summaryCallout = document.getElementById('summary-callout');
-    const guidancePanel = document.getElementById('guidance-panel');
-    const requestHint = document.getElementById('request-hint');
-    const operatorSelect = document.getElementById('operators');
-    const demoSelect = document.getElementById('demo-select');
-    const demoSummary = document.getElementById('demo-summary');
-    const demoGoal = document.getElementById('demo-goal');
-    const form = document.getElementById('run-form');
-    const refreshButton = document.getElementById('refresh-button');
-    const demoButton = document.getElementById('demo-button');
-    const demoRunButton = document.getElementById('demo-run-button');
-    const formDemoButton = document.getElementById('form-demo-button');
-    const starterButton = document.getElementById('starter-button');
-    const resetButton = document.getElementById('reset-button');
-    const guideButton = document.getElementById('guide-button');
-    const downloadReportButton = document.getElementById('download-report-button');
-    const downloadPdfButton = document.getElementById('download-pdf-button');
-    const langEnButton = document.getElementById('lang-en-button');
-    const langTrButton = document.getElementById('lang-tr-button');
-    const languageStorageKey = 'mutation-lab-language';
+    const LANG_KEY = 'mutation-lab-language';
 
-    let demoCatalog = [
-      {
-        id: 'beginner',
-        name: { en: 'Beginner Demo', tr: 'Başlangıç Demosu' },
-        summary: {
-          en: 'A friendly first run with a weak boundary assertion that produces a survivor.',
-          tr: 'İlk survivor deneyimi için zayıf bir sınır assertion\'ı içeren dost canlısı demo.',
-        },
-        learning_goal: {
-          en: 'Learn how to inspect a survivor and add a focused test.',
-          tr: 'Bir survivor\'ı inceleyip hedefli bir test eklemeyi öğren.',
-        },
+    const I18N = {
+      tr: {
+        langTr: 'Türkçe', langEn: 'English',
+        titleHtml: 'Testlerin <em>gerçekten</em> ne kadar güçlü?',
+        lede: 'Mutation testing, kodda küçük değişiklikler yaparak testlerinizin bunları yakalayıp yakalamadığını ölçer.',
+        introBody: 'Yakalanan değişiklik = sağlam test. Yakalanmayan değişiklik = test setinizin gözden kaçırdığı bir senaryo. Aşağıdaki üç adımı izleyerek ilk analizinizi çalıştırabilirsiniz.',
+        step1: 'Hangi projeyi analiz edelim?',
+        step1Desc: 'Hızlıca tanışmak için hazır bir demo seçebilir, ya da kendi Python projenizi kullanabilirsiniz. Demo seçeneği önerilen başlangıçtır.',
+        modeDemoName: 'Hazır bir demo',
+        modeDemoDesc: 'Üç farklı senaryodan birini seç ve tek tıkla çalıştır.',
+        modeCustomName: 'Kendi projem',
+        modeCustomDescHtml: 'Kendi Python kodunda analiz çalıştır. <code class="inline-code">pytest</code> testlerinin geçiyor olması gerekir.',
+        demoLabel: 'Demo seçimi',
+        projectLabel: 'Proje klasörü',
+        projectHintHtml: 'Genelde <code class="inline-code">.</code> yeterlidir — komut zaten projenin içindeyse.',
+        sourcesLabel: 'Kaynak klasörler',
+        sourcesHintHtml: 'Virgülle ayrılır. Örnek: <code class="inline-code">src</code> veya <code class="inline-code">src, lib</code>.',
+        step2: 'Kaç mutasyon denesin?',
+        step2DescHtml: 'Her mutasyon, kodda küçük bir değişiklik yapar (örneğin <code class="inline-code">&gt;</code> yerine <code class="inline-code">&gt;=</code>). Daha fazla mutasyon, daha kapsamlı analiz; ama daha uzun süre. İlk denemede <strong>10</strong> civarı dengeli bir başlangıçtır.',
+        counterAside: 'mutasyon · önerilen aralık 5 – 20',
+        advancedSummary: 'Gelişmiş ayarlar',
+        configLabel: 'Config dosyası',
+        configHintHtml: 'Boş bırakırsanız <code class="inline-code">pyproject.toml</code> otomatik kullanılır.',
+        timeoutLabel: 'Zaman aşımı (saniye)',
+        timeoutHint: 'Boş bırakırsanız baseline süresine göre hesaplanır.',
+        operatorsLabel: 'Operatörler (opsiyonel)',
+        operatorsHint: 'Hiçbiri seçilmezse tüm varsayılan operatörler kullanılır.',
+        stopLabel: 'İlk yakalanmayanda dur',
+        stopHint: 'Hızlı geri bildirim almak için.',
+        failLabel: 'Yakalanmayan varsa başarısız say',
+        failHint: 'CI / kalite kapısı senaryoları için.',
+        runText: 'Analizi başlat',
+        runRunning: 'Çalışıyor…',
+        runHint: 'İlk koşu birkaç saniye ile bir dakika arasında sürebilir.',
+        step3: 'Sonuçlar',
+        step3Desc: 'Mutasyon skoru, kaç değişikliğin testleriniz tarafından yakalandığını gösterir. Yüksek skor güçlü test seti, düşük skor ise eksik test senaryoları anlamına gelir.',
+        scoreLabel: 'Mutasyon Skoru',
+        killedLabel: 'Yakalanan',
+        killedDetail: 'Test fail oldu — değişiklik tespit edildi.',
+        survivedLabel: 'Yakalanmayan',
+        survivedDetail: 'Test geçti — değişiklik gözden kaçtı.',
+        timeoutLabel2: 'Zaman aşımı',
+        timeoutDetail: 'Mutasyon çok yavaşladı.',
+        errorLabel: 'Hata',
+        errorDetail: 'Mutasyon syntax/import hatası üretti.',
+        statusIdle: 'Hazır',
+        statusRunning: 'Çalışıyor',
+        statusCompleted: 'Tamamlandı',
+        statusFailed: 'Hata',
+        msgReady: 'Başlamaya hazır.',
+        msgRunning: 'Mutasyon analizi çalışıyor — birkaç dakika sürebilir.',
+        msgCompleted: 'Analiz tamamlandı.',
+        msgFailed: 'Analiz başarısız oldu.',
+        narrateIdleHtml: 'Henüz çalıştırılmadı. Yukarıdaki <strong>Analizi başlat</strong> düğmesine bas.',
+        narrateRunningHtml: 'Mutasyonlar üretildi, baseline alındı. Test paketin koşturuluyor…',
+        narrateSurvivorsHtml: (n) => `Test setiniz <strong>${n} mutasyonu</strong> yakalayamadı. Aşağıdaki tabloyu inceleyerek eksik test senaryolarını bulabilirsiniz.`,
+        narrateCleanHtml: 'Tüm mutasyonlar testleriniz tarafından yakalandı. Bu örneklem için test setiniz <strong>sağlam</strong>.',
+        narrateNoMutantsHtml: 'Hiç mutasyon çalıştırılmadı. Kapsamı veya operatör seçimini kontrol et.',
+        narrateFailedHtml: 'Analiz başarısız. Aşağıdaki durum satırında detayları görebilirsin.',
+        step4: 'Bulgular',
+        step4Desc: 'Aşağıdaki mutasyonlar test setinizden kaçanlardır. Her satır, eksik bir test senaryosunun ipucudur — bu değişikliği yakalayan bir test eklerseniz, skor yükselir.',
+        thFile: 'Dosya',
+        thLine: 'Satır',
+        thStatus: 'Durum',
+        thChange: 'Değişiklik',
+        emptyMutants: 'Henüz mutasyon çalıştırılmadı.',
+        emptyMutantsRun: 'Bu koşuda hiç mutasyon çalıştırılmadı.',
+        downloadJson: '↓ Download Latest Report',
+        downloadPdf: '↓ Download Latest PDF',
+        toastDownloadEmpty: 'Henüz indirilebilecek bir rapor yok.',
+        helpSummary: 'How To Use Mutation Lab',
+        tagKilled: 'Yakalandı',
+        tagSurvived: 'Kaçtı',
+        tagTimeout: 'Timeout',
+        tagError: 'Hata',
       },
-      {
-        id: 'ci_gate',
-        name: { en: 'CI Gate Demo', tr: 'CI Geçit Demosu' },
-        summary: {
-          en: 'Shows how a surviving mutant should fail a stricter quality gate.',
-          tr: 'Hayatta kalan bir mutantın daha sıkı kalite kapısını nasıl fail etmesi gerektiğini gösterir.',
-        },
-        learning_goal: {
-          en: 'Practice the difference between local exploration and CI enforcement.',
-          tr: 'Yerel keşif ile CI yaptırımı arasındaki farkı deneyimle.',
-        },
+      en: {
+        langTr: 'Türkçe', langEn: 'English',
+        titleHtml: 'How <em>strong</em> are your tests, really?',
+        lede: 'Mutation testing makes tiny changes in your code and measures whether your tests catch them.',
+        introBody: 'A caught change means a solid test. A missed change is a scenario your test suite forgot. Follow the three steps below to run your first analysis.',
+        step1: 'Which project should we analyze?',
+        step1Desc: 'You can pick a ready-made demo for a quick tour, or use your own Python project. Starting with a demo is the recommended path.',
+        modeDemoName: 'A built-in demo',
+        modeDemoDesc: 'Pick from three scenarios and run with a single click.',
+        modeCustomName: 'My own project',
+        modeCustomDescHtml: 'Run analysis on your own Python code. Your <code class="inline-code">pytest</code> suite must already pass.',
+        demoLabel: 'Choose a demo',
+        projectLabel: 'Project folder',
+        projectHintHtml: 'Usually <code class="inline-code">.</code> is enough — when the terminal is inside the project.',
+        sourcesLabel: 'Source folders',
+        sourcesHintHtml: 'Comma-separated. e.g. <code class="inline-code">src</code> or <code class="inline-code">src, lib</code>.',
+        step2: 'How many mutations should we try?',
+        step2DescHtml: 'Each mutation makes a small change in your code (for example <code class="inline-code">&gt;</code> becomes <code class="inline-code">&gt;=</code>). More mutations means broader analysis, but takes longer. For a first try, <strong>10</strong> is a balanced starting point.',
+        counterAside: 'mutations · recommended range 5 – 20',
+        advancedSummary: 'Advanced settings',
+        configLabel: 'Config file',
+        configHintHtml: 'Leave empty to use <code class="inline-code">pyproject.toml</code> automatically.',
+        timeoutLabel: 'Timeout (seconds)',
+        timeoutHint: 'Leave empty to compute from baseline duration.',
+        operatorsLabel: 'Operators (optional)',
+        operatorsHint: 'If none are selected, all default operators are used.',
+        stopLabel: 'Stop on first survivor',
+        stopHint: 'For fast local feedback.',
+        failLabel: 'Fail if a survivor exists',
+        failHint: 'For CI / quality-gate scenarios.',
+        runText: 'Start analysis',
+        runRunning: 'Running…',
+        runHint: 'The first run can take a few seconds to a minute.',
+        step3: 'Results',
+        step3Desc: 'The mutation score shows how many changes your tests caught. A high score means a strong test suite; a low score points to missing test scenarios.',
+        scoreLabel: 'Mutation score',
+        killedLabel: 'Caught',
+        killedDetail: 'A test failed — the change was detected.',
+        survivedLabel: 'Survived',
+        survivedDetail: 'Tests still passed — the change was missed.',
+        timeoutLabel2: 'Timeout',
+        timeoutDetail: 'The mutant ran too slowly.',
+        errorLabel: 'Error',
+        errorDetail: 'The mutant produced a syntax or import error.',
+        statusIdle: 'Idle',
+        statusRunning: 'Running',
+        statusCompleted: 'Completed',
+        statusFailed: 'Failed',
+        msgReady: 'Ready to start.',
+        msgRunning: 'Mutation analysis is running — may take a few minutes.',
+        msgCompleted: 'Analysis completed.',
+        msgFailed: 'Analysis failed.',
+        narrateIdleHtml: 'Not run yet. Press <strong>Start analysis</strong> above to begin.',
+        narrateRunningHtml: 'Mutants generated, baseline captured. Running your test suite…',
+        narrateSurvivorsHtml: (n) => `Your tests missed <strong>${n} mutations</strong>. Inspect the table below to find the missing scenarios.`,
+        narrateCleanHtml: 'All mutations were caught by your tests. The suite is <strong>solid</strong> for this sample.',
+        narrateNoMutantsHtml: 'No mutations were executed. Check the scope or operator selection.',
+        narrateFailedHtml: 'Analysis failed. See the status line below for details.',
+        step4: 'Findings',
+        step4Desc: 'The mutations below escaped your test suite. Each one is a hint for a missing test scenario — add a test that catches the change, and your score will go up.',
+        thFile: 'File',
+        thLine: 'Line',
+        thStatus: 'Status',
+        thChange: 'Change',
+        emptyMutants: 'No mutations run yet.',
+        emptyMutantsRun: 'This run executed no mutations.',
+        downloadJson: '↓ Download Latest Report',
+        downloadPdf: '↓ Download Latest PDF',
+        toastDownloadEmpty: 'No report available yet.',
+        helpSummary: 'How To Use Mutation Lab',
+        tagKilled: 'Caught',
+        tagSurvived: 'Survived',
+        tagTimeout: 'Timeout',
+        tagError: 'Error',
       },
-      {
-        id: 'timeout_lab',
-        name: { en: 'Timeout Lab Demo', tr: 'Timeout Laboratuvarı Demosu' },
-        summary: {
-          en: 'Designed to surface a slow-path mutant so you can practice timeout diagnosis.',
-          tr: 'Timeout tanılaması pratiği için yavaş yol mutantı üretmek üzere tasarlanmıştır.',
-        },
-        learning_goal: {
-          en: 'Learn how timeout budgets and slow paths affect mutation results.',
-          tr: 'Timeout bütçeleriyle yavaş yolların mutation sonuçlarını nasıl etkilediğini öğren.',
-        },
-      },
-    ];
-    let currentLanguage = 'en';
-    let lastSnapshot = {
-      status: 'idle',
-      message: 'Ready to launch mutation analysis.',
-      pdf_report_path: null,
-      result: null,
     };
 
+    let currentLang = (() => {
+      try { return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'tr'; } catch (e) { return 'tr'; }
+    })();
+    let demoCatalog = [];
+    let lastSnapshot = { status: 'idle' };
+    let pollingStarted = false;
+
+    const $ = (id) => document.getElementById(id);
+    const T = () => I18N[currentLang];
+
     function escapeHtml(value) {
-      return String(value ?? '')
+      return String(value == null ? '' : value)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
     }
+    function pad(n, w) { return String(n).padStart(w, '0'); }
 
-    function formatTime(value) {
-      if (!value) return '-';
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return value;
-      return date.toLocaleString();
+    function showToast(message) {
+      const t = $('toast');
+      t.textContent = message;
+      t.classList.add('visible');
+      setTimeout(() => t.classList.remove('visible'), 2400);
     }
 
-    function languageValue(enValue, trValue) {
-      return currentLanguage === 'en' ? enValue : trValue;
-    }
+    function setLang(lang) {
+      currentLang = lang === 'en' ? 'en' : 'tr';
+      try { localStorage.setItem(LANG_KEY, currentLang); } catch (e) {}
+      document.documentElement.lang = currentLang;
+      $('lang-tr-button').classList.toggle('active', currentLang === 'tr');
+      $('lang-en-button').classList.toggle('active', currentLang === 'en');
 
-    function setText(selector, enValue, trValue) {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.textContent = languageValue(enValue, trValue);
-      }
-    }
+      const L = T();
+      $('lang-tr-button').textContent = L.langTr;
+      $('lang-en-button').textContent = L.langEn;
+      $('title').innerHTML = L.titleHtml;
+      $('lede').textContent = L.lede;
+      $('intro-body').textContent = L.introBody;
 
-    function setHTML(selector, enValue, trValue) {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.innerHTML = languageValue(enValue, trValue);
-      }
-    }
+      $('step1-title').textContent = L.step1;
+      $('step1-desc').textContent = L.step1Desc;
+      $('mode-demo-name').textContent = L.modeDemoName;
+      $('mode-demo-desc').textContent = L.modeDemoDesc;
+      $('mode-custom-name').textContent = L.modeCustomName;
+      $('mode-custom-desc').innerHTML = L.modeCustomDescHtml;
+      $('demo-label').textContent = L.demoLabel;
+      $('project-label').textContent = L.projectLabel;
+      $('project-hint').innerHTML = L.projectHintHtml;
+      $('sources-label').textContent = L.sourcesLabel;
+      $('sources-hint').innerHTML = L.sourcesHintHtml;
 
-    function setPlaceholder(selector, enValue, trValue) {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.setAttribute('placeholder', languageValue(enValue, trValue));
-      }
-    }
+      $('step2-title').textContent = L.step2;
+      $('step2-desc').innerHTML = L.step2DescHtml;
+      $('counter-aside').textContent = L.counterAside;
+      $('advanced-summary').textContent = L.advancedSummary;
+      $('config-label').textContent = L.configLabel;
+      $('config-hint').innerHTML = L.configHintHtml;
+      $('timeout-label').textContent = L.timeoutLabel;
+      $('timeout-hint').textContent = L.timeoutHint;
+      $('operators-label').textContent = L.operatorsLabel;
+      $('operators-hint').textContent = L.operatorsHint;
+      $('stop-label').textContent = L.stopLabel;
+      $('stop-hint').textContent = L.stopHint;
+      $('fail-label').textContent = L.failLabel;
+      $('fail-hint').textContent = L.failHint;
+      $('run-button-text').textContent = (lastSnapshot.status === 'running') ? L.runRunning : L.runText;
+      $('run-hint').textContent = L.runHint;
 
-    function setLeadText(selector, enValue, trValue) {
-      const element = document.querySelector(selector);
-      if (element && element.firstChild) {
-        element.firstChild.textContent = `\n            ${languageValue(enValue, trValue)}\n            `;
-      }
-    }
+      $('step3-title').textContent = L.step3;
+      $('step3-desc').textContent = L.step3Desc;
+      $('score-label').textContent = L.scoreLabel;
+      $('killed-label').firstChild.textContent = L.killedLabel;
+      $('killed-detail').textContent = L.killedDetail;
+      $('survived-label').firstChild.textContent = L.survivedLabel;
+      $('survived-detail').textContent = L.survivedDetail;
+      $('timeout-label').textContent = L.timeoutLabel;
+      // timeout uses a separate label inside bd-name
+      $('timeout-detail').textContent = L.timeoutDetail;
+      $('error-label').firstChild.textContent = L.errorLabel;
+      $('error-detail').textContent = L.errorDetail;
 
-    function setNestedLeadText(selector, enValue, trValue) {
-      const element = document.querySelector(selector);
-      if (element && element.firstChild) {
-        element.firstChild.textContent = `\n              ${languageValue(enValue, trValue)}\n              `;
-      }
-    }
+      $('step4-title').textContent = L.step4;
+      $('step4-desc').textContent = L.step4Desc;
+      $('th-file').textContent = L.thFile;
+      $('th-line').textContent = L.thLine;
+      $('th-status').textContent = L.thStatus;
+      $('th-change').textContent = L.thChange;
+      $('empty-mutants').textContent = L.emptyMutants;
+      $('download-report-button').textContent = L.downloadJson;
+      $('download-pdf-button').textContent = L.downloadPdf;
+      $('help-summary').textContent = L.helpSummary;
 
-    function localizeBackendText(text) {
-      if (!text || currentLanguage === 'en') {
-        return text;
-      }
+      Array.from($('demo-select').options).forEach((opt) => {
+        const label = opt.dataset[currentLang];
+        if (label) opt.textContent = label;
+      });
+      $('help-body-tr').hidden = currentLang !== 'tr';
+      $('help-body-en').hidden = currentLang !== 'en';
 
-      const exactMatches = {
-        'Ready to launch mutation analysis.': 'Mutation analizi başlatılmaya hazır.',
-        'Mutation analysis is running.': 'Mutation analizi çalışıyor.',
-        'Mutation analysis completed.': 'Mutation analizi tamamlandı.',
-        'Mutation analysis failed.': 'Mutation analizi başarısız oldu.',
-        'A mutation run is already in progress.': 'Halihazırda çalışan bir mutation koşusu var.',
-        'Built-in demo project was not found.': 'Yerleşik demo projesi bulunamadı.',
-        'Built-in demo could not be loaded.': 'Yerleşik demo yüklenemedi.',
-        'Built-in demo could not be started.': 'Yerleşik demo başlatılamadı.',
-        'No report is available yet.': 'Henüz indirilebilecek bir rapor yok.',
-        'The latest report file was not found.': 'Son rapor dosyası diskte bulunamadı.',
-        'Unable to load operators.': 'Operatör listesi yüklenemedi.',
-        'Unable to refresh status.': 'Durum yenilenemedi.',
-        'No Python source files matched the configured source paths and exclude patterns.': 'Ayarlanan source paths ve exclude kuralları ile eşleşen Python dosyası bulunamadı.',
-        'Baseline test run failed. Fix the normal test suite first, then rerun mutation analysis.': 'Baseline test paketi başarısız oldu. Önce normal testlerini düzelt, sonra mutation analizini tekrar çalıştır.',
-        'No mutants were executed. Check the source paths, exclude rules, and enabled operators.': 'Hiç mutant koşulmadı. Kaynak yollarını, exclude kurallarını ve seçili operatörleri kontrol et.',
-        'All executed mutants were detected. Increase the scope or mutant count to probe more behavior.': 'Koşulan tüm mutantlar yakalandı. Daha fazla davranışı ölçmek için kapsamı ya da mutant sayısını artır.',
-      };
+      // Fix bd-name labels (they have a child detail span)
+      fixBdName('killed-label', L.killedLabel);
+      fixBdName('survived-label', L.survivedLabel);
+      fixBdName('timeout-bd-label', L.timeoutLabel2);
+      fixBdName('error-label', L.errorLabel);
 
-      if (text in exactMatches) {
-        return exactMatches[text];
-      }
-
-      let match = text.match(/^(\d+) mutant\(s\) survived\. Add focused assertions around the changed behavior\.$/);
-      if (match) {
-        return `${match[1]} mutant yaşadı. Değişen davranış etrafına hedefli assertion'lar ekle.`;
-      }
-
-      match = text.match(/^(\d+) mutant\(s\) timed out\. Review loops, waits, or raise the timeout budget\.$/);
-      if (match) {
-        return `${match[1]} mutant timeout oldu. Döngüleri, beklemeleri ve timeout bütçesini gözden geçir.`;
-      }
-
-      match = text.match(/^(\d+) mutant\(s\) produced import or syntax issues\. Inspect the generated change details\.$/);
-      if (match) {
-        return `${match[1]} mutant import ya da syntax problemi üretti. Üretilen değişim detaylarını incele.`;
-      }
-
-      match = text.match(/^None of the configured source paths exist\. Checked: (.+)$/);
-      if (match) {
-        return `Ayarlanan kaynak yollarının hiçbiri bulunamadı. Kontrol edilen: ${match[1]}`;
-      }
-
-      return text;
-    }
-
-    function applyStaticTranslations() {
-      document.documentElement.lang = currentLanguage;
-      langEnButton.classList.toggle('active', currentLanguage === 'en');
-      langTrButton.classList.toggle('active', currentLanguage === 'tr');
-      langEnButton.setAttribute('aria-pressed', currentLanguage === 'en' ? 'true' : 'false');
-      langTrButton.setAttribute('aria-pressed', currentLanguage === 'tr' ? 'true' : 'false');
-      langEnButton.setAttribute('title', languageValue('Switch to English', 'İngilizceye geç'));
-      langTrButton.setAttribute('title', languageValue('Switch to Turkish', 'Türkçeye geç'));
-
-      setText('.hero .eyebrow', 'Local Mutation Dashboard', 'Yerel Mutation Paneli');
-      setText('.hero-copy', 'Run mutation analysis without leaving the browser. This page is both the control center and the onboarding guide: launch a session, watch the baseline, inspect survivors, and learn how to turn them into stronger tests.', "Tarayıcıdan çıkmadan mutation analizi çalıştır. Bu sayfa hem kontrol paneli hem de öğrenme rehberi olarak tasarlandı: koşuyu başlat, baseline'ı izle, survivor'ları incele ve bunları daha güçlü testlere nasıl dönüştüreceğini burada öğren.");
-      setText('.pill-row .pill:nth-child(1)', 'Baseline test run comes first', 'Önce baseline test koşulur');
-      setText('.pill-row .pill:nth-child(2)', 'Mutants are generated from the AST', 'AST ile mutant üretilir');
-      setText('.pill-row .pill:nth-child(3)', 'Detailed usage guide included', 'Detaylı kullanım rehberi var');
-      setText('.pill-row .pill:nth-child(4)', 'JSON report is preserved', 'JSON raporu saklanır');
-      setLeadText('.hero > label', 'Choose a demo', 'Bir demo seç');
-      setText('#starter-button', 'Use Starter Settings', 'Başlangıç Ayarlarını Doldur');
-      setText('#demo-button', 'Load Selected Demo', 'Seçili Demoyu Yükle');
-      setText('#demo-run-button', 'Run Selected Demo', 'Seçili Demoyu Çalıştır');
-      setText('#guide-button', 'Open Usage Guide', 'Kullanım Rehberine Git');
-      setHTML('#demo-inline-note', 'Load Selected Demo fills the form with the active demo settings. Run Selected Demo fills those values and starts the example immediately. After the run, use Download Latest Report or Download Latest PDF to save the results.', '<span class="inline-code">Seçili Demoyu Yükle</span> aktif demoya ait ayarları forma yerleştirir. <span class="inline-code">Seçili Demoyu Çalıştır</span> aynı değerleri doldurur ve örneği hemen başlatır. Koşudan sonra sonuçları kaydetmek için <span class="inline-code">Son JSON Raporunu İndir</span> veya <span class="inline-code">Son PDF Raporunu İndir</span> butonunu kullan.');
-
-      setText('.tour-grid .tour-card:nth-child(1) h3', 'Start Small', 'Küçük Başla');
-      setText('.tour-grid .tour-card:nth-child(1) p', 'Begin with one package or a batch of 10 mutants. Smaller runs make it easier to understand why a mutant survived.', 'Tek bir paket ya da 10 mutantlık bir batch ile başla. Küçük koşular bir mutantın neden yaşadığını anlamayı çok kolaylaştırır.');
-      setText('.tour-grid .tour-card:nth-child(2) h3', 'Read the Changed Behavior', 'Değişen Davranışı Oku');
-      setText('.tour-grid .tour-card:nth-child(2) p', 'A survivor means the tests still passed after behavior changed. The change itself is the clue for the next test you should write.', "Survivor demek, davranış değişmesine rağmen testlerin geçtiği anlamına gelir. Değişen ifade, yazman gereken bir sonraki test için en güçlü ipucudur.");
-      setText('.tour-grid .tour-card:nth-child(3) h3', 'Improve and Rerun', 'Geliştir ve Tekrar Koş');
-      setText('.tour-grid .tour-card:nth-child(3) p', 'Add one focused assertion for the missing behavior, rerun the same scope, then widen the run when the weak spot is closed.', 'Eksik davranış için tek bir net assertion ekle, aynı kapsamı tekrar koştur, boşluk kapanınca koşuyu genişlet.');
-
-      setText('.grid > .panel:nth-child(1) h2', 'Run Setup', 'Çalıştırma Ayarları');
-      setText('.grid > .panel:nth-child(1) .panel-copy', 'Choose a project, narrow the scope, and start the next mutation pass.', 'Projeyi seç, kapsamı daralt ve bir sonraki mutation koşusunu başlat.');
-      setLeadText('#run-form > label:nth-of-type(1)', 'Project root', 'Proje kökü');
-      setHTML('#run-form > label:nth-of-type(1) .field-help', 'The folder of the project you want to analyze. In most cases use <span class="inline-code">.</span> when the terminal is already inside that project.', 'Analiz etmek istediğin projenin klasörü. Terminal zaten projenin içindeyse genelde <span class="inline-code">.</span> kullanman yeterlidir.');
-      setLeadText('#run-form > label:nth-of-type(2)', 'Config path', 'Config yolu');
-      setPlaceholder('#config-path', 'Optional pyproject.toml path', 'Opsiyonel pyproject.toml yolu');
-      setHTML('#run-form > label:nth-of-type(2) .field-help', 'Leave blank to use <span class="inline-code">pyproject.toml</span> from the project root.', 'Boş bırakırsan proje kökündeki <span class="inline-code">pyproject.toml</span> kullanılır.');
-      setLeadText('#run-form > label:nth-of-type(3)', 'Source paths', 'Kaynak yollar');
-      setHTML('#run-form > label:nth-of-type(3) .field-help', 'Comma-separated paths to mutate. Recommended first value: <span class="inline-code">src</span>.', 'Virgül ile ayrılmış mutate edilecek yollar. İlk deneme için önerilen değer: <span class="inline-code">src</span>.');
-      setLeadText('#run-form > label:nth-of-type(4)', 'Operators', 'Operatörler');
-      setText('#run-form > label:nth-of-type(4) .field-help', 'Leave all operators unselected to run the full default set. Select a subset only when you want a focused pass.', 'Hiçbirini seçmezsen varsayılan operatörlerin tamamı çalışır. Daha odaklı bir koşu istediğinde alt küme seç.');
-      setLeadText('#run-form .split label:nth-child(1)', 'Max mutants', 'Maksimum mutant');
-      setPlaceholder('#max-mutants', 'Optional', 'Opsiyonel');
-      setText('#run-form .split label:nth-child(1) .field-help', 'Use 5-20 for an easy first run.', 'İlk deneme için 5-20 arası iyi bir aralıktır.');
-      setLeadText('#run-form .split label:nth-child(2)', 'Timeout (sec)', 'Zaman aşımı (sn)');
-      setPlaceholder('#timeout', 'Optional', 'Opsiyonel');
-      setText('#run-form .split label:nth-child(2) .field-help', 'Leave blank to auto-calculate from the baseline run.', 'Boş bırakırsan baseline süresine göre otomatik hesaplanır.');
-      setNestedLeadText('#stop-on-survivor + span', 'Stop after the first survivor', 'İlk survivor görülünce dur');
-      setText('#stop-on-survivor + span .mini-note', 'Best for fast local feedback when you only need the first actionable gap.', 'Yerelde hızlı geri bildirim istediğinde ve ilk aksiyonluk boşluk yettiğinde idealdir.');
-      setNestedLeadText('#fail-on-survivor + span', 'Fail run when a survivor appears', 'Survivor varsa koşuyu fail say');
-      setText('#fail-on-survivor + span .mini-note', 'Best for CI or quality gates where any survivor should fail the run.', 'CI veya kalite kapısında tek bir survivor bile koşuyu başarısız saymalıysa kullan.');
-      setText('#run-form .button-row button:nth-child(1)', 'Start Mutation Run', 'Mutation Koşusunu Başlat');
-      setText('#form-demo-button', 'Load Selected Demo', 'Seçili Demoyu Forma Yerleştir');
-      setText('#reset-button', 'Reset Form', 'Formu Temizle');
-      setText('#refresh-button', 'Refresh Status', 'Durumu Yenile');
-
-      setText('.grid > .panel:nth-child(2) h2', 'Control Room', 'Kontrol Odası');
-      setText('.grid > .panel:nth-child(2) .panel-copy', 'Track the current state, the latest report path, and the headline mutation metrics here.', 'Güncel durumu, son rapor yolunu ve özet mutation metriklerini burada izle.');
-      setText('.info-grid .info-card:nth-child(1) .info-key', 'Started', 'Başladı');
-      setText('.info-grid .info-card:nth-child(2) .info-key', 'Finished', 'Bitti');
-      setText('.info-grid .info-card:nth-child(3) .info-key', 'Report', 'Rapor');
-      setText('.metric-grid .metric:nth-child(1) .metric-label', 'Score', 'Skor');
-      setText('.metric-grid .metric:nth-child(2) .metric-label', 'Killed', 'Öldürülen');
-      setText('.metric-grid .metric:nth-child(3) .metric-label', 'Survived', 'Yaşayan');
-      setText('.metric-grid .metric:nth-child(4) .metric-label', 'Executed', 'Koşulan');
-      setText('.metric-grid .metric:nth-child(5) .metric-label', 'Generated', 'Üretilen');
-      setText('.metric-grid .metric:nth-child(6) .metric-label', 'Files', 'Dosya');
-      setText('#download-report-button', 'Download Latest Report', 'Son JSON Raporunu İndir');
-      setText('#download-pdf-button', 'Download Latest PDF', 'Son PDF Raporunu İndir');
-
-      setText('#usage-guide h2', 'How To Use Mutation Lab', 'Mutation Lab Nasıl Kullanılır?');
-      setText('#usage-guide > .panel-header .panel-copy', 'This guide is designed for both first-time users and teams turning mutation testing into a regular workflow.', "Bu rehber hem mutation testing'e ilk kez bakanlar hem de bunu düzenli bir kalite aracına dönüştürmek isteyen ekipler için hazırlandı.");
-      setText('#usage-guide .step-card:nth-child(1) h3', 'Confirm the normal test suite is green', 'Normal test paketinin yeşil olduğunu doğrula');
-      setText('#usage-guide .step-card:nth-child(1) p', 'Mutation testing only makes sense after the regular test suite passes. If the baseline fails, fix that first and try again.', 'Mutation testing ancak normal test paketi geçtikten sonra anlamlıdır. Baseline fail ise önce onu düzelt, sonra tekrar dene.');
-      setText('#usage-guide .step-card:nth-child(2) h3', 'Choose a small scope', 'Küçük bir kapsam seç');
-      setText('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklaşık 10 mutant ile başla. Bu sayede çıktı daha okunabilir olur ve ilk koşudan bir şey öğrenmek çok daha kolaylaşır.');
-      setHTML('#usage-guide .step-card:nth-child(2) p', 'Start with <span class="inline-code">src</span> and around 10 mutants. That keeps the output readable and makes the first run much easier to learn from.', '<span class="inline-code">src</span> ve yaklaşık 10 mutant ile başla. Bu sayede çıktı daha okunabilir olur ve ilk koşudan bir şey öğrenmek çok daha kolaylaşır.');
-      setText('#usage-guide .step-card:nth-child(3) h3', 'Inspect survivors carefully', "Survivor'ları dikkatle incele");
-      setText('#usage-guide .step-card:nth-child(3) p', 'A surviving mutant means tests still passed after the behavior changed. That usually means an edge case, branch, or assertion is missing.', "Survivor, davranış değişmesine rağmen testlerin geçtiğini söyler. Bu genelde eksik bir edge-case, branch ya da assertion olduğu anlamına gelir.");
-      setText('#usage-guide .step-card:nth-child(4) h3', 'Add one focused test and rerun', 'Tek bir hedefli test ekle ve tekrar koş');
-      setText('#usage-guide .step-card:nth-child(4) p', 'Read the original and mutated snippets, identify the changed expectation, write one targeted test, and rerun the same scope.', 'Orijinal ve mutate edilmiş parçayı oku, değişen beklentiyi bul, bir hedefli test yaz ve aynı kapsamı tekrar koştur.');
-      setText('#usage-guide .details details:nth-child(1) summary', 'Recommended first run', 'Önerilen ilk koşu');
-      setHTML('#usage-guide .details details:nth-child(1) p', 'If you are new to mutation testing, start with these values: project root <span class="inline-code">.</span>, source paths <span class="inline-code">src</span>, max mutants <span class="inline-code">10</span>, leave timeout blank, and keep both survivor checkboxes off.', "Mutation testing'e yeni başlıyorsan şu değerlerle başla: proje kökü <span class=\"inline-code\">.</span>, kaynak yollar <span class=\"inline-code\">src</span>, maksimum mutant <span class=\"inline-code\">10</span>, timeout boş, iki survivor kutucu da kapalı.");
-      setText('#usage-guide .details details:nth-child(2) summary', 'How do I use the demo catalog?', 'Demo kataloğunu nasıl kullanırım?');
-      setHTML('#usage-guide .details details:nth-child(2) p', 'Choose a demo first, then click <span class="inline-code">Load Selected Demo</span> to fill the form with that scenario. Review the values if you want to learn what each field means, then click <span class="inline-code">Start Mutation Run</span>. Use <span class="inline-code">Run Selected Demo</span> when you want one-click fill + run. After the run, keep the JSON report for tooling and download the PDF when you want a human-readable summary.', 'Önce bir demo seç, sonra o senaryonun ayarlarını forma yerleştirmek için <span class="inline-code">Seçili Demoyu Yükle</span> butonuna bas. Alanların ne anlama geldiğini öğrenmek istiyorsan önce değerleri incele, sonra <span class="inline-code">Mutation Koşusunu Başlat</span> seçeneğini kullan. Tek tık istersen <span class="inline-code">Seçili Demoyu Çalıştır</span> ile doldurup hemen koşabilirsin. Koşudan sonra araçlar için JSON raporunu sakla, insan okunur özet istediğinde PDF raporunu indir.');
-      setText('#usage-guide .details details:nth-child(3) summary', 'What should you do after a survivor?', 'Survivor gördüğünde ne yapmalısın?');
-      setHTML('#usage-guide .details details:nth-child(3) p', 'Example: if the tool shows <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> and that mutant survives, your tests probably never prove what should happen for <span class="inline-code">0</span>. Add a test for that exact boundary and rerun.', 'Örnek: araç <span class="inline-code">value &gt; 0 -&gt; value &gt;= 0</span> gösteriyorsa ve mutant yaşıyorsa, testlerin büyük ihtimalle <span class="inline-code">0</span> için doğru davranışı kanıtlamıyordur. Tam o sınır durumu için test ekle ve tekrar koş.');
-      setText('#usage-guide .code-card .info-key', 'Starter pyproject.toml', 'Başlangıç pyproject.toml');
-
-      setText('.guide-grid > .panel:nth-child(2) h2', 'Field Guide', 'Alan Rehberi');
-      setText('.guide-grid > .panel:nth-child(2) .panel-copy', 'Use this as a quick reference for what belongs in each form field.', 'Formdaki her alan için ne yazman gerektiğini hızlı referans gibi kullan.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) summary', 'Project root', 'Proje kökü');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(1) p', 'The project folder you want to analyze. If the terminal is already in that folder, use <span class="inline-code">.</span>.', 'Analiz etmek istediğin projenin klasörü. Terminal zaten o klasördeyse <span class="inline-code">.</span> kullan.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(2) summary', 'Config path', 'Config yolu');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(2) p', 'Use this only if you want to point at a specific config file. In most cases leave it blank and let the tool load <span class="inline-code">pyproject.toml</span> automatically.', 'Config dosyasını elle göstermek istersen kullan. Çoğu durumda boş bırak ve aracın <span class="inline-code">pyproject.toml</span> dosyasını otomatik okumasına izin ver.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(3) summary', 'Source paths', 'Kaynak yollar');
-      setHTML('.guide-grid > .panel:nth-child(2) .details details:nth-child(3) p', 'Comma-separated paths to mutate. Good examples are <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span>, or <span class="inline-code">src/my_package/service.py</span>.', 'Virgül ile ayrılmış mutate edilecek yollar. İyi örnekler: <span class="inline-code">src</span>, <span class="inline-code">src/my_package</span> ya da <span class="inline-code">src/my_package/service.py</span>.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) summary', 'Operators', 'Operatörler');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(4) p', 'Leave everything unselected to run all default operators. Choose a subset only when you want a specific kind of mutation pass.', 'Hiçbir şey seçmezsen varsayılan operatörlerin tamamı koşar. Sadece belli mutation tiplerine odaklanmak istediğinde alt küme seç.');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(5) summary', 'Max mutants and timeout', 'Maksimum mutant ve timeout');
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(5) p', 'While learning, 5-20 mutants is a good range. Leave timeout blank unless your test suite genuinely needs a manual budget.', "Öğrenme aşamasında 5-20 mutant iyi bir aralıktır. Test paketin alışılmadık şekilde uzun sürmüyorsa timeout'u boş bırak.");
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) summary', 'Stop on survivor vs fail on survivor', "İlk survivor'da dur ve survivor varsa fail farkı");
-      setText('.guide-grid > .panel:nth-child(2) .details details:nth-child(6) p', 'Stop on survivor is for fast local learning. Fail on survivor is for CI or stricter quality gates where even one survivor should fail the run.', "İlk survivor'da dur seçeneği yerelde hızlı öğrenme içindir. Survivor varsa fail seçeneği ise CI veya katı kalite kapıları içindir.");
-
-      setText('.reference-grid > .panel:nth-child(1) h2', 'Result Legend', 'Sonuç Efsanesi');
-      setText('.reference-grid > .panel:nth-child(1) .panel-copy', 'These are the outcomes you will see in the results table.', 'Sonuç tablosunda göreceğin durumlar bunlardır.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(1) p', 'Tests failed after the mutation. This is good: the changed behavior was detected.', 'Mutation sonrası testler fail oldu. Bu iyidir; değişen davranış yakalandı.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(2) p', 'Tests still passed after the mutation. This points to a missing assertion or edge case.', 'Mutation sonrası testler hâlâ geçti. Bu eksik assertion ya da edge-case işareti olabilir.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(3) p', 'The mutated run took too long. Review loops, waits, or increase the timeout budget.', 'Mutate edilmiş koşu çok uzun sürdü. Döngüleri, beklemeleri ya da timeout bütçesini gözden geçir.');
-      setText('.reference-grid > .panel:nth-child(1) .legend-card:nth-child(4) p', 'The mutation caused a syntax or import problem instead of a clean test failure.', 'Mutation temiz bir test faili yerine syntax ya da import problemi üretti.');
-
-      setText('.reference-grid > .panel:nth-child(2) h2', 'CLI Equivalents', 'CLI Karşılıkları');
-      setText('.reference-grid > .panel:nth-child(2) .panel-copy', 'The UI and CLI use the same engine. These commands match the common UI flows.', 'UI ve CLI aynı motoru kullanır. Bu komutlar en yaygın UI akışlarının terminal karşılığıdır.');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(2) .info-key', 'Useful commands', 'Yararlı komutlar');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) .info-key', 'Built-in demo', 'Yerleşik demo');
-      setText('.reference-grid > .panel:nth-child(2) .code-card:nth-child(3) pre', 'Project root: examples/beginner_demo\nSource paths: src\nMax mutants: 10\nTimeout: leave blank', 'Proje kökü: examples/beginner_demo\nKaynak yollar: src\nMaksimum mutant: 10\nZaman aşımı: boş bırak');
-
-      setText('.results h2', 'Results', 'Sonuçlar');
-      setText('.results .panel-copy', 'Use surviving mutants to find weak assertions and missing edge-case tests.', "Yaşayan mutantları kullanarak zayıf assertion'ları ve eksik edge-case testlerini bul.");
-      setText('.table-wrap thead th:nth-child(1)', 'Status', 'Durum');
-      setText('.table-wrap thead th:nth-child(2)', 'File', 'Dosya');
-      setText('.table-wrap thead th:nth-child(3)', 'Line', 'Satır');
-      setText('.table-wrap thead th:nth-child(4)', 'Operator', 'Operatör');
-      setText('.table-wrap thead th:nth-child(5)', 'Change', 'Değişim');
-      setText('.table-wrap thead th:nth-child(6)', 'Summary', 'Özet');
-    }
-
-    function translateStatus(status) {
-      const labels = currentLanguage === 'en'
-        ? { idle: 'Idle', running: 'Running', completed: 'Completed', failed: 'Failed' }
-        : { idle: 'Hazır', running: 'Çalışıyor', completed: 'Tamamlandı', failed: 'Hatalı' };
-      return labels[status] || status;
-    }
-
-    function getInitialLanguage() {
-      try {
-        const stored = window.localStorage.getItem(languageStorageKey);
-        return stored === 'tr' ? 'tr' : 'en';
-      } catch {
-        return 'en';
-      }
-    }
-
-    function applyLanguage(language) {
-      currentLanguage = language === 'tr' ? 'tr' : 'en';
-      try {
-        window.localStorage.setItem(languageStorageKey, currentLanguage);
-      } catch {}
-      applyStaticTranslations();
-      populateDemoSelect();
-      renderDemoDetails();
+      updateDemoSummary();
       renderStatus(lastSnapshot);
     }
 
-    function selectedDemoId() {
-      return demoSelect.value || 'beginner';
+    function fixBdName(id, text) {
+      const el = $(id);
+      if (!el) return;
+      const detail = el.querySelector('.bd-detail');
+      el.firstChild.textContent = text;
+      if (detail) el.appendChild(detail);
     }
 
-    function findDemo(demoId) {
-      return demoCatalog.find((demo) => demo.id === demoId) || demoCatalog[0] || null;
+    function activeMode() {
+      const checked = document.querySelector('input[name=mode]:checked');
+      return checked ? checked.value : 'demo';
     }
 
-    function populateDemoSelect() {
-      const currentValue = selectedDemoId();
-      demoSelect.innerHTML = '';
-      demoCatalog.forEach((demo) => {
-        const option = document.createElement('option');
-        option.value = demo.id;
-        option.textContent = languageValue(demo.name.en, demo.name.tr);
-        option.selected = demo.id === currentValue;
-        demoSelect.appendChild(option);
+    function applyMode() {
+      const mode = activeMode();
+      document.querySelectorAll('.mode').forEach((m) => {
+        const input = m.querySelector('input[type=radio]');
+        m.classList.toggle('active', input && input.value === mode);
       });
-      if (!findDemo(currentValue) && demoCatalog.length > 0) {
-        demoSelect.value = demoCatalog[0].id;
-      }
+      $('demo-panel').classList.toggle('hidden', mode !== 'demo');
+      $('custom-panel').classList.toggle('hidden', mode !== 'custom');
     }
 
-    function renderDemoDetails() {
-      const demo = findDemo(selectedDemoId());
-      if (!demo) {
-        demoSummary.textContent = '';
-        demoGoal.textContent = '';
-        return;
-      }
-      demoSummary.textContent = languageValue(demo.summary.en, demo.summary.tr);
-      demoGoal.textContent = languageValue(
-        `Learning goal: ${demo.learning_goal.en}`,
-        `Öğrenme hedefi: ${demo.learning_goal.tr}`
-      );
-    }
-
-    function parseCommaList(value) {
-      return value
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean);
-    }
-
-    function selectedOperators() {
-      return Array.from(operatorSelect.selectedOptions).map((option) => option.value);
-    }
-
-    function clearOperatorSelection() {
-      Array.from(operatorSelect.options).forEach((option) => {
-        option.selected = false;
-      });
-    }
-
-    function applyRequestToForm(request) {
-      document.getElementById('project-root').value = request.project_root || '.';
-      document.getElementById('config-path').value = request.config_path || '';
-      document.getElementById('source-paths').value = (request.source_paths || []).join(', ');
-      document.getElementById('max-mutants').value = request.max_mutants ?? '';
-      document.getElementById('timeout').value = request.per_mutant_timeout ?? '';
-      document.getElementById('stop-on-survivor').checked = Boolean(request.stop_on_survivor);
-      document.getElementById('fail-on-survivor').checked = Boolean(request.fail_on_survivor);
-      clearOperatorSelection();
-      Array.from(operatorSelect.options).forEach((option) => {
-        option.selected = (request.operators || []).includes(option.value);
-      });
-    }
-
-    function applyStarterDefaults() {
-      applyRequestToForm({
-        project_root: '.',
-        config_path: null,
-        source_paths: ['src'],
-        operators: [],
-        max_mutants: 10,
-        per_mutant_timeout: null,
-        stop_on_survivor: false,
-        fail_on_survivor: false,
-      });
-      statusMessage.textContent = languageValue(
-        'Starter settings were loaded into the form.',
-        'Başlangıç ayarları forma yerleştirildi.'
-      );
+    function updateDemoSummary() {
+      const id = $('demo-select').value;
+      const demo = demoCatalog.find((d) => d.id === id);
+      if (!demo) return;
+      const summary = (demo.summary && demo.summary[currentLang]) || (demo.summary && demo.summary.en) || '';
+      $('demo-summary').textContent = summary;
     }
 
     async function loadDemoCatalog() {
-      const response = await fetch('/api/demos');
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload.detail || 'Built-in demo could not be loaded.');
-      }
-      demoCatalog = payload.demos || demoCatalog;
-      populateDemoSelect();
-      renderDemoDetails();
-    }
-
-    async function fetchDemoPreset(demoId = selectedDemoId()) {
-      const response = await fetch(`/api/demo-preset?demo_id=${encodeURIComponent(demoId)}`);
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload.detail || 'Built-in demo could not be loaded.');
-      }
-      return payload;
-    }
-
-    async function applyDemoPreset() {
       try {
-        const demo = await fetchDemoPreset();
-        applyRequestToForm(demo.request);
-        renderDemoDetails();
-        statusMessage.textContent = languageValue(
-          `${findDemo(selectedDemoId())?.name.en || 'Selected demo'} loaded. Review the form, then click "Start Mutation Run" or use "Run Selected Demo" for one-click fill + run.`,
-          `${findDemo(selectedDemoId())?.name.tr || 'Seçili demo'} yüklendi. Önce formu incele, sonra "Mutation Koşusunu Başlat" butonuna bas ya da tek tık için "Seçili Demoyu Çalıştır" seçeneğini kullan.`
-        );
-        document.getElementById('usage-guide').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } catch (error) {
-        const rawMessage = error instanceof Error ? error.message : 'Built-in demo could not be loaded.';
-        const message = localizeBackendText(rawMessage);
-        renderStatus({ status: 'failed', message, error: message });
-      }
+        const res = await fetch('/api/demos');
+        const data = await res.json();
+        demoCatalog = data.demos || [];
+        populateDemoDropdown();
+        updateDemoSummary();
+      } catch (e) {}
     }
 
-    function resetFormToBlank() {
-      document.getElementById('project-root').value = '.';
-      document.getElementById('config-path').value = '';
-      document.getElementById('source-paths').value = '';
-      document.getElementById('max-mutants').value = '';
-      document.getElementById('timeout').value = '';
-      document.getElementById('stop-on-survivor').checked = false;
-      document.getElementById('fail-on-survivor').checked = false;
-      clearOperatorSelection();
-      statusMessage.textContent = languageValue('Form cleared.', 'Form temizlendi.');
-    }
-
-    function buildFormPayload() {
-      return {
-        project_root: document.getElementById('project-root').value.trim() || '.',
-        config_path: document.getElementById('config-path').value.trim() || null,
-        source_paths: parseCommaList(document.getElementById('source-paths').value),
-        operators: selectedOperators(),
-        max_mutants: document.getElementById('max-mutants').value ? Number(document.getElementById('max-mutants').value) : null,
-        per_mutant_timeout: document.getElementById('timeout').value ? Number(document.getElementById('timeout').value) : null,
-        stop_on_survivor: document.getElementById('stop-on-survivor').checked,
-        fail_on_survivor: document.getElementById('fail-on-survivor').checked,
-      };
-    }
-
-    async function startMutationRun(payload) {
-      const response = await fetch('/api/run', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+    function populateDemoDropdown() {
+      const select = $('demo-select');
+      const previousValue = select.value;
+      select.innerHTML = '';
+      demoCatalog.forEach((d) => {
+        const opt = document.createElement('option');
+        opt.value = d.id;
+        opt.textContent = (d.name && d.name[currentLang]) || d.id;
+        select.appendChild(opt);
       });
-
-      const data = await response.json();
-      if (!response.ok) {
-        const rawMessage = data.detail || 'Unable to start run.';
-        renderStatus({
-          status: 'failed',
-          message: localizeBackendText(rawMessage),
-          error: localizeBackendText(rawMessage),
-        });
-        return;
+      if (demoCatalog.some((d) => d.id === previousValue)) {
+        select.value = previousValue;
       }
-      renderStatus(data);
-    }
-
-    async function runBuiltInDemo() {
-      try {
-        const demo = await fetchDemoPreset();
-        applyRequestToForm(demo.request);
-        renderDemoDetails();
-        statusMessage.textContent = languageValue(
-          `${findDemo(selectedDemoId())?.name.en || 'Selected demo'} is starting now. The chosen example is designed to teach a specific mutation-testing scenario.`,
-          `${findDemo(selectedDemoId())?.name.tr || 'Seçili demo'} şimdi başlıyor. Seçtiğin örnek, belirli bir mutation-testing senaryosunu öğretmek için tasarlandı.`
-        );
-        await startMutationRun(demo.request);
-      } catch (error) {
-        const rawMessage = error instanceof Error ? error.message : 'Built-in demo could not be started.';
-        const message = localizeBackendText(rawMessage);
-        renderStatus({ status: 'failed', message, error: message });
-      }
-    }
-
-    function downloadLatestReport() {
-      if (!lastSnapshot.report_path) {
-        statusMessage.textContent = languageValue(
-          'There is no report to download yet.',
-          'İndirilecek bir rapor henüz yok.'
-        );
-        return;
-      }
-      window.location.href = '/api/report/download';
-    }
-
-    function downloadLatestPdf() {
-      if (!lastSnapshot.pdf_report_path) {
-        statusMessage.textContent = languageValue(
-          'There is no PDF report to download yet.',
-          'İndirilecek bir PDF raporu henüz yok.'
-        );
-        return;
-      }
-      window.location.href = '/api/report/download/pdf';
     }
 
     async function loadOperators() {
-      const response = await fetch('/api/operators');
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload.detail || 'Unable to load operators.');
-      }
-      operatorSelect.innerHTML = '';
-      payload.operators.forEach((name) => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        operatorSelect.appendChild(option);
-      });
+      try {
+        const res = await fetch('/api/operators');
+        const data = await res.json();
+        const sel = $('operators');
+        sel.innerHTML = '';
+        (data.operators || []).forEach((name) => {
+          const o = document.createElement('option');
+          o.value = name;
+          o.textContent = name;
+          sel.appendChild(o);
+        });
+      } catch (e) {}
     }
 
-    function renderRequest(request) {
-      if (!request) {
-        requestHint.innerHTML = '';
-        return;
-      }
-
-      const sources = (request.source_paths || []).join(', ') || languageValue('config default', 'config varsayılanı');
-      const operators = (request.operators || []).join(', ') || languageValue('all operators', 'tüm operatörler');
-      const stopOnSurvivor = request.stop_on_survivor ? languageValue('enabled', 'açık') : languageValue('disabled', 'kapalı');
-      const failOnSurvivor = request.fail_on_survivor ? languageValue('enabled', 'açık') : languageValue('disabled', 'kapalı');
-      requestHint.innerHTML = `
-        <div class="info-card">
-          <span class="info-key">${escapeHtml(languageValue('Last request', 'Son istek'))}</span>
-          <div><strong>${escapeHtml(languageValue('Project', 'Proje'))}:</strong> ${escapeHtml(request.project_root)}</div>
-          <div><strong>${escapeHtml(languageValue('Sources', 'Kaynaklar'))}:</strong> ${escapeHtml(sources)}</div>
-          <div><strong>${escapeHtml(languageValue('Operators', 'Operatörler'))}:</strong> ${escapeHtml(operators)}</div>
-        </div>
-        <div class="info-card">
-          <span class="info-key">${escapeHtml(languageValue('Run policy', 'Koşu politikası'))}</span>
-          <div><strong>${escapeHtml(languageValue('Stop on survivor', "İlk survivor'da dur"))}:</strong> ${escapeHtml(stopOnSurvivor)}</div>
-          <div><strong>${escapeHtml(languageValue('Fail on survivor', 'Survivor varsa fail'))}:</strong> ${escapeHtml(failOnSurvivor)}</div>
-          <div><strong>${escapeHtml(languageValue('Max mutants', 'Maksimum mutant'))}:</strong> ${escapeHtml(request.max_mutants ?? languageValue('not set', 'ayarlanmadı'))}</div>
-        </div>
-      `;
+    function setCount(value) {
+      const n = Math.max(1, Math.min(500, Math.round(Number(value) || 10)));
+      $('max-mutants').value = n;
+      return n;
     }
 
-    function renderBaseline(baseline) {
-      if (!baseline) {
-        baselinePanel.innerHTML = `<strong>Baseline</strong><p class="panel-copy">${escapeHtml(languageValue('No run yet.', 'Henüz bir koşu yok.'))}</p>`;
-        return;
-      }
-
-      const state = baseline.success ? languageValue('passed', 'geçti') : languageValue('failed', 'başarısız');
-      baselinePanel.innerHTML = `
-        <strong>Baseline ${escapeHtml(state)}</strong>
-        <p class="panel-copy">${escapeHtml(languageValue('Command', 'Komut'))}: ${escapeHtml((baseline.command || []).join(' '))}</p>
-        <p class="panel-copy">${escapeHtml(languageValue('Duration', 'Süre'))}: ${escapeHtml((baseline.duration_seconds || 0).toFixed(2))}${escapeHtml(languageValue('s', 'sn'))}</p>
-        <div class="details">
-          <details>
-            <summary>${escapeHtml(languageValue('Baseline output', 'Baseline çıktı'))}</summary>
-            <pre>${escapeHtml([baseline.stdout || '', baseline.stderr || ''].join('\n').trim() || languageValue('No output', 'Çıktı yok'))}</pre>
-          </details>
-        </div>
-      `;
+    function readAdvancedOverrides() {
+      const max = $('max-mutants').value ? Number($('max-mutants').value) : null;
+      const timeout = $('timeout').value ? Number($('timeout').value) : null;
+      const ops = Array.from($('operators').selectedOptions).map((o) => o.value);
+      const stopOn = $('stop-on-survivor').checked;
+      const failOn = $('fail-on-survivor').checked;
+      const cfg = $('config-path').value.trim() || null;
+      return { max, timeout, ops, stopOn, failOn, cfg };
     }
 
-    function renderMutants(mutants) {
-      if (!mutants || mutants.length === 0) {
-        mutantBody.innerHTML = `<tr><td colspan="6" class="empty">${escapeHtml(languageValue('No executed mutants yet.', 'Henüz koşulmuş mutant yok.'))}</td></tr>`;
-        return;
+    async function fetchDemoPreset(demoId) {
+      const res = await fetch('/api/demo-preset?demo_id=' + encodeURIComponent(demoId));
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.detail || 'Demo could not be loaded.');
       }
-
-      mutantBody.innerHTML = mutants.map((mutant) => {
-        const status = escapeHtml(mutant.status || 'unknown');
-        const location = mutant.location || {};
-        const summary = mutant.failing_summary || mutant.description || '-';
-        return `
-          <tr>
-            <td><span class="chip chip-${status}">${status}</span></td>
-            <td>${escapeHtml(mutant.file_path)}</td>
-            <td>${escapeHtml(location.start_line ?? '-')}</td>
-            <td>${escapeHtml(mutant.operator_name)}</td>
-            <td><code>${escapeHtml(mutant.original_snippet)} -> ${escapeHtml(mutant.mutated_snippet)}</code></td>
-            <td>${escapeHtml(summary)}</td>
-          </tr>
-        `;
-      }).join('');
+      return res.json();
     }
 
-    function renderSummary(summary) {
-      if (!summary) {
-        scoreValue.textContent = '0%';
-        killedValue.textContent = '0';
-        survivedValue.textContent = '0';
-        executedValue.textContent = '0';
-        generatedValue.textContent = '0';
-        discoveredValue.textContent = '0';
-        summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('Ready for your first run.', 'İlk koşuna hazırsın.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Start with a small batch, inspect the surviving change, and turn it into a focused test.', 'Küçük bir batch ile başla, yaşayan değişikliği incele ve onu hedefli bir teste dönüştür.'))}</p>
-        `;
-        return;
-      }
+    async function startRun() {
+      const mode = activeMode();
+      const adv = readAdvancedOverrides();
+      let body;
 
-      scoreValue.textContent = `${Number(summary.mutation_score || 0).toFixed(1)}%`;
-      killedValue.textContent = String(summary.killed || 0);
-      survivedValue.textContent = String(summary.survived || 0);
-      executedValue.textContent = String(summary.executed || 0);
-      generatedValue.textContent = String(summary.generated_mutants || 0);
-      discoveredValue.textContent = String((summary.discovered_files || []).length);
-
-      if (summary.survived > 0) {
-        summaryCallout.innerHTML = `
-          <strong>${escapeHtml(summary.survived)} ${escapeHtml(languageValue('survivor(s) need attention.', 'survivor dikkat bekliyor.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Read the changed behavior below, then add the smallest test that proves the intended result.', 'Aşağıdaki değişen davranışı oku, sonra beklenen sonucu kanıtlayan en küçük testi ekle.'))}</p>
-        `;
-      } else if (summary.executed > 0) {
-        summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('No survivors in the latest executed set.', 'Son koşuda survivor yok.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('That means the current mutant batch was fully detected by your tests.', "Bu, mevcut mutant batch'inin testler tarafından tamamen yakalandığı anlamına gelir."))}</p>
-        `;
+      if (mode === 'demo') {
+        try {
+          const preset = await fetchDemoPreset($('demo-select').value);
+          body = Object.assign({}, preset.request);
+          if (adv.max) body.max_mutants = adv.max;
+          if (adv.timeout) body.per_mutant_timeout = adv.timeout;
+          if (adv.ops.length) body.operators = adv.ops;
+          if (adv.stopOn) body.stop_on_survivor = true;
+          if (adv.failOn) body.fail_on_survivor = true;
+          if (adv.cfg) body.config_path = adv.cfg;
+        } catch (e) {
+          renderStatus({ status: 'failed', message: e.message, error: e.message });
+          return;
+        }
       } else {
-        summaryCallout.innerHTML = `
-          <strong>${escapeHtml(languageValue('No mutants executed yet.', 'Henüz mutant koşulmadı.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('Check the source paths, exclude rules, and operator selection.', 'Kaynak yollarını, exclude kurallarını ve operatör seçimini kontrol et.'))}</p>
-        `;
+        const root = $('project-root').value.trim() || '.';
+        const sources = $('source-paths').value.split(',').map((s) => s.trim()).filter(Boolean);
+        body = {
+          project_root: root,
+          source_paths: sources,
+          max_mutants: adv.max,
+          per_mutant_timeout: adv.timeout,
+          operators: adv.ops,
+          stop_on_survivor: adv.stopOn,
+          fail_on_survivor: adv.failOn,
+          config_path: adv.cfg,
+        };
       }
+
+      $('run-button').disabled = true;
+      $('run-button-text').textContent = T().runRunning;
+
+      try {
+        const res = await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          renderStatus({ status: 'failed', message: data.detail || 'Failed', error: data.detail || 'Failed' });
+        } else {
+          renderStatus(data);
+        }
+      } catch (e) {
+        renderStatus({ status: 'failed', message: e.message, error: e.message });
+      }
+    }
+
+    function statusLabel(status) {
+      const L = T();
+      switch (status) {
+        case 'running': return L.statusRunning;
+        case 'completed': return L.statusCompleted;
+        case 'failed': return L.statusFailed;
+        default: return L.statusIdle;
+      }
+    }
+
+    function translateBackendMessage(msg) {
+      if (!msg) return T().msgReady;
+      const map = {
+        'Ready to launch mutation analysis.': 'msgReady',
+        'Mutation analysis is running.': 'msgRunning',
+        'Mutation analysis completed.': 'msgCompleted',
+        'Mutation analysis failed.': 'msgFailed',
+      };
+      if (map[msg]) return T()[map[msg]];
+      return msg;
+    }
+
+    function fmtClock(d) {
+      return pad(d.getHours(), 2) + ':' + pad(d.getMinutes(), 2) + ':' + pad(d.getSeconds(), 2);
+    }
+    function formatTimeRange(snapshot) {
+      const start = snapshot.started_at ? new Date(snapshot.started_at) : null;
+      const end = snapshot.finished_at ? new Date(snapshot.finished_at) : null;
+      if (start && end) return fmtClock(start) + ' → ' + fmtClock(end);
+      if (start) return fmtClock(start) + ' …';
+      return '';
+    }
+
+    function narrateScore(snapshot, status) {
+      const L = T();
+      if (status === 'idle') return L.narrateIdleHtml;
+      if (status === 'running') return L.narrateRunningHtml;
+      if (status === 'failed') return L.narrateFailedHtml;
+      const summary = snapshot.result && snapshot.result.summary;
+      if (!summary) return L.narrateIdleHtml;
+      if (!summary.executed) return L.narrateNoMutantsHtml;
+      if ((summary.survived || 0) > 0) return L.narrateSurvivorsHtml(summary.survived);
+      return L.narrateCleanHtml;
     }
 
     function renderStatus(snapshot) {
+      if (!snapshot) snapshot = { status: 'idle' };
       lastSnapshot = snapshot;
       const status = snapshot.status || 'idle';
-      statusBadge.className = `status-badge status-${status}`;
-      statusBadge.textContent = translateStatus(status);
-      statusMessage.textContent = localizeBackendText(snapshot.error || snapshot.message || languageValue('No status yet.', 'Durum bilgisi yok.'));
-      startedAt.textContent = formatTime(snapshot.started_at);
-      finishedAt.textContent = formatTime(snapshot.finished_at);
-      reportPath.textContent = snapshot.report_path || '-';
-      renderRequest(snapshot.request);
+      const L = T();
 
-      if (!snapshot.result) {
-        renderBaseline(null);
-        renderSummary(null);
-        renderGuidance([]);
-        renderMutants([]);
-        return;
+      $('status-dot').className = 'status-dot ' + status;
+      $('status-label').textContent = statusLabel(status);
+      $('status-message').textContent = translateBackendMessage(snapshot.error || snapshot.message);
+      $('status-time').textContent = formatTimeRange(snapshot);
+
+      const isRunning = status === 'running';
+      $('run-button').disabled = isRunning;
+      $('run-button-text').textContent = isRunning ? L.runRunning : L.runText;
+
+      const summary = snapshot.result && snapshot.result.summary;
+      if (summary) {
+        $('score-value').textContent = Number(summary.mutation_score || 0).toFixed(0);
+        $('score-unit').style.display = '';
+        $('killed-value').textContent = String(summary.killed || 0);
+        $('survived-value').textContent = String(summary.survived || 0);
+        $('timeout-value').textContent = String(summary.timeout || 0);
+        $('error-value').textContent = String(summary.error || 0);
+      } else if (isRunning) {
+        $('score-value').textContent = '…';
+        $('score-unit').style.display = 'none';
+      } else {
+        $('score-value').textContent = '—';
+        $('score-unit').style.display = 'none';
+        $('killed-value').textContent = '0';
+        $('survived-value').textContent = '0';
+        $('timeout-value').textContent = '0';
+        $('error-value').textContent = '0';
       }
+      $('score-narrate').innerHTML = narrateScore(snapshot, status);
 
-      renderBaseline(snapshot.result.baseline);
-      renderSummary(snapshot.result.summary);
-      renderGuidance(snapshot.result.guidance || []);
-      renderMutants(snapshot.result.mutants || []);
+      const hasReport = !!snapshot.report_path;
+      const hasPdf = !!snapshot.pdf_report_path;
+      $('download-report-button').hidden = !hasReport;
+      $('download-pdf-button').hidden = !hasPdf;
+
+      const mutants = (snapshot.result && snapshot.result.mutants) || [];
+      const findings = $('findings-section');
+      if (mutants.length > 0 || status === 'completed' || status === 'failed' || hasReport) {
+        findings.hidden = false;
+        renderMutants(mutants);
+      } else if (status === 'idle') {
+        findings.hidden = true;
+      }
     }
 
-    function renderGuidance(guidance) {
-      if (!guidance || guidance.length === 0) {
-        guidancePanel.innerHTML = `
-          <strong>${escapeHtml(languageValue('Next-step guidance will appear here.', 'Bir sonraki adım önerileri burada görünecek.'))}</strong>
-          <p class="panel-copy">${escapeHtml(languageValue('After a run, this panel summarizes what to do next.', 'Koşu tamamlandıktan sonra burada ne yapman gerektiği özetlenir.'))}</p>
-        `;
+    function renderMutants(mutants) {
+      const tbody = $('mutant-body');
+      const L = T();
+      if (!mutants.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">' + escapeHtml(L.emptyMutantsRun) + '</td></tr>';
         return;
       }
-
-      const items = guidance.map((item) => `<li>${escapeHtml(localizeBackendText(item))}</li>`).join('');
-      guidancePanel.innerHTML = `
-        <strong>${escapeHtml(languageValue('Recommended next steps', 'Önerilen sonraki adımlar'))}</strong>
-        <ul>${items}</ul>
-      `;
+      const tagText = { killed: L.tagKilled, survived: L.tagSurvived, timeout: L.tagTimeout, error: L.tagError };
+      tbody.innerHTML = mutants.map((m, idx) => {
+        const status = String(m.status || 'unknown').toLowerCase();
+        const line = (m.location && m.location.start_line) || '—';
+        const original = escapeHtml(m.original_snippet || '');
+        const mutated = escapeHtml(m.mutated_snippet || '');
+        const label = tagText[status] || status;
+        return '<tr>' +
+          '<td class="id-col">' + pad(idx + 1, 3) + '</td>' +
+          '<td><code>' + escapeHtml(m.file_path || '') + '</code></td>' +
+          '<td class="line-col">' + escapeHtml(line) + '</td>' +
+          '<td class="status-col"><span class="tag ' + status + '">' + escapeHtml(label) + '</span></td>' +
+          '<td class="change-col"><code>' + original + ' → ' + mutated + '</code></td>' +
+          '</tr>';
+      }).join('');
     }
 
     async function refreshStatus() {
-      const response = await fetch('/api/status');
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload.detail || 'Unable to refresh status.');
-      }
-      renderStatus(payload);
-    }
-
-    async function initializePage() {
-      applyLanguage(getInitialLanguage());
       try {
-        await loadDemoCatalog();
-        await loadOperators();
-        await refreshStatus();
-      } catch (error) {
-        const rawMessage = error instanceof Error ? error.message : 'Unable to refresh status.';
-        const message = localizeBackendText(rawMessage);
-        renderStatus({ status: 'failed', message, error: message });
-      }
+        const res = await fetch('/api/status');
+        if (!res.ok) return;
+        const data = await res.json();
+        renderStatus(data);
+      } catch (e) {}
     }
 
-    async function submitRun(event) {
-      event.preventDefault();
-      await startMutationRun(buildFormPayload());
+    function startPolling() {
+      if (pollingStarted) return;
+      pollingStarted = true;
+      setInterval(refreshStatus, 2000);
     }
 
-    form.addEventListener('submit', submitRun);
-    refreshButton.addEventListener('click', refreshStatus);
-    demoButton.addEventListener('click', applyDemoPreset);
-    demoRunButton.addEventListener('click', runBuiltInDemo);
-    formDemoButton.addEventListener('click', applyDemoPreset);
-    demoSelect.addEventListener('change', renderDemoDetails);
-    starterButton.addEventListener('click', applyStarterDefaults);
-    resetButton.addEventListener('click', resetFormToBlank);
-    langEnButton.addEventListener('click', () => applyLanguage('en'));
-    langTrButton.addEventListener('click', () => applyLanguage('tr'));
-    guideButton.addEventListener('click', () => {
-      document.getElementById('usage-guide').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function downloadJson() {
+      if (!lastSnapshot.report_path) { showToast(T().toastDownloadEmpty); return; }
+      window.location.href = '/api/report/download';
+    }
+    function downloadPdf() {
+      if (!lastSnapshot.pdf_report_path) { showToast(T().toastDownloadEmpty); return; }
+      window.location.href = '/api/report/download/pdf';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add id markers for the timeout row label since it conflicts with the field above
+      const timeoutBd = document.querySelector('.bd-row.warn .bd-name');
+      if (timeoutBd) timeoutBd.id = 'timeout-bd-label';
+
+      $('lang-tr-button').addEventListener('click', () => setLang('tr'));
+      $('lang-en-button').addEventListener('click', () => setLang('en'));
+      document.querySelectorAll('input[name=mode]').forEach((r) => r.addEventListener('change', applyMode));
+      $('count-minus').addEventListener('click', () => setCount(Number($('max-mutants').value) - 1));
+      $('count-plus').addEventListener('click', () => setCount(Number($('max-mutants').value) + 1));
+      $('max-mutants').addEventListener('blur', () => setCount($('max-mutants').value));
+      $('demo-select').addEventListener('change', updateDemoSummary);
+      $('run-button').addEventListener('click', startRun);
+      $('download-report-button').addEventListener('click', downloadJson);
+      $('download-pdf-button').addEventListener('click', downloadPdf);
+
+      setLang(currentLang);
+      applyMode();
+      setCount($('max-mutants').value);
+      loadDemoCatalog();
+      loadOperators();
+      refreshStatus();
+      startPolling();
     });
-    downloadReportButton.addEventListener('click', downloadLatestReport);
-    downloadPdfButton.addEventListener('click', downloadLatestPdf);
-    initializePage();
-    setInterval(() => {
-      refreshStatus().catch(() => {});
-    }, 2000);
   </script>
 </body>
 </html>
