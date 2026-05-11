@@ -7,6 +7,7 @@ from typing import cast
 
 from mutation_tool.models import ToolConfig
 
+# Default configuration values if not specified in pyproject.toml
 DEFAULT_SOURCE_PATHS = ["src"]
 DEFAULT_TEST_COMMAND = ["pytest", "-q"]
 DEFAULT_EXCLUDE = [
@@ -23,6 +24,7 @@ DEFAULT_EXCLUDE = [
 DEFAULT_REPORT_DIR = ".mutation-tool"
 
 
+# Load tool configuration from pyproject.toml or use defaults
 def load_config(project_root: Path, config_path: Path | None = None) -> ToolConfig:
     project_root = project_root.resolve()
     config_file = _resolve_config_path(project_root, config_path)
@@ -59,6 +61,7 @@ def load_config(project_root: Path, config_path: Path | None = None) -> ToolConf
     )
 
 
+# Find the config file - use explicit path or default to pyproject.toml
 def _resolve_config_path(project_root: Path, config_path: Path | None) -> Path | None:
     if config_path is not None:
         return config_path.resolve()
@@ -66,6 +69,7 @@ def _resolve_config_path(project_root: Path, config_path: Path | None) -> Path |
     return candidate if candidate.exists() else None
 
 
+# Extract the [tool.mutation_tool] section from pyproject.toml
 def _read_tool_section(config_file: Path) -> dict[str, object]:
     with config_file.open("rb") as handle:
         data = tomllib.load(handle)
@@ -78,6 +82,7 @@ def _read_tool_section(config_file: Path) -> dict[str, object]:
     return cast(dict[str, object], mutation_section)
 
 
+# Normalize config value to a list of strings
 def _as_string_list(value: object) -> list[str]:
     if value is None:
         return []
@@ -88,6 +93,7 @@ def _as_string_list(value: object) -> list[str]:
     raise ValueError("Expected a string or list of strings in mutation tool config")
 
 
+# Parse config value as optional float
 def _as_optional_float(value: object) -> float | None:
     if value is None:
         return None
@@ -98,6 +104,7 @@ def _as_optional_float(value: object) -> float | None:
     return float(value)
 
 
+# Parse config value as required float
 def _as_float(value: object) -> float:
     converted = _as_optional_float(value)
     if converted is None:
@@ -105,6 +112,7 @@ def _as_float(value: object) -> float:
     return converted
 
 
+# Parse config value as optional int
 def _as_optional_int(value: object) -> int | None:
     if value is None:
         return None
@@ -115,12 +123,14 @@ def _as_optional_int(value: object) -> int | None:
     return int(value)
 
 
+# Ensure pytest is invoked via python -m pytest
 def _normalize_test_command(command: list[str]) -> list[str]:
     if command and command[0] == "pytest":
         return [sys.executable, "-m", "pytest", *command[1:]]
     return command
 
 
+# Merge two lists while preserving order and removing duplicates
 def _merge_unique(left: list[str], right: list[str]) -> list[str]:
     merged: list[str] = []
     for item in [*left, *right]:

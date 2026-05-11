@@ -6,6 +6,7 @@ import pytest
 from mutation_tool.config import load_config
 
 
+# Test loading config from pyproject.toml tool section
 def test_load_config_reads_tool_section(tmp_path: Path) -> None:
     (tmp_path / "pyproject.toml").write_text(
         """
@@ -32,6 +33,7 @@ stop_on_survivor = true
     assert config.stop_on_survivor is True
 
 
+# Test that defaults are used when config file is missing
 def test_load_config_uses_defaults_when_missing(tmp_path: Path) -> None:
     config = load_config(tmp_path)
 
@@ -40,6 +42,7 @@ def test_load_config_uses_defaults_when_missing(tmp_path: Path) -> None:
     assert config.report_dir == tmp_path / ".mutation-tool"
 
 
+# Test that boolean values are rejected for numeric config fields
 def test_load_config_rejects_boolean_for_numeric_fields(tmp_path: Path) -> None:
     (tmp_path / "pyproject.toml").write_text(
         """

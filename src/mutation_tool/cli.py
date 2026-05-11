@@ -12,8 +12,10 @@ from mutation_tool.reports import render_session
 from mutation_tool.service import RunOptions, execute_options
 from mutation_tool.ui import launch_ui
 
+# Main CLI app for mutation testing commands
 app = typer.Typer(add_completion=False, help="Introduce mutants and measure test effectiveness.")
 
+# Reusable CLI argument/option definitions
 PROJECT_ROOT_ARG = typer.Argument(exists=True, file_okay=False, dir_okay=True)
 CONFIG_PATH_OPT = typer.Option("--config", exists=True, dir_okay=False)
 SOURCE_OPT = typer.Option("--source", help="Override source path. Repeatable.")
@@ -24,6 +26,7 @@ STOP_ON_SURVIVOR_OPT = typer.Option("--stop-on-survivor/--no-stop-on-survivor")
 FAIL_ON_SURVIVOR_OPT = typer.Option("--fail-on-survivor/--no-fail-on-survivor")
 
 
+# Run mutation analysis on a project
 @app.command()
 def run(
     project_root: Annotated[Path, PROJECT_ROOT_ARG] = Path("."),
@@ -56,6 +59,7 @@ def run(
         raise typer.Exit(code=1)
 
 
+# Launch the web UI for interactive mutation testing
 @app.command()
 def ui(
     host: Annotated[str, typer.Option("--host")] = "127.0.0.1",
@@ -68,6 +72,7 @@ def ui(
     launch_ui(host=host, port=port)
 
 
+# List all available mutation operators
 @app.command("list-operators")
 def list_operators() -> None:
     console = Console()

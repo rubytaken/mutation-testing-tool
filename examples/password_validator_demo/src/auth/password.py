@@ -1,11 +1,13 @@
 """Password validation — comparison and boolean mutations live here."""
 from __future__ import annotations
 
+# Allowed special characters and length thresholds
 SPECIAL_CHARS = "!@#$%^&*"
 MIN_LENGTH = 8
 STRONG_LENGTH = 12
 
 
+# Check if password meets all strength requirements
 def is_strong_password(password: str) -> bool:
     """Return True only if password meets all rules.
 
@@ -20,6 +22,7 @@ def is_strong_password(password: str) -> bool:
     return has_upper and has_digit and has_special
 
 
+# Rate password strength based on accumulated score
 def categorize_strength(password: str) -> str:
     """Return one of 'weak', 'medium', 'strong' from a 0–5 point scale."""
     score = 0

@@ -11,6 +11,7 @@ from mutation_tool.ui.app import create_app
 from mutation_tool.ui.state import RunRequest, UIState
 
 
+# Mock UI state for testing API endpoints
 class StubState:
     def __init__(self) -> None:
         self.started_request: RunRequest | None = None
@@ -31,6 +32,7 @@ class StubState:
         }
 
 
+# Test that main UI page loads with all key elements
 def test_ui_index_page_loads() -> None:
     client = TestClient(create_app(StubState()))
 
@@ -47,6 +49,7 @@ def test_ui_index_page_loads() -> None:
     assert 'id="lang-tr-button"' in response.text
 
 
+# Test that operators API returns available operators
 def test_ui_exposes_operator_list() -> None:
     client = TestClient(create_app(StubState()))
 
@@ -56,6 +59,7 @@ def test_ui_exposes_operator_list() -> None:
     assert response.json() == {"operators": ["comparison", "logical"]}
 
 
+# Test that demos API returns all demo IDs in correct order
 def test_ui_exposes_demo_catalog() -> None:
     client = TestClient(create_app(StubState()))
 
@@ -74,6 +78,7 @@ def test_ui_exposes_demo_catalog() -> None:
     ]
 
 
+# Test that demo preset API returns beginner demo configuration
 def test_ui_exposes_demo_preset() -> None:
     client = TestClient(create_app(StubState()))
 
@@ -115,6 +120,7 @@ def test_ui_rejects_unknown_demo_id() -> None:
     assert response.status_code == 404
 
 
+# Test that run endpoint accepts and processes run request
 def test_ui_run_endpoint_accepts_payload() -> None:
     state = StubState()
     client = TestClient(create_app(state))

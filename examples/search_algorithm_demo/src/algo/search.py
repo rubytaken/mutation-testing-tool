@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 
+# Classic binary search - O(log n) lookup on sorted array
 def binary_search(arr: list[int], target: int) -> int:
     """Iterative binary search on a sorted list. Returns index, or -1."""
     low = 0
@@ -17,6 +18,7 @@ def binary_search(arr: list[int], target: int) -> int:
     return -1
 
 
+# Count duplicates using two binary searches - find first and last occurrence
 def count_occurrences(arr: list[int], target: int) -> int:
     """Count how many times target appears in a sorted list."""
     if not arr:
@@ -52,6 +54,7 @@ def count_occurrences(arr: list[int], target: int) -> int:
     return last - first + 1
 
 
+# Sliding window maximum - naive O(n*k) implementation for mutation testing
 def max_in_window(arr: list[int], window: int) -> list[int]:
     """Sliding window maximum (naive implementation)."""
     if not arr or window <= 0:

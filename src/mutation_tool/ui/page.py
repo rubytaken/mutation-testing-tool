@@ -1,5 +1,6 @@
 # ruff: noqa: E501
 
+# Single-page HTML application with embedded CSS and JavaScript for mutation testing UI
 INDEX_HTML = r"""
 <!doctype html>
 <html lang="tr">
@@ -1302,11 +1303,9 @@ python -m mutation_tool ui</pre>
       },
     };
 
-    let currentLang = (() => {
-      try { return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'tr'; } catch (e) { return 'tr'; }
-    })();
+    let currentLang = 'en';
     let demoCatalog = [];
-    let lastSnapshot = { status: 'idle' };
+    let lastSnapshot = null;
     let pollingStarted = false;
 
     const $ = (id) => document.getElementById(id);

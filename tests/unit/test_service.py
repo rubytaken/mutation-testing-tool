@@ -7,6 +7,7 @@ from mutation_tool.engine.session import SessionRunner
 from mutation_tool.service import RunOptions, build_runtime_config, execute_session
 
 
+# Test that config validation fails when source paths don't exist
 def test_build_runtime_config_rejects_missing_source_paths(tmp_path: Path) -> None:
     (tmp_path / "pyproject.toml").write_text(
         """
@@ -20,6 +21,7 @@ source_paths = ["missing"]
         build_runtime_config(RunOptions(project_root=tmp_path))
 
 
+# Test that session fails when no Python files are found
 def test_session_runner_requires_discoverable_python_files(tmp_path: Path) -> None:
     source_dir = tmp_path / "src"
     source_dir.mkdir(parents=True)
@@ -33,6 +35,7 @@ def test_session_runner_requires_discoverable_python_files(tmp_path: Path) -> No
         SessionRunner(config).run()
 
 
+# Test that execution generates both JSON and PDF reports
 def test_execute_session_writes_json_and_pdf_reports() -> None:
     project_root = Path("tests/integration/fixtures/killed_project").resolve()
 

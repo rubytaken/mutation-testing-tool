@@ -9,6 +9,7 @@ This module demonstrates mutation testing with:
 from .models import Order, OrderResult
 
 
+# Apply discount based on customer type and subtotal threshold
 def calculate_discount(subtotal: float, customer_type: str) -> float:
     """
     İndirim hesaplama
@@ -41,6 +42,7 @@ def calculate_discount(subtotal: float, customer_type: str) -> float:
         return 0.0
 
 
+# Calculate 20% tax on the given amount
 def calculate_tax(amount: float) -> float:
     """
     KDV hesaplama (%20)
@@ -54,6 +56,7 @@ def calculate_tax(amount: float) -> float:
     return amount * 0.20
 
 
+# Calculate shipping fee based on subtotal and customer tier
 def calculate_shipping(subtotal: float, customer_type: str) -> float:
     """
     Kargo ücreti hesaplama
@@ -82,6 +85,7 @@ def calculate_shipping(subtotal: float, customer_type: str) -> float:
     return 30.0
 
 
+# Main order processing pipeline - calculates discount, tax, shipping, and total
 def process_order(order: Order) -> OrderResult:
     """
     Sipariş işleme ana fonksiyonu

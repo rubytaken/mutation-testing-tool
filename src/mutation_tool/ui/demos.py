@@ -6,7 +6,8 @@ from pathlib import Path
 from mutation_tool.ui.state import RunRequest
 
 
-@dataclass(frozen=True)
+# Definition of a demo project with bilingual metadata
+dataclass(frozen=True)
 class DemoDefinition:
     id: str
     request: RunRequest
@@ -17,6 +18,7 @@ class DemoDefinition:
     learning_goal_en: str
     learning_goal_tr: str
 
+    # Convert to catalog format for API response
     def to_catalog_dict(self) -> dict[str, object]:
         return {
             "id": self.id,
@@ -29,14 +31,17 @@ class DemoDefinition:
             },
         }
 
+    # Convert to preset format for demo selection
     def to_preset_dict(self) -> dict[str, object]:
         payload = self.to_catalog_dict()
         payload["description"] = payload["summary"]
         return payload
 
 
+# Path to the examples directory containing all demos
 _EXAMPLES_ROOT = Path(__file__).resolve().parents[3] / "examples"
 
+# Complete catalog of available demo projects
 _DEMO_CATALOG: tuple[DemoDefinition, ...] = (
     DemoDefinition(
         id="beginner",
@@ -195,10 +200,12 @@ _DEMO_CATALOG: tuple[DemoDefinition, ...] = (
 )
 
 
+# Return all available demos
 def list_demos() -> list[DemoDefinition]:
     return list(_DEMO_CATALOG)
 
 
+# Find a specific demo by ID
 def get_demo(demo_id: str) -> DemoDefinition | None:
     for demo in _DEMO_CATALOG:
         if demo.id == demo_id:

@@ -5,6 +5,7 @@ from pathlib import Path
 from mutation_tool.models import ToolConfig
 
 
+# Find all Python files in source paths, excluding patterns
 def discover_python_files(config: ToolConfig) -> list[Path]:
     discovered: list[Path] = []
     for source_path in config.source_paths:
@@ -20,6 +21,7 @@ def discover_python_files(config: ToolConfig) -> list[Path]:
     return _deduplicate(discovered)
 
 
+# Check if a path should be excluded based on config patterns
 def should_exclude(path: Path, config: ToolConfig) -> bool:
     if any(part in {"__pycache__", ".git", ".venv", "venv"} for part in path.parts):
         return True
@@ -37,12 +39,14 @@ def should_exclude(path: Path, config: ToolConfig) -> bool:
     return False
 
 
+# Match glob patterns including **/ wildcard
 def _glob_matches(relative_path: str, pattern: str) -> bool:
     if pattern.startswith("**/"):
         return Path(relative_path).match(pattern[3:]) or Path(relative_path).match(pattern)
     return Path(relative_path).match(pattern)
 
 
+# Remove duplicate paths while preserving order
 def _deduplicate(paths: list[Path]) -> list[Path]:
     seen: set[Path] = set()
     result: list[Path] = []

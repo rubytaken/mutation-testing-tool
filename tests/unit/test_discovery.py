@@ -4,6 +4,7 @@ from mutation_tool.config import load_config
 from mutation_tool.discovery import discover_python_files
 
 
+# Test that files in tests/ directory are excluded from discovery
 def test_discovery_excludes_tests_directory(tmp_path: Path) -> None:
     source_dir = tmp_path / "src"
     source_dir.mkdir(parents=True)

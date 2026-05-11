@@ -8,6 +8,7 @@ from mutation_tool.models import BaselineResult, SessionResult, ToolConfig
 from mutation_tool.service import ExecutionResult, RunOptions
 
 
+# Test that list-operators command outputs available operators
 def test_list_operators_command() -> None:
     runner = CliRunner()
     result = runner.invoke(app, ["list-operators"])
@@ -16,6 +17,7 @@ def test_list_operators_command() -> None:
     assert "comparison" in result.stdout
 
 
+# Test that run command generates a JSON report file
 def test_run_command_writes_json_report() -> None:
     project_root = Path("tests/integration/fixtures/killed_project").resolve()
     runner = CliRunner()
@@ -26,6 +28,7 @@ def test_run_command_writes_json_report() -> None:
     assert (project_root / ".mutation-tool" / "last-run.json").exists()
 
 
+# Test that ui command shows help with host option
 def test_ui_command_help() -> None:
     runner = CliRunner()
 
@@ -35,6 +38,7 @@ def test_ui_command_help() -> None:
     assert "--host" in result.stdout
 
 
+# Test that stop-on-survivor flag is passed through to options
 def test_run_command_passes_stop_on_survivor_option(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

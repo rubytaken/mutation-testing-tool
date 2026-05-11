@@ -8,7 +8,8 @@ if TYPE_CHECKING:
     from .order_status import OrderStatus
 
 
-@dataclass
+# Single item in an order with validation
+dataclass
 class OrderItem:
     """Sipariş kalemi"""
     product_id: str
@@ -22,7 +23,8 @@ class OrderItem:
             raise ValueError(f"Unit price cannot be negative, got {self.unit_price}")
 
 
-@dataclass
+# Main order model with customer type and status
+dataclass
 class Order:
     """Sipariş veri modeli"""
     order_id: str
@@ -47,7 +49,8 @@ class Order:
             self.status = OrderStatus.PENDING
 
 
-@dataclass
+# Result after processing an order with all calculated values
+dataclass
 class OrderResult:
     """Sipariş işleme sonucu"""
     success: bool

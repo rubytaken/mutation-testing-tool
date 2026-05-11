@@ -10,7 +10,8 @@ from mutation_tool.reports import write_json_report, write_pdf_report
 from mutation_tool.storage import ensure_directory
 
 
-@dataclass(frozen=True)
+# CLI-provided options that override or supplement config file
+dataclass(frozen=True)
 class RunOptions:
     project_root: Path
     config_path: Path | None = None
@@ -22,7 +23,8 @@ class RunOptions:
     fail_on_survivor: bool | None = None
 
 
-@dataclass(frozen=True)
+# Result of a mutation testing run with report paths
+dataclass(frozen=True)
 class ExecutionResult:
     session: SessionResult
     report_path: Path
@@ -33,6 +35,7 @@ class ExecutionResult:
         return self.report_path
 
 
+# Build final config by merging CLI options with file-based config
 def build_runtime_config(options: RunOptions) -> ToolConfig:
     project_root = options.project_root.resolve()
     if not project_root.exists() or not project_root.is_dir():
@@ -64,10 +67,12 @@ def build_runtime_config(options: RunOptions) -> ToolConfig:
     return config
 
 
+# Execute a mutation run based on CLI options
 def execute_options(options: RunOptions) -> ExecutionResult:
     return execute_session(build_runtime_config(options))
 
 
+# Run a mutation session and write reports
 def execute_session(config: ToolConfig) -> ExecutionResult:
     session = SessionRunner(config).run()
     report_dir = ensure_directory(config.report_dir)
@@ -80,12 +85,14 @@ def execute_session(config: ToolConfig) -> ExecutionResult:
     )
 
 
+# Resolve a path relative to project root if not absolute
 def _resolve_project_path(project_root: Path, value: Path) -> Path:
     if value.is_absolute():
         return value.resolve()
     return (project_root / value).resolve()
 
 
+# Deduplicate and resolve source paths
 def _normalize_source_paths(project_root: Path, source_paths: list[Path]) -> list[Path]:
     normalized: list[Path] = []
     for path in source_paths:
@@ -95,6 +102,7 @@ def _normalize_source_paths(project_root: Path, source_paths: list[Path]) -> lis
     return normalized
 
 
+# Ensure at least one source path exists
 def _validate_source_paths(config: ToolConfig) -> None:
     missing = [path for path in config.source_paths if not path.exists()]
     if len(missing) != len(config.source_paths):

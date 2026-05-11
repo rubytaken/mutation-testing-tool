@@ -5,6 +5,7 @@ from enum import StrEnum
 from pathlib import Path
 
 
+# Possible outcomes for a mutant after test execution
 class MutantStatus(StrEnum):
     KILLED = "killed"
     SURVIVED = "survived"
@@ -12,7 +13,8 @@ class MutantStatus(StrEnum):
     ERROR = "error"
 
 
-@dataclass(frozen=True)
+# Position in source code where a mutation occurs
+dataclass(frozen=True)
 class MutationLocation:
     start_line: int
     start_col: int
@@ -20,7 +22,8 @@ class MutationLocation:
     end_col: int
 
 
-@dataclass(frozen=True)
+# Complete description of a single mutation
+dataclass(frozen=True)
 class MutationSpec:
     mutant_id: str
     file_path: Path
@@ -31,7 +34,8 @@ class MutationSpec:
     description: str
 
 
-@dataclass(frozen=True)
+# Configuration for a mutation testing run
+dataclass(frozen=True)
 class ToolConfig:
     project_root: Path
     source_paths: list[Path]
@@ -48,7 +52,8 @@ class ToolConfig:
     fail_on_survivor: bool = False
 
 
-@dataclass(frozen=True)
+# Result of running the original (unmutated) test suite
+dataclass(frozen=True)
 class BaselineResult:
     success: bool
     duration_seconds: float
@@ -58,7 +63,8 @@ class BaselineResult:
     command: list[str]
 
 
-@dataclass(frozen=True)
+# Result of running tests against a single mutant
+dataclass(frozen=True)
 class MutantResult:
     spec: MutationSpec
     status: MutantStatus
@@ -70,7 +76,8 @@ class MutantResult:
     failing_summary: str | None = None
 
 
-@dataclass
+# Complete results of a mutation testing session with statistics
+dataclass
 class SessionResult:
     config: ToolConfig
     baseline: BaselineResult

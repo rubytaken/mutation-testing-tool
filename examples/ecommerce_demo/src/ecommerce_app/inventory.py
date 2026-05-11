@@ -5,11 +5,13 @@ Handles stock checking, reservation, and release operations.
 from typing import Dict
 
 
+# Raised when trying to reserve more stock than available
 class InsufficientStockError(Exception):
     """Yetersiz stok hatası"""
     pass
 
 
+# Manages stock levels and reservations for products
 class InventoryManager:
     """Stok yönetimi sınıfı"""
     
@@ -18,6 +20,7 @@ class InventoryManager:
         self._stock: Dict[str, int] = {}
         self._reserved: Dict[str, int] = {}
     
+    # Set total stock level for a product
     def set_stock(self, product_id: str, quantity: int) -> None:
         """
         Ürün stoğunu ayarla
@@ -32,6 +35,7 @@ class InventoryManager:
         if product_id not in self._reserved:
             self._reserved[product_id] = 0
     
+    # Calculate stock that's actually available (total minus reserved)
     def get_available_stock(self, product_id: str) -> int:
         """
         Mevcut stok miktarını getir (rezerve edilmemiş)
@@ -46,6 +50,7 @@ class InventoryManager:
         reserved = self._reserved.get(product_id, 0)
         return total - reserved
     
+    # Check if enough stock is available for a request
     def check_stock(self, product_id: str, quantity: int) -> bool:
         """
         Stok kontrolü
@@ -63,6 +68,7 @@ class InventoryManager:
         available = self.get_available_stock(product_id)
         return available >= quantity
     
+    # Reserve stock for an order (reduces available stock)
     def reserve_stock(self, product_id: str, quantity: int) -> bool:
         """
         Stok rezervasyonu
@@ -93,6 +99,7 @@ class InventoryManager:
         
         return True
     
+    # Release reserved stock back to available pool
     def release_stock(self, product_id: str, quantity: int) -> None:
         """
         Stok serbest bırakma (rezervasyonu iptal et)

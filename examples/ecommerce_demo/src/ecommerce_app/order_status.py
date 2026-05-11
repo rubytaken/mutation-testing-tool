@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from .models import Order
 
 
+# Order lifecycle states from creation to delivery or cancellation
 class OrderStatus(Enum):
     """Sipariş durumları"""
     PENDING = "pending"
@@ -18,11 +19,13 @@ class OrderStatus(Enum):
     CANCELLED = "cancelled"
 
 
+# Raised when trying to transition to an invalid status
 class InvalidTransitionError(Exception):
     """Geçersiz durum geçişi hatası"""
     pass
 
 
+# Check if a status transition follows the allowed order flow
 def can_transition(from_status: OrderStatus, to_status: OrderStatus) -> bool:
     """
     Durum geçişi kontrolü.
@@ -59,6 +62,7 @@ def can_transition(from_status: OrderStatus, to_status: OrderStatus) -> bool:
     return to_status in valid_transitions.get(from_status, set())
 
 
+# Change order status if transition is valid
 def transition_order(order: "Order", new_status: OrderStatus) -> "Order":
     """
     Sipariş durumu değiştirme.
