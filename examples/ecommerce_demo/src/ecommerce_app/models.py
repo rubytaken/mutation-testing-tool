@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 # Single item in an order with validation
-dataclass
+@dataclass
 class OrderItem:
     """Sipariş kalemi"""
     product_id: str
@@ -24,7 +24,7 @@ class OrderItem:
 
 
 # Main order model with customer type and status
-dataclass
+@dataclass
 class Order:
     """Sipariş veri modeli"""
     order_id: str
@@ -50,7 +50,7 @@ class Order:
 
 
 # Result after processing an order with all calculated values
-dataclass
+@dataclass
 class OrderResult:
     """Sipariş işleme sonucu"""
     success: bool
