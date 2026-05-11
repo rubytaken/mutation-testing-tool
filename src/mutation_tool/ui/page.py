@@ -1368,7 +1368,7 @@ python -m mutation_tool ui</pre>
       $('stop-hint').textContent = L.stopHint;
       $('fail-label').textContent = L.failLabel;
       $('fail-hint').textContent = L.failHint;
-      $('run-button-text').textContent = (lastSnapshot.status === 'running') ? L.runRunning : L.runText;
+      $('run-button-text').textContent = (lastSnapshot && lastSnapshot.status === 'running') ? L.runRunning : L.runText;
       $('run-hint').textContent = L.runHint;
 
       $('step3-title').textContent = L.step3;
