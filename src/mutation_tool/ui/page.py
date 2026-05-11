@@ -687,6 +687,15 @@ INDEX_HTML = r"""
     table.findings .id-col { width: 56px; color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.84rem; }
     table.findings .line-col { width: 64px; color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.88rem; }
     table.findings .status-col { width: 130px; }
+    table.findings .change-col {
+      min-width: 320px;
+      white-space: nowrap;
+    }
+    table.findings .change-col code {
+      display: inline-block;
+      white-space: nowrap;
+      max-width: 100%;
+    }
     table.findings code {
       font-family: var(--font-mono);
       font-size: 0.86rem;
@@ -695,6 +704,21 @@ INDEX_HTML = r"""
       border-radius: 3px;
       border: 1px solid var(--rule);
       color: var(--ink);
+    }
+
+    /* Findings section breaks out of the 880px page width to give the
+       change column real breathing room without wrapping every expression. */
+    #findings-section {
+      width: min(1180px, calc(100vw - 40px));
+      margin-left: 50%;
+      transform: translateX(-50%);
+    }
+    @media (max-width: 960px) {
+      #findings-section {
+        width: auto;
+        margin-left: 0;
+        transform: none;
+      }
     }
 
     .tag {
