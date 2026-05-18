@@ -40,6 +40,9 @@ htmlcov/
 .mutation-tool/
 output/
 
+# Documentation build output
+docs/
+
 # Temporary files
 tmp/
 

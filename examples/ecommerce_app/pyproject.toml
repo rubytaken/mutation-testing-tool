@@ -1,0 +1,7 @@
+[tool.mutation_tool]
+source_paths = ["src"]
+test_command = ["pytest", "-q"]
+exclude = ["tests/**", "**/__pycache__/**"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
